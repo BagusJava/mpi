@@ -72,6 +72,29 @@ function cekJawaban(namaSoal, jawabanBenar, hasilId) {
   }
 }
 
+function bukaTabSimulator(tab) {
+  const allowedTabs = ["misi", "puzzle", "editor", "solusi"];
+  if (!allowedTabs.includes(tab)) return;
+  if (tab === "puzzle" && simActiveLevel && simActiveLevel !== "pemula") {
+    const result = document.getElementById("simulator-mission-result");
+    if (result) {
+      result.className = "mission-result error";
+      result.textContent = "Puzzle tempel tersedia pada level Pemula. Pilih level Pemula untuk menggunakannya.";
+    }
+    return;
+  }
+  document.querySelectorAll(".simulator-tab-pane").forEach((pane) => {
+    pane.hidden = pane.id !== `sim-tab-${tab}`;
+  });
+  document.querySelectorAll(".simulator-tab-button").forEach((button) => {
+    const active = button.dataset.labTab === tab;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  const puzzleButton = document.querySelector('.simulator-tab-button[data-lab-tab="puzzle"]');
+  if (puzzleButton) puzzleButton.disabled = simActiveLevel !== "pemula";
+}
+
 function bukaTabKuis(tab) {
   const showDashboard = tab === "dashboard";
   const quizPane = document.getElementById("quiz-pane-kuis");
@@ -84,7 +107,6 @@ function bukaTabKuis(tab) {
     button.setAttribute("aria-selected", String(active));
   });
   if (showDashboard) renderLeaderboard();
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // Kuis akhir: 25 soal pilihan ganda Bab 1–7; tiap soal mempunyai lima opsi.
@@ -115,38 +137,120 @@ const quizQuestions = [
   { q: 'Tag HTML yang digunakan untuk menghubungkan file CSS eksternal melalui atribut rel="stylesheet" adalah …', options: ['<style src="style.css">', '<css href="style.css">', '<link rel="stylesheet" href="style.css">', '<script src="style.css">', '<a rel="stylesheet" href="style.css">'], answer: 2 },
   { q: 'Apa fungsi <input type="password"> pada formulir?', options: ['Menampilkan pilihan tanggal', 'Menyamarkan karakter yang diketik', 'Memastikan input berisi angka saja', 'Mengunggah berkas otomatis', 'Membuat tombol kirim'], answer: 1 }
 ];
-const leaderboardStorageKey = 'mpiHtmlQuizLeaderboard_v2';
+const leaderboardStorageKey = 'mpiHtmlQuizLeaderboard_v3';
 let identitasPesertaKuis = null;
 let quizMulaiPada = null;
+let quizAnswers = {};
+let quizCurrentPage = 0;
+let quizPageSize = getUkuranHalamanKuis();
 
-function renderPertanyaanKuis() {
-  const container = document.getElementById('kuis-pertanyaan');
-  if (!container) return;
-  container.replaceChildren();
-  quizQuestions.forEach((item, index) => {
-    const fieldset = document.createElement('fieldset');
-    fieldset.className = 'quiz-question-card';
-    const legend = document.createElement('legend');
-    legend.textContent = `${index + 1}. ${item.q}`;
-    fieldset.appendChild(legend);
-    const options = document.createElement('div');
-    options.className = 'quiz-option-grid';
-    item.options.forEach((labelText, optionIndex) => {
-      const label = document.createElement('label');
-      label.className = 'quiz-choice';
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = `kuis-${index + 1}`;
-      input.value = String(optionIndex);
-      input.setAttribute('aria-label', labelText);
-      const text = document.createElement('span');
-      text.textContent = labelText;
-      label.append(input, text);
-      options.appendChild(label);
-    });
-    fieldset.appendChild(options);
-    container.appendChild(fieldset);
+function getUkuranHalamanKuis() {
+  // Ponsel: satu soal; tablet/laptop rendah: dua; layar lapang: empat soal per bagian.
+  if (window.innerWidth <= 560 || window.innerHeight <= 900) return 1;
+  if (window.innerWidth <= 920) return 2;
+  if (window.innerHeight <= 1120) return 3;
+  return 4;
+}
+
+function updateNavigasiKuis() {
+  const pages = document.querySelectorAll('.quiz-question-page');
+  const tabs = document.querySelectorAll('.quiz-part-tab');
+  const totalPages = pages.length;
+  const isLast = quizCurrentPage >= totalPages - 1;
+  const previous = document.getElementById('kuis-soal-sebelumnya');
+  const next = document.getElementById('kuis-soal-berikutnya');
+  const submit = document.getElementById('kuis-submit-button');
+  const status = document.getElementById('quiz-bagian-status');
+  if (previous) previous.disabled = quizCurrentPage === 0;
+  if (next) next.hidden = isLast;
+  if (submit) submit.hidden = !isLast;
+  if (status) {
+    const start = quizCurrentPage * quizPageSize + 1;
+    const end = Math.min(start + quizPageSize - 1, quizQuestions.length);
+    status.textContent = `Bagian ${quizCurrentPage + 1} dari ${totalPages} · Soal ${start}–${end}`;
+  }
+  tabs.forEach((button, index) => {
+    const active = index === quizCurrentPage;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', String(active));
   });
+}
+
+function tampilkanBagianKuis(index) {
+  const pages = document.querySelectorAll('.quiz-question-page');
+  if (!pages.length) return;
+  quizCurrentPage = Math.max(0, Math.min(index, pages.length - 1));
+  pages.forEach((page, pageIndex) => { page.hidden = pageIndex !== quizCurrentPage; });
+  updateNavigasiKuis();
+}
+
+function renderPertanyaanKuis(preservePosition = false) {
+  const container = document.getElementById('kuis-pertanyaan');
+  const tabsContainer = document.getElementById('quiz-bagian-tabs');
+  if (!container || !tabsContainer) return;
+  const oldFirstQuestion = quizCurrentPage * quizPageSize;
+  const newPageSize = getUkuranHalamanKuis();
+  quizPageSize = newPageSize;
+  if (preservePosition) quizCurrentPage = Math.floor(oldFirstQuestion / quizPageSize);
+  else quizCurrentPage = 0;
+  container.replaceChildren();
+  tabsContainer.replaceChildren();
+  const totalPages = Math.ceil(quizQuestions.length / quizPageSize);
+
+  for (let pageIndex = 0; pageIndex < totalPages; pageIndex += 1) {
+    const start = pageIndex * quizPageSize;
+    const end = Math.min(start + quizPageSize, quizQuestions.length);
+    const page = document.createElement('section');
+    page.className = 'quiz-question-page';
+    page.dataset.page = String(pageIndex);
+    page.setAttribute('aria-label', `Bagian ${pageIndex + 1}, soal ${start + 1} sampai ${end}`);
+    page.hidden = pageIndex !== quizCurrentPage;
+
+    for (let index = start; index < end; index += 1) {
+      const item = quizQuestions[index];
+      const fieldset = document.createElement('fieldset');
+      fieldset.className = 'quiz-question-card';
+      const legend = document.createElement('legend');
+      legend.textContent = `${index + 1}. ${item.q}`;
+      fieldset.appendChild(legend);
+      const options = document.createElement('div');
+      options.className = 'quiz-option-grid';
+      item.options.forEach((labelText, optionIndex) => {
+        const label = document.createElement('label');
+        label.className = 'quiz-choice';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `kuis-${index + 1}`;
+        input.value = String(optionIndex);
+        input.checked = quizAnswers[index] === optionIndex;
+        input.setAttribute('aria-label', labelText);
+        input.addEventListener('change', () => { quizAnswers[index] = optionIndex; });
+        const text = document.createElement('span');
+        text.textContent = labelText;
+        label.append(input, text);
+        options.appendChild(label);
+      });
+      fieldset.appendChild(options);
+      page.appendChild(fieldset);
+    }
+    container.appendChild(page);
+
+    const tab = document.createElement('button');
+    tab.type = 'button';
+    tab.className = 'quiz-part-tab';
+    tab.dataset.page = String(pageIndex);
+    tab.textContent = `${String(start + 1).padStart(2, '0')}–${String(end).padStart(2, '0')}`;
+    tab.title = `Buka soal ${start + 1} sampai ${end}`;
+    tab.setAttribute('role', 'tab');
+    tab.setAttribute('aria-controls', page.id || `quiz-question-page-${pageIndex + 1}`);
+    tab.addEventListener('click', () => tampilkanBagianKuis(pageIndex));
+    tabsContainer.appendChild(tab);
+  }
+  container.querySelectorAll('.quiz-question-page').forEach((page, index) => { page.id = `quiz-question-page-${index + 1}`; });
+  tabsContainer.querySelectorAll('.quiz-part-tab').forEach((button) => {
+    button.setAttribute('aria-controls', `quiz-question-page-${Number(button.dataset.page) + 1}`);
+  });
+  tampilkanBagianKuis(quizCurrentPage);
 }
 
 function mulaiKuis(event) {
@@ -163,16 +267,20 @@ function mulaiKuis(event) {
   }
   identitasPesertaKuis = { nama, kelas };
   quizMulaiPada = Date.now();
+  quizAnswers = {};
+  quizCurrentPage = 0;
+  quizPageSize = getUkuranHalamanKuis();
   const intro = document.getElementById('kuis-pengantar');
   const active = document.getElementById('kuis-area-aktif');
+  const form = document.getElementById('kuis-akhir');
   if (intro) intro.hidden = true;
   if (active) active.hidden = false;
+  if (form) form.hidden = false;
   const identitas = document.getElementById('kuis-identitas-aktif');
   if (identitas) identitas.textContent = `${nama} • ${kelas}`;
   const result = document.getElementById('hasil-kuis');
   if (result) { result.hidden = true; result.replaceChildren(); }
   renderPertanyaanKuis();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function ambilLeaderboard() {
@@ -227,24 +335,20 @@ function renderLeaderboard() {
 
 function nilaiKuis() {
   if (!identitasPesertaKuis) return;
-  let benar = 0;
-  let terisi = 0;
-  quizQuestions.forEach((item, index) => {
-    const pilihan = document.querySelector(`input[name="kuis-${index + 1}"]:checked`);
-    if (pilihan) {
-      terisi += 1;
-      if (Number(pilihan.value) === item.answer) benar += 1;
-    }
-  });
   const hasil = document.getElementById('hasil-kuis');
-  if (!hasil) return;
-  if (terisi < quizQuestions.length) {
+  const form = document.getElementById('kuis-akhir');
+  if (!hasil || !form) return;
+
+  const unansweredIndex = quizQuestions.findIndex((_, index) => !Number.isInteger(quizAnswers[index]));
+  if (unansweredIndex >= 0) {
+    tampilkanBagianKuis(Math.floor(unansweredIndex / quizPageSize));
     hasil.hidden = false;
     hasil.className = 'info-box quiz-result-box';
-    hasil.textContent = `Masih ada ${quizQuestions.length - terisi} soal yang belum dijawab. Lengkapi semua ${quizQuestions.length} soal, lalu periksa nilai.`;
-    hasil.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    hasil.textContent = `Soal nomor ${unansweredIndex + 1} belum dijawab. Bagian soal tersebut sudah dibuka; pilih jawaban, lalu lanjutkan.`;
     return;
   }
+
+  const benar = quizQuestions.reduce((sum, item, index) => sum + (quizAnswers[index] === item.answer ? 1 : 0), 0);
   const nilai = Math.round((benar / quizQuestions.length) * 100);
   const durasi = Math.max(0, Math.round((Date.now() - (quizMulaiPada || Date.now())) / 1000));
   const record = {
@@ -271,8 +375,9 @@ function nilaiKuis() {
     entries.push(record);
   }
   simpanLeaderboard(urutkanLeaderboard(entries).slice(0, 100));
+  form.hidden = true;
   hasil.hidden = false;
-  hasil.className = 'info-box quiz-result-box';
+  hasil.className = 'info-box quiz-result-box quiz-result-centered';
   hasil.replaceChildren();
   const title = document.createElement('h3');
   title.textContent = `Nilai ${nilai}/100`;
@@ -280,23 +385,38 @@ function nilaiKuis() {
   detail.textContent = `${record.nama} (${record.kelas}), jawaban benar ${benar} dari 25 soal. Waktu pengerjaan ${Math.floor(durasi / 60)} menit ${durasi % 60} detik.`;
   const message = document.createElement('p');
   message.textContent = nilai >= 85 ? 'Hebat! Pemahaman HTML kamu sangat baik.' : nilai >= 70 ? 'Bagus! Pelajari kembali beberapa materi untuk meningkatkan nilai.' : 'Terus berlatih. Baca kembali Bab 1–7 dan coba lagi.';
-  hasil.append(title, detail, message);
+  const actions = document.createElement('div');
+  actions.className = 'quiz-result-actions';
+  const dashboardButton = document.createElement('button');
+  dashboardButton.type = 'button';
+  dashboardButton.className = 'quiz-start-button';
+  dashboardButton.textContent = '🏆 Lihat Dashboard Hasil';
+  dashboardButton.addEventListener('click', () => bukaTabKuis('dashboard'));
+  const restartButton = document.createElement('button');
+  restartButton.type = 'button';
+  restartButton.className = 'nav-back';
+  restartButton.textContent = '↺ Coba Lagi';
+  restartButton.addEventListener('click', ulangiKuis);
+  actions.append(dashboardButton, restartButton);
+  hasil.append(title, detail, message, actions);
   renderLeaderboard();
-  hasil.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function ulangiKuis() {
   const form = document.getElementById('kuis-akhir');
-  if (form) form.reset();
-  const hasil = document.getElementById('hasil-kuis');
-  if (hasil) { hasil.hidden = true; hasil.replaceChildren(); }
+  if (form) { form.reset(); form.hidden = false; }
+  const result = document.getElementById('hasil-kuis');
+  if (result) { result.hidden = true; result.replaceChildren(); }
   const active = document.getElementById('kuis-area-aktif');
   const intro = document.getElementById('kuis-pengantar');
   if (active) active.hidden = true;
   if (intro) intro.hidden = false;
   identitasPesertaKuis = null;
   quizMulaiPada = null;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  quizAnswers = {};
+  quizCurrentPage = 0;
+  const status = document.getElementById('status-mulai-kuis');
+  if (status) status.textContent = '';
 }
 
 // HTML Interactive Lab: tiga level, pemeriksaan otomatis, XP dan progres tersimpan di browser.
@@ -357,6 +477,7 @@ const puzzleDisplayOrder = ["list", "paragraph", "heading"];
 const puzzleCorrectOrder = ["heading", "paragraph", "list"];
 let puzzleSlots = [null, null, null];
 let puzzleSelectedPiece = null;
+let puzzleSelectedSlot = null;
 
 function renderPuzzle() {
   const bank = document.getElementById("puzzle-bank");
@@ -370,7 +491,8 @@ function renderPuzzle() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `puzzle-piece${puzzleSelectedPiece === id ? " is-selected" : ""}`;
-    button.draggable = true;
+    // Puzzle memakai langkah bertab agar tetap pas di layar; pilih/ketuk potongan untuk menempelkannya.
+    button.draggable = false;
     button.dataset.piece = id;
     button.setAttribute("aria-pressed", String(puzzleSelectedPiece === id));
     const label = document.createElement("strong");
@@ -378,21 +500,25 @@ function renderPuzzle() {
     const code = document.createElement("code");
     code.textContent = piece.code;
     const action = document.createElement("small");
-    action.textContent = "Seret atau ketuk";
+    action.textContent = "Ketuk untuk memilih";
     button.append(label, code, action);
     button.addEventListener("click", () => {
+      const feedback = document.getElementById("puzzle-feedback");
+      if (Number.isInteger(puzzleSelectedSlot)) {
+        const targetIndex = puzzleSelectedSlot;
+        puzzleSelectedSlot = null;
+        puzzleSelectedPiece = null;
+        tempatkanPuzzle(targetIndex, id);
+        bukaLangkahPuzzle(puzzleSlots.every(Boolean) ? 1 : 0);
+        return;
+      }
       puzzleSelectedPiece = puzzleSelectedPiece === id ? null : id;
       renderPuzzle();
-      const feedback = document.getElementById("puzzle-feedback");
       if (feedback) {
         feedback.className = "puzzle-feedback";
-        feedback.textContent = puzzleSelectedPiece ? `Potongan “${puzzlePieces[id].label}” dipilih. Sekarang ketuk kotak urutannya.` : "Pilihan dibatalkan.";
+        feedback.textContent = puzzleSelectedPiece ? `Potongan “${puzzlePieces[id].label}” dipilih. Sekarang pilih tab Kotak Urutan.` : "Pilihan dibatalkan.";
       }
-    });
-    button.addEventListener("dragstart", (event) => {
-      puzzleSelectedPiece = id;
-      event.dataTransfer.setData("text/plain", id);
-      event.dataTransfer.effectAllowed = "move";
+      if (puzzleSelectedPiece) bukaLangkahPuzzle(0);
     });
     bank.appendChild(button);
   });
@@ -404,6 +530,7 @@ function renderPuzzle() {
     number.textContent = String(index + 1).padStart(2, "0");
     slot.appendChild(number);
     slot.classList.toggle("is-filled", Boolean(puzzleSlots[index]));
+    slot.classList.toggle("is-selected-target", puzzleSelectedSlot === index);
     slot.classList.remove("drag-over");
     if (puzzleSlots[index]) {
       const code = document.createElement("code");
@@ -426,22 +553,30 @@ function tempatkanPuzzle(index, pieceId = puzzleSelectedPiece) {
     if (puzzleSlots[index]) {
       puzzleSlots[index] = null;
       puzzleSelectedPiece = null;
+      puzzleSelectedSlot = null;
       renderPuzzle();
       if (feedback) {
         feedback.className = "puzzle-feedback";
         feedback.textContent = "Potongan dikembalikan ke tempat potongan kode.";
       }
-    } else if (feedback) {
-      feedback.className = "puzzle-feedback";
-      feedback.textContent = "Pilih satu potongan kode dahulu, lalu pilih kotak tujuan.";
+    } else {
+      puzzleSelectedSlot = index;
+      puzzleSelectedPiece = null;
+      renderPuzzle();
+      if (feedback) {
+        feedback.className = "puzzle-feedback";
+        feedback.textContent = `Kotak urutan ${index + 1} dipilih. Buka tab Potongan Kode, lalu pilih bagian yang sesuai.`;
+      }
+      bukaLangkahPuzzle(1);
     }
     return;
   }
   const oldIndex = puzzleSlots.indexOf(pieceId);
   if (oldIndex >= 0) puzzleSlots[oldIndex] = null;
-  // Jika kotak tujuan sudah berisi, potongan lamanya dikembalikan otomatis ke bank.
+  // Jika kotak tujuan sudah berisi, potongan lamanya kembali ke bank.
   puzzleSlots[index] = pieceId;
   puzzleSelectedPiece = null;
+  puzzleSelectedSlot = null;
   renderPuzzle();
   if (feedback) {
     feedback.className = "puzzle-feedback";
@@ -449,21 +584,58 @@ function tempatkanPuzzle(index, pieceId = puzzleSelectedPiece) {
   }
 }
 
+function bukaLangkahPuzzle(step) {
+  const nav = document.querySelector('.puzzle-step-tabs');
+  if (!nav) return;
+  nav.querySelectorAll('.puzzle-step-button').forEach((button, index) => {
+    const active = index === step;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', String(active));
+  });
+  document.querySelectorAll('.puzzle-step-pane').forEach((pane, index) => { pane.hidden = index !== step; });
+}
+
+function inisialisasiTabPuzzle() {
+  const panel = document.getElementById('puzzle-panel');
+  const board = panel?.querySelector('.puzzle-board');
+  const slots = document.getElementById('puzzle-slots');
+  const bank = panel?.querySelector('.puzzle-bank-wrap');
+  const actions = panel?.querySelector('.puzzle-actions');
+  const feedback = document.getElementById('puzzle-feedback');
+  if (!panel || !board || !slots || !bank || !actions || !feedback || panel.dataset.stepsReady === 'true') return;
+
+  const nav = document.createElement('nav');
+  nav.className = 'puzzle-step-tabs';
+  nav.setAttribute('aria-label', 'Langkah puzzle HTML');
+  const labels = ['① Kotak Urutan', '② Potongan Kode'];
+  const panes = labels.map((label, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `puzzle-step-button${index === 0 ? ' active' : ''}`;
+    button.textContent = label;
+    button.setAttribute('aria-selected', String(index === 0));
+    button.addEventListener('click', () => bukaLangkahPuzzle(index));
+    nav.appendChild(button);
+    const pane = document.createElement('section');
+    pane.className = 'puzzle-step-pane';
+    pane.hidden = index !== 0;
+    return pane;
+  });
+  const instructionSlots = document.createElement('p');
+  instructionSlots.className = 'puzzle-step-hint';
+  instructionSlots.textContent = 'Langkah 1: pilih kotak kosong yang ingin kamu isi.';
+  panes[0].append(instructionSlots, slots);
+  const instructionPieces = document.createElement('p');
+  instructionPieces.className = 'puzzle-step-hint';
+  instructionPieces.textContent = 'Langkah 2: pilih potongan yang sesuai dengan kotak terpilih.';
+  panes[1].append(instructionPieces, bank, actions);
+  board.replaceWith(nav, ...panes, feedback);
+  panel.dataset.stepsReady = 'true';
+}
+
 function bindPuzzleEvents() {
   document.querySelectorAll(".puzzle-slot").forEach((slot) => {
     slot.addEventListener("click", () => tempatkanPuzzle(Number(slot.dataset.slot)));
-    slot.addEventListener("dragover", (event) => {
-      event.preventDefault();
-      slot.classList.add("drag-over");
-      event.dataTransfer.dropEffect = "move";
-    });
-    slot.addEventListener("dragleave", () => slot.classList.remove("drag-over"));
-    slot.addEventListener("drop", (event) => {
-      event.preventDefault();
-      slot.classList.remove("drag-over");
-      const id = event.dataTransfer.getData("text/plain") || puzzleSelectedPiece;
-      if (puzzlePieces[id]) tempatkanPuzzle(Number(slot.dataset.slot), id);
-    });
   });
 }
 
@@ -483,13 +655,16 @@ function cekPuzzlePemula() {
   editor.value = puzzleCorrectOrder.map((id) => puzzlePieces[id].code).join("\n");
   jalankanSimulator();
   feedback.className = "puzzle-feedback success";
-  feedback.textContent = "Hebat! Puzzle benar. Kode sudah ditempel ke editor dan hasilnya tampil di pratinjau. Kamu juga bisa memperoleh XP dari misi Pemula.";
+  feedback.textContent = "Hebat! Puzzle benar. Kode sudah ditempel ke editor dan hasilnya tampil di tab Editor & Hasil.";
   periksaMisiSimulator();
+  bukaTabSimulator("editor");
 }
 
 function resetPuzzlePemula() {
   puzzleSlots = [null, null, null];
   puzzleSelectedPiece = null;
+  puzzleSelectedSlot = null;
+  bukaLangkahPuzzle(0);
   renderPuzzle();
   const feedback = document.getElementById("puzzle-feedback");
   if (feedback) {
@@ -571,6 +746,9 @@ function pilihLevelSimulator(level) {
   simActiveLevel = level;
   const puzzlePanel = document.getElementById("puzzle-panel");
   if (puzzlePanel) puzzlePanel.hidden = level !== "pemula";
+  const puzzleTab = document.querySelector('.simulator-tab-button[data-lab-tab="puzzle"]');
+  if (puzzleTab) puzzleTab.disabled = level !== "pemula";
+  if (level !== "pemula" && document.getElementById("sim-tab-puzzle") && !document.getElementById("sim-tab-puzzle").hidden) bukaTabSimulator("misi");
   const mission = simMissions[level];
   const solutionCode = document.getElementById("simulator-solution-code");
   if (solutionCode) solutionCode.textContent = mission.solution || mission.starter;
@@ -772,7 +950,7 @@ function jalankanSimulator() {
 
 function resetSimulator() {
   const editor = document.getElementById("kode-editor");
-  if (!editor) return;
+  if (!editor || !simMissions[simActiveLevel]) return;
   editor.value = simMissions[simActiveLevel].starter;
   simProgress.code[simActiveLevel] = editor.value;
   const hint = document.getElementById("simulator-hint");
@@ -794,15 +972,80 @@ function resetProgresSimulator() {
   if (result) { result.className = "mission-result"; result.textContent = "Progres direset. Selamat mulai petualangan HTML dari awal!"; }
 }
 
+
+// Pecah bagian Uraian yang panjang menjadi tiga layar ringkas agar tidak perlu menggulir panel panjang.
+function inisialisasiTabUraian() {
+  const config = {
+    1: [4, 6],
+    2: [3, 4],
+    3: [3, 4],
+    4: [3, 4],
+    5: [3, 4],
+    6: [3, 4],
+    7: [3, 4]
+  };
+  const titles = ["Konsep", "Contoh Kode", "Hasil & Catatan"];
+  document.querySelectorAll('.tab-content[id$="-uraian"]').forEach((container) => {
+    if (container.dataset.subtabsReady === "true") return;
+    const match = container.id.match(/^bab(\d+)-uraian$/);
+    if (!match) return;
+    const bab = Number(match[1]);
+    const cuts = config[bab];
+    const nodes = Array.from(container.children);
+    if (!cuts || nodes.length <= cuts[1]) return;
+
+    const groups = [nodes.slice(0, cuts[0]), nodes.slice(cuts[0], cuts[1]), nodes.slice(cuts[1])];
+    const nav = document.createElement('nav');
+    nav.className = 'uraian-step-tabs';
+    nav.setAttribute('aria-label', `Bagian uraian Bab ${bab}`);
+    const panes = [];
+    groups.forEach((group, index) => {
+      const pane = document.createElement('section');
+      pane.className = 'uraian-step-pane';
+      pane.dataset.step = String(index);
+      pane.hidden = index !== 0;
+      group.forEach((node) => pane.appendChild(node));
+      panes.push(pane);
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `uraian-step-button${index === 0 ? ' active' : ''}`;
+      button.textContent = titles[index];
+      button.setAttribute('aria-selected', String(index === 0));
+      button.addEventListener('click', () => {
+        panes.forEach((target, targetIndex) => { target.hidden = targetIndex !== index; });
+        nav.querySelectorAll('.uraian-step-button').forEach((other, targetIndex) => {
+          other.classList.toggle('active', targetIndex === index);
+          other.setAttribute('aria-selected', String(targetIndex === index));
+        });
+      });
+      nav.appendChild(button);
+    });
+    container.replaceChildren(nav, ...panes);
+    container.dataset.subtabsReady = 'true';
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  inisialisasiTabUraian();
   renderLeaderboard();
   const startQuizForm = document.getElementById("kuis-identitas-form");
   if (startQuizForm) startQuizForm.addEventListener("submit", mulaiKuis);
   const quizForm = document.getElementById("kuis-akhir");
   if (quizForm) quizForm.addEventListener("submit", (event) => { event.preventDefault(); nilaiKuis(); });
+  const previousQuizPage = document.getElementById("kuis-soal-sebelumnya");
+  const nextQuizPage = document.getElementById("kuis-soal-berikutnya");
+  if (previousQuizPage) previousQuizPage.addEventListener("click", () => tampilkanBagianKuis(quizCurrentPage - 1));
+  if (nextQuizPage) nextQuizPage.addEventListener("click", () => tampilkanBagianKuis(quizCurrentPage + 1));
   const restartQuizButton = document.getElementById("ulang-kuis-button");
   if (restartQuizButton) restartQuizButton.addEventListener("click", ulangiKuis);
+  window.addEventListener("resize", () => {
+    const nextPageSize = getUkuranHalamanKuis();
+    if (identitasPesertaKuis && nextPageSize !== quizPageSize) renderPertanyaanKuis(true);
+  });
   muatProgresSimulator();
+  bukaTabSimulator("misi");
+  inisialisasiTabPuzzle();
   bindPuzzleEvents();
   renderPuzzle();
   const puzzlePanel = document.getElementById("puzzle-panel");

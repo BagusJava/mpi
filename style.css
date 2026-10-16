@@ -567,3 +567,390 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
   from { opacity: .68; }
   to { opacity: 1; }
 }
+
+
+/* FINAL RESPONSIVE PASS — keep pages centered; split long activities into tabs/pages. */
+html, body { min-height: 100%; }
+.page { min-height: 100svh; }
+.page:not(#beranda) { overflow-x: hidden; }
+.content-box { max-width: min(1180px, 100%); }
+
+/* Simulator: one workspace tab at a time to avoid a tall, scroll-heavy page. */
+#simulator.page {
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+#simulator .simulator-lab {
+  width: min(1240px, 100%);
+  max-height: calc(100svh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0 auto;
+  padding: clamp(14px, 2vw, 24px);
+}
+#simulator .lab-heading { gap: 14px; align-items: center; }
+#simulator .lab-heading h2 { margin: 2px 0 6px; padding-bottom: 7px; }
+#simulator .lab-heading p { margin: 6px 0 0; }
+#simulator .score-panel { width: 164px; flex-basis: 164px; padding: 10px 12px; }
+#simulator .score-panel strong { font-size: 1.7rem; }
+#simulator .level-grid { gap: 10px; margin: 12px 0; }
+#simulator .level-card { min-height: 106px; padding: 12px; gap: 4px; }
+#simulator .level-emoji { top: 12px; right: 12px; font-size: 21px; }
+.simulator-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 12px; }
+.simulator-tab-button {
+  padding: 9px 13px; border: 1px solid rgba(245,254,255,.35); border-radius: 8px;
+  background: rgba(255,255,255,.025); color: #ecfbff; font-weight: 750; font-size: .9rem;
+  transition: background .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.simulator-tab-button.active, .simulator-tab-button:hover:not(:disabled) {
+  color: #071218; background: var(--neon-tosca); border-color: #b7faff; box-shadow: 0 0 14px rgba(0,229,255,.2);
+}
+.simulator-tab-button:disabled { opacity: .38; cursor: not-allowed; }
+.simulator-tab-pane[hidden] { display: none !important; }
+#simulator .mission-panel { margin: 0; padding: 14px 16px; }
+#simulator .mission-panel h3 { margin: 4px 0 0; font-size: 1.1rem; }
+#simulator .mission-panel > p { margin: 8px 0; }
+#simulator .mission-actions .nav-back { padding: 8px 12px; margin-top: 4px; }
+#simulator #puzzle-panel { padding: 14px; margin: 0; }
+#simulator .puzzle-heading p { margin: 5px 0 10px; }
+#simulator .puzzle-slot { min-height: 52px; padding: 7px 9px; }
+#simulator .puzzle-bank-wrap { padding: 10px; }
+#simulator .puzzle-piece { padding: 8px 10px; }
+#simulator .puzzle-actions { margin-top: 9px; }
+#simulator .simulator-solution-panel { margin: 0; padding: 16px; }
+#simulator .lab-workspace { gap: 12px; align-items: stretch; }
+#simulator .editor-panel, #simulator .preview-panel { padding: 11px; }
+#simulator #kode-editor { height: clamp(180px, 31vh, 310px); min-height: 180px; max-height: 340px; resize: vertical; }
+#simulator #hasil-editor { height: clamp(180px, 31vh, 310px); min-height: 180px; max-height: 340px; }
+#simulator .lab-footer-note { margin: 10px 0 6px; padding: 9px 12px; }
+#simulator > .content-box > .nav-back:last-child { margin-top: 4px; }
+
+/* Quiz: compact centered hero. Decorative circuit strokes no longer cross the title. */
+#kuis.page {
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+#kuis .quiz-shell {
+  width: min(1120px, 100%);
+  min-height: 0;
+  max-height: calc(100svh - 24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  margin: 0 auto;
+  padding: clamp(16px, 2.4vw, 30px);
+  scrollbar-gutter: stable;
+}
+#kuis .quiz-circuit-top, #kuis .quiz-circuit-bottom { display: none !important; }
+#kuis .quiz-shell::before {
+  content: ""; position: absolute; pointer-events: none; top: 10px; left: 16%; right: 16%; height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(157,245,255,.75) 16%, transparent 35%, transparent 65%, rgba(157,245,255,.75) 84%, transparent);
+  box-shadow: 0 0 8px rgba(0,229,255,.28);
+}
+#kuis .quiz-title-row {
+  min-height: clamp(100px, 13vh, 132px);
+  padding: 9px 2px 12px;
+  align-items: center;
+  gap: 14px;
+}
+#kuis .quiz-kicker { display: inline-block; position: relative; z-index: 2; margin: 0 0 5px; padding: 2px 6px; background: #102126; }
+#kuis .quiz-big-title { font-size: clamp(3rem, 6vw, 4.7rem); letter-spacing: -1px; }
+#kuis .quiz-count-badge { padding: 11px 14px; }
+#kuis .quiz-count-badge strong { font-size: 1.8rem; }
+#kuis .quiz-tabs { gap: 8px; margin: 0 0 12px; }
+#kuis .quiz-tab-button { padding: 9px 15px; }
+#kuis .quiz-start-panel { width: min(710px, 100%); margin: 0 auto 8px; }
+#kuis .quiz-start-panel h3 { font-size: clamp(1.05rem, 2vw, 1.35rem); }
+#kuis .quiz-start-panel > p { margin: 7px 0 12px; }
+#kuis .quiz-identity-form { gap: 4px; }
+#kuis .quiz-identity-form label { margin: 2px 0 0; font-size: 1rem; }
+#kuis .quiz-identity-form input { height: 46px; font-size: 1rem; padding: 9px 12px; }
+#kuis .quiz-start-button { margin-top: 10px; padding: 9px 18px; font-size: 1rem; }
+#kuis .quiz-part-tabs { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; max-width: 100%; overflow-x: auto; padding: 2px 2px 7px; margin: 0 0 8px; }
+#kuis .quiz-part-tab { flex: 0 0 auto; min-width: 48px; padding: 6px 8px; border: 1px solid rgba(245,254,255,.24); border-radius: 7px; color: #d8f6fa; background: rgba(255,255,255,.025); font-size: .75rem; font-weight: 800; }
+#kuis .quiz-part-tab.active { color: #071218; background: #f7ffff; border-color: #fff; box-shadow: 0 0 10px rgba(245,254,255,.24); }
+#kuis .quiz-question-page[hidden] { display: none !important; }
+#kuis .quiz-questions { gap: 8px; }
+#kuis .quiz-question-card { padding: 9px 11px; background: rgba(9,22,27,.62); }
+#kuis .quiz-question-card legend { font-size: .94rem; line-height: 1.4; }
+#kuis .quiz-option-grid { gap: 6px; margin-top: 6px; }
+#kuis .quiz-choice { padding: 6px 8px; font-size: .88rem; line-height: 1.35; }
+#kuis .quiz-choice input { margin-top: 3px; }
+#kuis .quiz-pager { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+#kuis .quiz-pager-button { margin: 0; padding: 7px 11px; font-size: .88rem; }
+#kuis .quiz-pager-button:disabled { opacity: .35; cursor: not-allowed; }
+#kuis .quiz-final-submit { margin: 0; padding: 8px 14px; font-size: .92rem; }
+#kuis .quiz-part-status { color: #b9d5da; font-size: .82rem; min-width: 155px; text-align: center; }
+#kuis .quiz-submit-row { margin: 8px 0 0; justify-content: center; }
+#kuis .quiz-submit-row .nav-back { margin: 0; padding: 7px 12px; font-size: .86rem; }
+#kuis .quiz-result-centered { width: min(680px, 100%); margin: 18px auto; text-align: center; }
+#kuis .quiz-result-centered h3 { color: var(--neon-tosca); font-size: clamp(1.7rem, 3vw, 2.5rem); }
+#kuis .quiz-result-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+#kuis .quiz-result-actions .quiz-start-button, #kuis .quiz-result-actions .nav-back { margin: 0; }
+#kuis .quiz-home-button { margin-top: 10px; }
+
+/* Long single-page sections use a centered inner panel rather than scrolling the whole document. */
+@media (min-width: 761px) {
+  .page:not(#beranda):not(#kuis):not(#simulator) { align-items: center; justify-content: center; }
+  .page:not(#beranda):not(#kuis):not(#simulator) > .content-box {
+    max-height: calc(100svh - 32px); overflow-y: auto; overscroll-behavior: contain;
+  }
+  .bab-layout { max-height: 100svh; overflow: hidden; align-items: center; }
+  .bab-layout .konten-tab-area { max-height: calc(100svh - 32px); overflow-y: auto; overscroll-behavior: contain; }
+}
+@media (max-width: 920px) {
+  #simulator .lab-heading { gap: 10px; }
+  #simulator .score-panel { width: 145px; flex-basis: 145px; }
+  #simulator .level-card { min-height: 98px; }
+  #simulator .lab-workspace { grid-template-columns: 1fr 1fr; }
+  #kuis .quiz-title-row { min-height: 106px; }
+  #kuis .quiz-option-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  #simulator.page { padding: 8px; }
+  #simulator .simulator-lab { max-height: calc(100svh - 16px); padding: 14px; }
+  #simulator .lab-heading { align-items: flex-start; }
+  #simulator .lab-heading > div:first-child { min-width: 0; }
+  #simulator .score-panel { width: 125px; flex-basis: 125px; padding: 8px; }
+  #simulator .level-grid { gap: 7px; }
+  #simulator .level-card { min-height: 105px; padding: 9px; }
+  #simulator .level-card small { font-size: .72rem; }
+  #simulator .simulator-tabs { gap: 6px; }
+  #simulator .simulator-tab-button { padding: 8px 9px; font-size: .79rem; }
+  #simulator .puzzle-board { grid-template-columns: minmax(0,1fr); }
+  #simulator .puzzle-bank { display: flex; flex-wrap: wrap; }
+  #simulator .lab-workspace { grid-template-columns: 1fr; }
+  #simulator #kode-editor, #simulator #hasil-editor { height: 210px; min-height: 210px; }
+  #kuis .quiz-shell { padding: 15px 13px; }
+  #kuis .quiz-title-row { min-height: 90px; padding-top: 5px; }
+  #kuis .quiz-option-grid { grid-template-columns: 1fr; }
+  #kuis .quiz-home-button { margin-top: 8px; }
+}
+@media (max-width: 560px) {
+  #simulator .lab-heading { flex-direction: column; }
+  #simulator .score-panel { width: 100%; flex-basis: auto; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px; }
+  #simulator .score-panel .score-caption, #simulator .score-panel small { grid-column: 1 / -1; }
+  #simulator .xp-track { grid-column: 1 / -1; }
+  #simulator .level-grid { grid-template-columns: 1fr; }
+  #simulator .level-card { min-height: 82px; }
+  #simulator .simulator-tabs { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #simulator .simulator-tab-button { width: 100%; }
+  #kuis .quiz-count-badge { padding: 8px; }
+  #kuis .quiz-count-badge strong { font-size: 1.4rem; }
+  #kuis .quiz-count-badge span { font-size: .5rem; }
+  #kuis .quiz-big-title { font-size: 2.9rem; }
+  #kuis .quiz-kicker { max-width: 220px; font-size: .58rem; letter-spacing: 1px; }
+  #kuis .quiz-part-status { min-width: 100%; order: -1; }
+  #kuis .quiz-pager { gap: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #kuis .quiz-shell::before { box-shadow: none; }
+}
+
+
+/* Viewport fit across the whole MPI: stop document-level scrolling and keep overflow inside the active panel. */
+html, body { width: 100%; height: 100%; min-height: 100%; overflow-x: hidden; }
+body { overflow-y: hidden; }
+main { width: 100%; height: 100svh; }
+.page {
+  width: 100%; height: 100svh; min-height: 100svh; max-height: 100svh;
+  padding: 24px; overflow: hidden;
+}
+.page.active { display: flex; }
+footer { display: none !important; }
+#beranda.page { min-height: 100svh; height: 100svh; }
+#beranda .beranda-container { min-height: min(820px, calc(100svh - 48px)); }
+.page:not(#beranda):not(#kuis):not(#simulator):not(.bab-layout) > .content-box {
+  width: min(1180px, 100%); max-height: calc(100svh - 48px); overflow-y: auto;
+  overflow-x: hidden; overscroll-behavior: contain; margin: 0 auto;
+}
+.bab-layout { height: 100svh; min-height: 100svh; max-height: 100svh; overflow: hidden; align-items: center; }
+.bab-layout .konten-tab-area {
+  min-height: 0; max-height: calc(100svh - 48px); overflow-y: auto; overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+#kuis.page, #simulator.page { overflow: hidden; }
+#kuis .quiz-shell, #simulator .simulator-lab { scrollbar-width: thin; scrollbar-color: rgba(0,229,255,.35) rgba(255,255,255,.04); }
+@media (max-width: 760px) {
+  .page { padding: 12px; }
+  #beranda .beranda-container { min-height: min(820px, calc(100svh - 24px)); }
+  .page:not(#beranda):not(#kuis):not(#simulator):not(.bab-layout) > .content-box {
+    max-height: calc(100svh - 24px); padding: 18px; margin: 0 auto;
+  }
+  .bab-layout { padding: 12px; gap: 10px; }
+  .bab-layout .konten-tab-area { max-height: calc(100svh - 168px); padding: 18px; }
+  #simulator #kode-editor { height: clamp(150px, 22vh, 230px); min-height: 150px; max-height: 260px; }
+  #simulator #hasil-editor { height: clamp(150px, 22vh, 230px); min-height: 150px; max-height: 260px; }
+}
+@media (max-height: 820px) and (min-width: 761px) {
+  #simulator .lab-heading { gap: 8px; }
+  #simulator .lab-heading h2 { font-size: 1.3rem; }
+  #simulator .lab-heading p { font-size: .88rem; line-height: 1.4; }
+  #simulator .level-card { min-height: 86px; }
+  #simulator #kode-editor { height: 165px; min-height: 150px; max-height: 190px; }
+  #simulator #hasil-editor { height: 165px; min-height: 150px; max-height: 190px; }
+  #simulator .editor-note { margin: 5px 0 6px; font-size: .73rem; }
+  #simulator .lab-footer-note { display: none; }
+  #simulator .simulator-lab > .nav-back:last-child { margin-top: 0; }
+}
+@media (max-width: 560px) {
+  #simulator .simulator-lab { max-height: calc(100svh - 16px); }
+  #simulator .lab-workspace { grid-template-columns: minmax(0,1fr); }
+  #simulator #kode-editor, #simulator #hasil-editor { height: 180px; min-height: 180px; }
+  #kuis .quiz-shell { max-height: calc(100svh - 16px); }
+}
+@media (max-height: 820px) and (min-width: 761px) {
+  #simulator .simulator-lab { padding-top: 18px; padding-bottom: 12px; }
+  #simulator .simulator-lab > .nav-back:last-child { margin: 0; }
+}
+
+
+/* Final responsive refinement: fit menus/cards and split long lesson explanations into compact subtabs. */
+.uraian-step-tabs {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px;
+  padding-bottom: 10px; border-bottom: 1px solid rgba(0,229,255,.22);
+}
+.uraian-step-button {
+  border: 1px solid rgba(245,254,255,.3); border-radius: 8px;
+  padding: 8px 13px; color: var(--text-color); background: rgba(255,255,255,.035);
+  font-size: .86rem; font-weight: 750; transition: .2s;
+}
+.uraian-step-button:hover, .uraian-step-button.active {
+  color: #071218; background: #f7ffff; border-color: #fff;
+  box-shadow: 0 0 12px rgba(245,254,255,.18);
+}
+.uraian-step-pane[hidden] { display: none !important; }
+.uraian-step-pane > :first-child { margin-top: 0; }
+.uraian-step-pane .kode-box { font-size: .88rem; line-height: 1.45; padding: 12px 14px; margin: 10px 0; }
+.uraian-step-pane .hasil-contoh { padding: 12px 14px; }
+#feedback .content-box { padding: 24px 28px; }
+#feedback .content-box h2 { margin-top: 0; }
+#feedback .content-box p { margin: 7px 0; }
+#feedback #form-feedback { gap: 7px; }
+#feedback #form-feedback label { margin-top: 3px; }
+@media (min-width: 761px) {
+  .bab-layout .konten-tab-area { overflow-y: hidden; }
+  .bab-layout .tab-content { min-width: 0; }
+  .bab-layout .uraian-step-pane { overflow: visible; }
+}
+@media (max-width: 760px) {
+  .bab-layout .sidebar-tab { flex: 0 0 auto; }
+  .bab-layout .konten-tab-area { flex: 1 1 auto; min-height: 0; max-height: none; padding: 14px; overflow-y: auto; }
+  .bab-layout .tab-btn { padding: 9px 6px; font-size: .9rem; }
+  .bab-layout .sidebar-back { padding: 8px 10px; font-size: .85rem; }
+  .bab-layout .uraian-step-tabs { gap: 6px; margin-bottom: 10px; padding-bottom: 8px; }
+  .bab-layout .uraian-step-button { flex: 1 1 auto; padding: 7px 8px; font-size: .78rem; }
+  .bab-layout .uraian-step-pane h2 { font-size: 1.2rem; padding-bottom: 7px; margin: 3px 0 10px; }
+  .bab-layout .uraian-step-pane h3 { font-size: 1.05rem; margin: 8px 0; }
+  .bab-layout .uraian-step-pane h4 { margin: 8px 0; }
+  .bab-layout .uraian-step-pane p { margin: 7px 0; font-size: .88rem; line-height: 1.45; }
+  .bab-layout .uraian-step-pane .kode-box { font-size: .76rem; padding: 9px; margin: 8px 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .bab-layout .uraian-step-pane .hasil-contoh { padding: 9px; font-size: .86rem; }
+  .bab-layout .uraian-step-pane .info-box { margin: 8px 0; padding: 9px 10px; font-size: .84rem; }
+  #materi .content-box { padding: 14px; }
+  #materi .content-box h2 { margin-top: 0; font-size: 1.4rem; padding-bottom: 8px; }
+  #materi .intro { margin: 7px 0; font-size: .88rem; line-height: 1.4; }
+  #materi .materi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 10px 0; }
+  #materi .materi-card { min-height: 88px; padding: 8px 6px; gap: 3px; }
+  #materi .materi-card span { font-size: .72rem; }
+  #materi .materi-card strong { font-size: .82rem; line-height: 1.2; overflow-wrap: anywhere; }
+  #materi .materi-card small { font-size: .68rem; line-height: 1.2; }
+  #tujuan .content-box { padding: 14px; }
+  #tujuan .content-box h2 { margin-top: 0; font-size: 1.35rem; }
+  #tujuan .content-box > p { margin: 6px 0; font-size: .88rem; }
+  #tujuan .grid-cards { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; margin: 9px 0; }
+  #tujuan .grid-cards .card { padding: 9px 7px; font-size: .78rem; line-height: 1.3; }
+  #feedback .content-box { padding: 15px; }
+}
+@media (max-width: 380px) {
+  #materi .materi-card { min-height: 82px; }
+  #materi .materi-card strong { font-size: .76rem; }
+  .uraian-step-button { font-size: .73rem; }
+}
+
+/* Mobile simulator fit: compact heading, three horizontal level cards, and smaller editor panes. */
+@media (max-width: 560px) {
+  #simulator .simulator-lab { padding: 10px 10px 6px; max-height: calc(100svh - 16px); overflow-y: hidden; }
+  #simulator .lab-heading {
+    display: grid; grid-template-columns: minmax(0, 1fr) 102px;
+    grid-template-areas: "intro score"; align-items: start; gap: 8px;
+  }
+  #simulator .lab-heading > div:first-child { grid-area: intro; min-width: 0; }
+  #simulator .lab-heading > .score-panel {
+    grid-area: score; width: auto; flex-basis: auto; display: block;
+    padding: 8px; border-radius: 9px; min-width: 0;
+  }
+  #simulator .lab-kicker { font-size: .58rem; letter-spacing: 1.1px; margin-bottom: 4px; }
+  #simulator .lab-heading h2 { font-size: 1.1rem; line-height: 1.2; margin: 0 0 5px; }
+  #simulator .lab-heading p { font-size: .77rem; line-height: 1.34; margin: 4px 0; }
+  #simulator .score-caption { font-size: .51rem; letter-spacing: .7px; }
+  #simulator .score-panel strong { font-size: 1.25rem; }
+  #simulator .score-panel > span:not(.score-caption) { font-size: .62rem; }
+  #simulator .score-panel small { font-size: .55rem; line-height: 1.15; }
+  #simulator .xp-track { height: 4px; margin: 5px 0; }
+  #simulator .level-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin: 8px 0 10px; }
+  #simulator .level-card { min-width: 0; min-height: 98px; padding: 7px 6px 6px; gap: 3px; border-radius: 9px; overflow: hidden; }
+  #simulator .level-number { font-size: .52rem; letter-spacing: .4px; }
+  #simulator .level-emoji { top: 5px; right: 5px; font-size: 17px; }
+  #simulator .level-card strong { font-size: .79rem; line-height: 1.1; overflow-wrap: anywhere; }
+  #simulator .level-card small { font-size: .57rem; line-height: 1.18; overflow-wrap: anywhere; }
+  #simulator .level-status { font-size: .5rem; letter-spacing: 0; overflow-wrap: anywhere; }
+  #simulator .simulator-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 8px 0; }
+  #simulator .simulator-tab-button { min-width: 0; padding: 7px 5px; font-size: .72rem; line-height: 1.2; }
+  #simulator .mission-panel { padding: 10px; margin-bottom: 8px; }
+  #simulator .mission-header { flex-direction: row; align-items: flex-start; gap: 7px; }
+  #simulator .mission-header h3 { font-size: .95rem; line-height: 1.2; margin: 3px 0 0; }
+  #simulator .mission-reward { padding: 5px 7px; font-size: .68rem; }
+  #simulator .mission-panel p { font-size: .78rem; line-height: 1.35; margin: 7px 0; }
+  #simulator .mission-actions .nav-back { padding: 6px 8px; font-size: .72rem; margin: 3px 4px 0 0; }
+  #simulator #kode-editor, #simulator #hasil-editor { height: 145px; min-height: 145px; max-height: 145px; }
+  #simulator .editor-panel, #simulator .preview-panel { padding: 8px; }
+  #simulator .panel-title { gap: 5px; font-size: .82rem; }
+  #simulator .panel-title > span:last-child { font-size: .55rem; }
+  #simulator .editor-note { font-size: .67rem; line-height: 1.28; margin: 5px 0; }
+  #simulator .editor-actions .nav-back { padding: 6px 7px; font-size: .71rem; margin: 3px 3px 0 0; }
+  #simulator .lab-footer-note { display: none; }
+  #simulator .simulator-lab > .nav-back:last-child { margin-top: 5px; padding: 6px 10px; font-size: .78rem; }
+}
+
+/* Puzzle navigation: two short steps replace the tall all-in-one drag/drop board. */
+.puzzle-step-tabs { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; margin: 10px 0; }
+.puzzle-step-button { min-width: 0; padding: 9px 10px; border: 1px solid rgba(245,254,255,.28); border-radius: 8px; color: #eafcff; background: rgba(255,255,255,.03); font-weight: 750; font-size: .86rem; }
+.puzzle-step-button.active, .puzzle-step-button:hover { color: #061317; background: #f7ffff; border-color: #fff; box-shadow: 0 0 12px rgba(245,254,255,.17); }
+.puzzle-step-pane[hidden] { display: none !important; }
+.puzzle-step-hint { color: var(--muted); font-size: .82rem; margin: 5px 0 8px; }
+#simulator .puzzle-slot.is-selected-target { border-color: #fff; color: #fff; box-shadow: 0 0 14px rgba(255,255,255,.23); }
+#simulator .puzzle-slot.is-selected-target .slot-number { background: #fff; color: #071218; }
+@media (max-width: 560px) {
+  #simulator #kode-editor, #simulator #hasil-editor { height: 120px; min-height: 120px; max-height: 120px; }
+  #simulator #puzzle-panel { padding: 9px; }
+  #simulator .puzzle-heading { gap: 5px; align-items: flex-start; }
+  #simulator .puzzle-heading h3 { font-size: 1rem; line-height: 1.2; margin: 3px 0 4px; }
+  #simulator .puzzle-heading p { font-size: .78rem; line-height: 1.32; margin: 3px 0 7px; }
+  #simulator .puzzle-mini-badge { font-size: .65rem; padding: 5px 7px; }
+  #simulator .puzzle-step-tabs { gap: 5px; margin: 7px 0; }
+  #simulator .puzzle-step-button { padding: 7px 5px; font-size: .72rem; line-height: 1.15; }
+  #simulator .puzzle-step-hint { font-size: .7rem; line-height: 1.22; margin: 3px 0 6px; }
+  #simulator .puzzle-slots { gap: 6px; }
+  #simulator .puzzle-slot { min-height: 44px; padding: 5px 7px; gap: 7px; }
+  #simulator .puzzle-slot .slot-number { width: 25px; height: 25px; flex-basis: 25px; font-size: .67rem; }
+  #simulator .puzzle-slot .slot-message { font-size: .73rem; line-height: 1.2; }
+  #simulator .puzzle-bank-wrap { padding: 7px; }
+  #simulator .puzzle-bank-label { font-size: .62rem; }
+  #simulator .puzzle-bank { gap: 6px; }
+  #simulator .puzzle-piece { min-width: 0; flex: 1 1 125px; padding: 7px; }
+  #simulator .puzzle-piece code { font-size: .68rem; }
+  #simulator .puzzle-piece small { font-size: .6rem; }
+  #simulator .puzzle-actions { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+  #simulator .puzzle-actions .nav-back { margin: 0; padding: 6px 8px; font-size: .72rem; }
+  #simulator .puzzle-feedback { font-size: .72rem; line-height: 1.25; margin: 6px 0 0; }
+}

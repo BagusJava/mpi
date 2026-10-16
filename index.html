@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Media pembelajaran interaktif dasar HTML untuk siswa SMK PPLG.">
   <title>MPI: Mari Membuat Web dengan HTML</title>
-  <link rel="stylesheet" href="style.css?v=20261017e">
+  <link rel="stylesheet" href="style.css?v=20261017h">
 </head>
 <body>
   <main>
     <!-- BERANDA -->
     <section id="beranda" class="page active">
       <div class="beranda-container">
-        <h1 class="sapaan">Belajar HTML mudah dan menyenangkan </h1>
+        <h1 class="sapaan">Halo, ayo belajar HTML!</h1>
 
         <button class="menu-btn btn-sasaran" onclick="goTo('sasaran')" aria-label="Buka Sasaran" title="Sasaran">
           <span class="menu-icon" aria-hidden="true">🎯</span><span class="menu-label">Sasaran</span>
@@ -80,7 +80,7 @@
       <div class="content-box">
         <h2>🎯 Sasaran Pengguna</h2>
         <div class="card card-static">
-          <h3>Siswa Kelas X SMK </h3>
+          <h3>Siswa Kelas X SMK / Pemula</h3>
           <p>Prasyarat: mampu mengoperasikan komputer, menggunakan peramban (browser), dan mengelola file sederhana.</p>
         </div>
         <div class="button-row">
@@ -563,6 +563,14 @@
           </button>
         </div>
 
+        <nav class="simulator-tabs" aria-label="Bagian simulator">
+          <button type="button" class="simulator-tab-button active" data-lab-tab="misi" aria-selected="true" onclick="bukaTabSimulator('misi')">🎯 Misi</button>
+          <button type="button" class="simulator-tab-button" data-lab-tab="puzzle" aria-selected="false" onclick="bukaTabSimulator('puzzle')">🧩 Puzzle Pemula</button>
+          <button type="button" class="simulator-tab-button" data-lab-tab="editor" aria-selected="false" onclick="bukaTabSimulator('editor')">💻 Editor &amp; Hasil</button>
+          <button type="button" class="simulator-tab-button" data-lab-tab="solusi" aria-selected="false" onclick="bukaTabSimulator('solusi')">🔎 Contoh Jawaban</button>
+        </nav>
+
+        <section id="sim-tab-misi" class="simulator-tab-pane">
         <div class="mission-panel">
           <div class="mission-header">
             <div>
@@ -580,6 +588,8 @@
           <p id="simulator-mission-result" class="mission-result" aria-live="polite">Selesaikan kriteria misi untuk membuka level berikutnya.</p>
         </div>
 
+        </section>
+        <section id="sim-tab-puzzle" class="simulator-tab-pane" hidden>
         <section id="puzzle-panel" class="puzzle-panel" aria-labelledby="puzzle-title">
           <div class="puzzle-heading">
             <div>
@@ -613,12 +623,8 @@
           <p id="puzzle-feedback" class="puzzle-feedback" aria-live="polite">Mulai dengan menempelkan judul, lalu paragraf, lalu daftar.</p>
         </section>
 
-        <details class="simulator-solution-panel" id="simulator-solution-panel">
-          <summary>🔎 Contoh jawaban level aktif (buka setelah mencoba)</summary>
-          <p class="editor-note">Gunakan contoh ini untuk belajar dari solusi, bukan langsung menyalin sebelum mencoba.</p>
-          <pre class="kode-box"><code id="simulator-solution-code"></code></pre>
-        </details>
-
+        </section>
+        <section id="sim-tab-editor" class="simulator-tab-pane" hidden>
         <div class="simulator-grid lab-workspace">
           <div class="editor-panel">
             <div class="panel-title"><label for="kode-editor">💻 Editor HTML</label><span>EDIT KODE</span></div>
@@ -641,6 +647,14 @@
             <p class="editor-note">Pratinjau aman: HTML tampil langsung, sementara JavaScript dan pengiriman formulir dinonaktifkan.</p>
           </div>
         </div>
+        </section>
+        <section id="sim-tab-solusi" class="simulator-tab-pane" hidden>
+        <section class="simulator-solution-panel" id="simulator-solution-panel" aria-labelledby="simulator-solution-title">
+          <h3 id="simulator-solution-title">🔎 Contoh jawaban level aktif</h3>
+          <p class="editor-note">Buka tab ini setelah mencoba misi. Contoh akan menyesuaikan dengan level yang sedang dipilih.</p>
+          <pre class="kode-box"><code id="simulator-solution-code"></code></pre>
+        </section>
+        </section>
         <div class="lab-footer-note"><span aria-hidden="true">✨</span> Tips: ubah kode sedikit demi sedikit, amati hasilnya, lalu periksa apakah semua kriteria misi sudah terpenuhi.</div>
         <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
       </div>
@@ -684,14 +698,20 @@
             <div><span class="quiz-section-kicker">PESERTA</span><strong id="kuis-identitas-aktif"></strong></div>
             <span class="quiz-section-kicker">25 PERTANYAAN</span>
           </div>
+          <div id="hasil-kuis" class="info-box quiz-result-box" aria-live="polite" hidden></div>
           <form id="kuis-akhir">
+            <nav id="quiz-bagian-tabs" class="quiz-part-tabs" aria-label="Tab bagian soal"></nav>
             <div id="kuis-pertanyaan" class="quiz-questions"></div>
+            <div class="quiz-pager" aria-label="Navigasi soal">
+              <button class="nav-back quiz-pager-button" id="kuis-soal-sebelumnya" type="button">← Sebelumnya</button>
+              <span id="quiz-bagian-status" class="quiz-part-status" aria-live="polite">Bagian 1</span>
+              <button class="nav-back quiz-pager-button" id="kuis-soal-berikutnya" type="button">Selanjutnya →</button>
+              <button class="quiz-start-button quiz-final-submit" id="kuis-submit-button" type="submit" hidden>Periksa Nilai</button>
+            </div>
             <div class="quiz-submit-row">
-              <button class="quiz-start-button" type="submit">Periksa Nilai</button>
-              <button class="nav-back" id="ulang-kuis-button" type="button">Kembali ke Awal</button>
+              <button class="nav-back" id="ulang-kuis-button" type="button">↺ Kembali ke Awal</button>
             </div>
           </form>
-          <div id="hasil-kuis" class="info-box quiz-result-box" aria-live="polite" hidden></div>
         </section>
 
         </section><!-- /quiz-pane-kuis -->
@@ -749,6 +769,6 @@
   </main>
 
   <footer><p>Media Pembelajaran Interaktif · Mari Membuat Web dengan HTML</p></footer>
-  <script src="script.js?v=20261017e" defer></script>
+  <script src="script.js?v=20261017h" defer></script>
 </body>
 </html>
