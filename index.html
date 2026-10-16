@@ -1,129 +1,601 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MPI - Fondasi Web</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Media pembelajaran interaktif dasar HTML untuk siswa SMK PPLG.">
+  <title>MPI: Mari Membuat Web dengan HTML</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <main>
+    <!-- BERANDA -->
+    <section id="beranda" class="page active">
+      <div class="beranda-container">
+        <h1 class="sapaan">Halo, ayo belajar HTML!</h1>
 
-    <header class="header">
-        <h1 class="title-glow">FONDASI WEB</h1>
-        <h2 class="subtitle">HTML DASAR DAN LANJUTAN (FORM & TABEL)</h2>
-        <div class="line-decor"></div>
-    </header>
+        <button class="menu-btn btn-sasaran" onclick="goTo('sasaran')">
+          <span aria-hidden="true">🎯</span><span>Sasaran</span>
+        </button>
+        <button class="menu-btn btn-materi" onclick="goTo('materi')">
+          <span aria-hidden="true">📖</span><span>Materi</span>
+        </button>
+        <button class="menu-btn btn-tujuan" onclick="goTo('tujuan')">
+          <span aria-hidden="true">🏅</span><span>Tujuan</span>
+        </button>
+        <button class="menu-btn btn-simulator" onclick="goTo('simulator')">
+          <span aria-hidden="true">🧪</span><span>Simulator</span>
+        </button>
+        <button class="menu-btn btn-pemantik" onclick="goTo('pemantik')">
+          <span aria-hidden="true">💡</span><span>Pemantik</span>
+        </button>
+        <button class="menu-btn btn-kuis" onclick="goTo('kuis')">
+          <span aria-hidden="true">📋</span><span>Kuis</span>
+        </button>
 
-    <main class="dashboard-container">
-        
-        <div class="panel-left">
-            <a href="#" class="btn-sci-fi" onclick="showModal('sasaran')"><i class="fa-solid fa-bullseye"></i> Sasaran</a>
-            <a href="#" class="btn-sci-fi" onclick="showModal('tujuan')"><i class="fa-solid fa-award"></i> Tujuan</a>
-            <a href="#" class="btn-sci-fi" onclick="showModal('pemantik')"><i class="fa-solid fa-lightbulb"></i> Pemantik</a>
+        <div class="center-circle" role="img" aria-label="Ikon web HTML">&lt;/&gt;</div>
+
+        <button class="menu-btn btn-feedback" onclick="goTo('feedback')">
+          <span aria-hidden="true">💬</span><span>Feedback</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SASARAN -->
+    <section id="sasaran" class="page">
+      <div class="content-box">
+        <h2>🎯 Sasaran Pengguna</h2>
+        <div class="card card-static">
+          <h3>Siswa Kelas X SMK / Pemula</h3>
+          <p>Prasyarat: mampu mengoperasikan komputer, menggunakan peramban (browser), dan mengelola file sederhana.</p>
         </div>
-
-        <div class="panel-center">
-            <div class="circle-outer">
-                <div class="circle-inner">
-                    <div class="code-icon">&lt; / &gt;</div>
-                </div>
-            </div>
+        <div class="button-row">
+          <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+          <button class="nav-back" onclick="goTo('tujuan')">Lanjut: Tujuan ➡</button>
         </div>
+      </div>
+    </section>
 
-        <div class="panel-right">
-            <a href="#" class="btn-sci-fi" onclick="showModal('materi')"><i class="fa-solid fa-book-open"></i> Materi</a>
-            <a href="simulator.html" class="btn-sci-fi"><i class="fa-solid fa-laptop-code"></i> Simulator</a>
-            <a href="kuis.html" class="btn-sci-fi"><i class="fa-solid fa-clipboard-list"></i> Kuis</a>
+    <!-- TUJUAN -->
+    <section id="tujuan" class="page">
+      <div class="content-box">
+        <h2>🏅 Tujuan Pembelajaran</h2>
+        <p>Setelah mempelajari materi, siswa diharapkan mampu:</p>
+        <div class="grid-cards">
+          <div class="card card-static">1. Menjelaskan fungsi HTML dan tag.</div>
+          <div class="card card-static">2. Menulis kerangka dokumen HTML yang benar.</div>
+          <div class="card card-static">3. Membuat teks, heading, dan daftar.</div>
+          <div class="card card-static">4. Menambahkan tautan dan gambar.</div>
+          <div class="card card-static">5. Menyajikan data dalam tabel.</div>
+          <div class="card card-static">6. Membuat formulir input sederhana.</div>
+          <div class="card card-static">7. Menggabungkan elemen HTML dalam halaman profil.</div>
         </div>
-
-    </main>
-
-    <div class="panel-bottom">
-        <a href="#" class="btn-sci-fi btn-feedback" onclick="showModal('feedback')"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
-    </div>
-
-    <!-- Tombol Navigasi Pojok Bawah -->
-    <div class="nav-corners">
-        <div class="corner-left">
-            <button class="btn-circle" onclick="showModal('info')" title="Informasi Aplikasi"><i class="fa-solid fa-info"></i></button>
-            <button class="btn-circle" onclick="showModal('referensi')" title="Referensi Buku"><i class="fa-solid fa-book"></i></button>
-            <button class="btn-circle" onclick="showModal('bantuan')" title="Bantuan"><i class="fa-solid fa-question"></i></button>
+        <div class="button-row">
+          <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+          <button class="nav-back" onclick="goTo('pemantik')">Lanjut: Pemantik ➡</button>
         </div>
-        <div class="corner-right">
-            <button class="btn-circle btn-close" onclick="keluarAplikasi()" title="Keluar"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </section>
+
+    <!-- PEMANTIK -->
+    <section id="pemantik" class="page">
+      <div class="content-box">
+        <h2>💡 Pertanyaan Pemantik</h2>
+        <p><strong>Bagaimana browser mengetahui mana judul, paragraf, gambar, tabel, dan kolom isian?</strong></p>
+        <p>Browser membaca struktur HTML. Tag memberi makna pada konten, sedangkan CSS mengatur tampilan dan JavaScript dapat menambahkan perilaku interaktif.</p>
+        <div class="simulasi-visual">
+          <h3>Formulir Pendaftaran</h3>
+          <label for="nama-pemantik">Nama siswa</label>
+          <input id="nama-pemantik" type="text" placeholder="Masukkan nama">
+          <button class="btn-kirim-simulasi" onclick="sapaPemantik()">Kirim</button>
+          <p id="hasil-pemantik" aria-live="polite"></p>
         </div>
-    </div>
+        <button class="nav-back" onclick="toggleKode()">Lihat / Sembunyikan Kode</button>
+        <pre id="kode-pemantik" class="kode-box"><code>&lt;h3&gt;Formulir Pendaftaran&lt;/h3&gt;
+&lt;label for="nama"&gt;Nama siswa&lt;/label&gt;
+&lt;input id="nama" type="text" placeholder="Masukkan nama"&gt;
+&lt;button&gt;Kirim&lt;/button&gt;</code></pre>
+        <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+      </div>
+    </section>
 
-    <!-- Modal Pop-up -->
-    <div id="mpiModal" class="modal-overlay">
-        <div class="modal-content">
-            <h2 id="modalTitle" class="title-glow" style="font-size: 2rem; margin-bottom: 10px;">JUDUL</h2>
-            <div class="line-decor" style="width: 100%; margin-bottom: 20px;"></div>
-            <p id="modalText">Isi materi akan muncul di sini...</p>
-            <button class="btn-sci-fi" style="margin-top:20px; width:100%; justify-content:center;" onclick="closeModal()">TUTUP</button>
+    <!-- DAFTAR MATERI: hanya satu ID materi -->
+    <section id="materi" class="page">
+      <div class="content-box content-wide">
+        <h2>📖 Menu Materi</h2>
+        <p class="intro">Pilih salah satu bab. Setiap bab berisi uraian, video pembelajaran, dan latihan singkat.</p>
+        <div class="grid-cards materi-grid">
+          <button class="card materi-card" onclick="goTo('bab1')"><span>Bab 1</span><strong>Pengenalan HTML</strong><small>Pengertian, fungsi, dan tag</small></button>
+          <button class="card materi-card" onclick="goTo('bab2')"><span>Bab 2</span><strong>Kerangka HTML</strong><small>Struktur dokumen HTML</small></button>
+          <button class="card materi-card" onclick="goTo('bab3')"><span>Bab 3</span><strong>Teks &amp; Heading</strong><small>Judul, paragraf, penekanan</small></button>
+          <button class="card materi-card" onclick="goTo('bab4')"><span>Bab 4</span><strong>List (Daftar)</strong><small>Daftar berurut dan tidak berurut</small></button>
+          <button class="card materi-card" onclick="goTo('bab5')"><span>Bab 5</span><strong>Link &amp; Gambar</strong><small>Tautan, gambar, atribut</small></button>
+          <button class="card materi-card" onclick="goTo('bab6')"><span>Bab 6</span><strong>Tabel</strong><small>Baris, kolom, dan sel</small></button>
+          <button class="card materi-card" onclick="goTo('bab7')"><span>Bab 7</span><strong>Form</strong><small>Input dan formulir</small></button>
         </div>
-    </div>
+        <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+      </div>
+    </section>
 
-    <script>
-        const dataKonten = {
-            sasaran: { judul: "SASARAN", isi: "Sasaran dari pembelajaran ini adalah seluruh siswa kelas XI PPLG SMKN 1 Kepanjen agar mampu memahami alur pembuatan struktur dasar website." },
-            tujuan: { judul: "TUJUAN", isi: "1. Siswa mampu merancang tabel HTML dinamis (Merge & Split).<br>2. Siswa mampu membuat formulir input data.<br>3. Siswa memahami cara publikasi ke hosting Vercel." },
-            pemantik: { judul: "PEMANTIK", isi: "Pernahkah kalian mendaftar akun sosial media? Formulir pendaftaran tersebut dibuat menggunakan elemen dasar HTML. Mari kita bedah bagaimana cara membuatnya!" },
-            materi: { judul: "MATERI BAB 1", isi: "Materi berfokus pada anatomi website statis. Kita akan menggunakan tag &lt;table&gt;, &lt;tr&gt;, &lt;td&gt; untuk tabel, serta tag &lt;form&gt; dan &lt;input&gt; untuk formulir biodata." },
-            feedback: { judul: "FEEDBACK", isi: "Silakan sampaikan pertanyaan, kritik, atau saran perbaikan terkait Media Pembelajaran ini langsung kepada Tuan Bagus di laboratorium." },
-            info: { judul: "TENTANG APLIKASI", isi: "Aplikasi MPI (Media Pembelajaran Interaktif) ini dikembangkan secara khusus untuk menunjang pembelajaran produktif jurusan Pengembangan Perangkat Lunak dan Gim (PPLG) di SMKN 1 Kepanjen." },
-            referensi: { judul: "REFERENSI", isi: "Sumber materi pada modul ini merujuk pada standar kurikulum W3Schools dan dokumentasi resmi Mozilla Developer Network (MDN)." },
-            bantuan: { judul: "BANTUAN", isi: "Gunakan tombol di tengah layar untuk membuka materi. Klik 'Simulator' untuk mencoba menulis kode secara langsung, dan klik 'Kuis' untuk menguji pemahaman Anda." }
-        };
+    <!-- BAB 1 -->
+    <section id="bab1" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab1-uraian','bab1')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab1-video','bab1')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab1-latihan','bab1')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab1-uraian" class="tab-content">
+          <h2>Bab 1: Pengenalan HTML</h2>
+          <h3>Apa itu HTML?</h3>
+          <p>HTML (<em>HyperText Markup Language</em>) adalah bahasa markup standar untuk menyusun struktur halaman web. HTML menggunakan tag untuk menandai konten seperti judul, paragraf, gambar, tautan, tabel, dan formulir.</p>
+          <p>HTML berperan sebagai kerangka halaman. CSS digunakan untuk mengatur tampilan, sedangkan JavaScript menambahkan interaksi.</p>
+          <h4>Contoh kode</h4>
+          <pre class="kode-box"><code>&lt;p&gt;Ini contoh paragraf dalam HTML.&lt;/p&gt;</code></pre>
+          <h4>Hasil yang diharapkan</h4>
+          <div class="hasil-contoh"><p>Ini contoh paragraf dalam HTML.</p></div>
+          <div class="info-box"><strong>Ingat:</strong> tag biasanya memiliki tag pembuka dan penutup, misalnya <code>&lt;p&gt;</code> dan <code>&lt;/p&gt;</code>. Ada juga elemen kosong seperti <code>&lt;img&gt;</code>.</div>
+        </div>
+        <div id="bab1-video" class="tab-content" hidden>
+          <h2>Video Bab 1: Pengenalan HTML</h2>
+          <p>Mulai dari bagian Pengenalan HTML (11:39) pada tutorial HTML dasar berbahasa Indonesia.</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/hMDJyb7VkYw?start=699&rel=0&playsinline=1"
+              title="Video Bab 1: Pengenalan HTML"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&t=699s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+        </div>
+        <div id="bab1-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 1</h2>
+          <p>HTML merupakan singkatan dari …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q1" value="a"> Hyper Trainer Marking Language</label>
+            <label><input type="radio" name="q1" value="b"> HyperText Markup Language</label>
+            <label><input type="radio" name="q1" value="c"> HighText Machine Language</label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q1','b','hasil-q1')">Periksa Jawaban</button>
+          <p id="hasil-q1" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Buat satu paragraf HTML yang memperkenalkan nama dan kelasmu.</p>
+        </div>
+      </div>
+    </section>
 
-        function showModal(kunci) {
-            document.getElementById('modalTitle').innerHTML = dataKonten[kunci].judul;
-            document.getElementById('modalText').innerHTML = dataKonten[kunci].isi;
-            document.getElementById('mpiModal').style.display = 'flex';
-        }
+    <!-- BAB 2 -->
+    <section id="bab2" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab2-uraian','bab2')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab2-video','bab2')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab2-latihan','bab2')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab2-uraian" class="tab-content">
+          <h2>Bab 2: Kerangka HTML</h2>
+          <h3>Struktur dasar dokumen</h3>
+          <p>Dokumen HTML umumnya diawali dengan <code>&lt;!DOCTYPE html&gt;</code>. Elemen <code>&lt;html&gt;</code> membungkus dokumen, <code>&lt;head&gt;</code> berisi informasi halaman, dan <code>&lt;body&gt;</code> berisi konten yang tampil di halaman.</p>
+          <pre class="kode-box"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="id"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Website Saya&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Halo Dunia!&lt;/h1&gt;
+  &lt;p&gt;Ini halaman pertama saya.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          <div class="info-box"><strong>Catatan:</strong> <code>&lt;title&gt;</code> muncul pada tab browser, bukan sebagai judul utama isi halaman. Judul utama pada halaman biasanya dibuat dengan <code>&lt;h1&gt;</code>.</div>
+        </div>
+        <div id="bab2-video" class="tab-content" hidden>
+          <h2>Video Bab 2: Kerangka HTML</h2>
+          <p>Mulai dari persiapan proyek dan membuat halaman pertama (26:33).</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/hMDJyb7VkYw?start=1593&rel=0&playsinline=1"
+              title="Video Bab 2: Kerangka HTML"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&t=1593s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+        </div>
+        <div id="bab2-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 2</h2>
+          <p>Tag yang menentukan judul pada tab browser adalah …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q2" value="a"> <code>&lt;body&gt;</code></label>
+            <label><input type="radio" name="q2" value="b"> <code>&lt;h1&gt;</code></label>
+            <label><input type="radio" name="q2" value="c"> <code>&lt;title&gt;</code></label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q2','c','hasil-q2')">Periksa Jawaban</button>
+          <p id="hasil-q2" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Buat file <code>index.html</code> berisi kerangka HTML lengkap, lalu tampilkan nama dan kelasmu.</p>
+        </div>
+      </div>
+    </section>
 
-        function closeModal() { document.getElementById('mpiModal').style.display = 'none'; }
+    <!-- BAB 3 -->
+    <section id="bab3" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab3-uraian','bab3')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab3-video','bab3')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab3-latihan','bab3')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab3-uraian" class="tab-content">
+          <h2>Bab 3: Teks &amp; Heading</h2>
+          <h3>Menyusun judul dan paragraf</h3>
+          <p>Heading <code>&lt;h1&gt;</code> sampai <code>&lt;h6&gt;</code> digunakan untuk membentuk hierarki judul. <code>&lt;h1&gt;</code> merupakan tingkat judul tertinggi. Gunakan <code>&lt;p&gt;</code> untuk paragraf, <code>&lt;strong&gt;</code> untuk menandai penting, dan <code>&lt;em&gt;</code> untuk penekanan.</p>
+          <pre class="kode-box"><code>&lt;h1&gt;Profil Siswa&lt;/h1&gt;
+&lt;h2&gt;Identitas&lt;/h2&gt;
+&lt;p&gt;Nama saya Andi.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Kelas:&lt;/strong&gt; X PPLG 1&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Saya senang belajar web.&lt;/em&gt;&lt;/p&gt;</code></pre>
+          <h4>Hasil yang diharapkan</h4>
+          <div class="hasil-contoh">
+            <h1>Profil Siswa</h1><h2>Identitas</h2><p>Nama saya Andi.</p><p><strong>Kelas:</strong> X PPLG 1</p><p><em>Saya senang belajar web.</em></p>
+          </div>
+        </div>
+        <div id="bab3-video" class="tab-content" hidden>
+          <h2>Video Bab 3: Teks dan Heading</h2>
+          <p>Mulai dari materi Heading (51:39), lalu pelajari paragraf dan pemformatan teks.</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/hMDJyb7VkYw?start=3099&rel=0&playsinline=1"
+              title="Video Bab 3: Teks dan Heading"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&t=3099s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+        </div>
+        <div id="bab3-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 3</h2>
+          <p>Tag yang digunakan untuk judul dengan tingkat paling tinggi adalah …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q3" value="a"> <code>&lt;h6&gt;</code></label>
+            <label><input type="radio" name="q3" value="b"> <code>&lt;head&gt;</code></label>
+            <label><input type="radio" name="q3" value="c"> <code>&lt;h1&gt;</code></label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q3','c','hasil-q3')">Periksa Jawaban</button>
+          <p id="hasil-q3" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Buat profil diri menggunakan satu <code>&lt;h1&gt;</code>, dua <code>&lt;h2&gt;</code>, dan tiga paragraf.</p>
+        </div>
+      </div>
+    </section>
 
-        function keluarAplikasi() {
-            if(confirm("Apakah Anda yakin ingin keluar dari Media Pembelajaran ini?")) {
-                window.location.href = "https://www.google.com";
-            }
-        }
-        const dataKonten = {
-            sasaran: {
-                judul: "SASARAN",
-                isi: "Modul ini diperuntukkan bagi siswa kelas XI PPLG untuk menguasai elemen fondasi Pemrograman Web (HTML & CSS) sesuai kurikulum."
-            },
-            tujuan: {
-                judul: "TUJUAN",
-                isi: "1. Menerapkan struktur dasar HTML dan HTML Lanjutan (Tabel & Form).<br>2. Merancang pewarnaan dan tata letak menggunakan CSS Dasar.<br>3. Menyatukan HTML dan CSS menjadi halaman web interaktif sederhana."
-            },
-            pemantik: {
-                judul: "PEMANTIK",
-                isi: "Pernahkah kalian melihat rumah yang sedang dibangun? HTML adalah batu bata dan pondasinya, sedangkan CSS adalah cat dan dekorasinya. Mari kita bangun 'rumah digital' kita!"
-            },
-            materi: {
-                judul: "MATERI DASAR WEB",
-                isi: "Fokus pembelajaran kita mencakup:<br>- <b>HTML Dasar & Semantik</b> (Kerangka)<br>- <b>HTML Lanjutan</b> (Membuat Form Biodata & Tabel Jadwal)<br>- <b>CSS Dasar & Layout</b> (Mempercantik warna, huruf, dan posisi elemen)."
-            },
-            feedback: {
-                judul: "FEEDBACK",
-                isi: "Kendala saat menulis kode? Jangan ragu untuk bertanya langsung kepada Tuan Bagus di laboratorium komputer."
-            },
-            info: {
-                judul: "TENTANG APLIKASI",
-                isi: "Simulator Web Dasar berbasis MPI. Didesain khusus untuk melatih nalar sintaksis HTML dan CSS secara real-time tanpa perlu berpindah aplikasi."
-            },
-            referensi: {
-                judul: "REFERENSI",
-                isi: "Materi disusun merujuk pada standar industri dari dokumentasi MDN Web Docs dan W3Schools."
-            },
-            bantuan: {
-                judul: "BANTUAN",
-                isi: "Buka menu 'Simulator' untuk mempraktikkan penggabungan kode HTML dan CSS. Uji pemahaman teorimu di menu 'Kuis'."
-            }
-        };
-    </script>
+    <!-- BAB 4 -->
+    <section id="bab4" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab4-uraian','bab4')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab4-video','bab4')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab4-latihan','bab4')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab4-uraian" class="tab-content">
+          <h2>Bab 4: List (Daftar)</h2>
+          <h3>Daftar berurut dan tidak berurut</h3>
+          <p><code>&lt;ul&gt;</code> membuat daftar dengan bullet, <code>&lt;ol&gt;</code> membuat daftar bernomor, dan <code>&lt;li&gt;</code> digunakan untuk setiap item daftar.</p>
+          <pre class="kode-box"><code>&lt;h3&gt;Hobi Saya&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Membaca&lt;/li&gt;
+  &lt;li&gt;Bersepeda&lt;/li&gt;
+  &lt;li&gt;Memprogram&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3&gt;Langkah Belajar&lt;/h3&gt;
+&lt;ol&gt;
+  &lt;li&gt;Buka editor kode.&lt;/li&gt;
+  &lt;li&gt;Tulis HTML.&lt;/li&gt;
+  &lt;li&gt;Buka di browser.&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+          <h4>Hasil yang diharapkan</h4>
+          <div class="hasil-contoh"><h3>Hobi Saya</h3><ul><li>Membaca</li><li>Bersepeda</li><li>Memprogram</li></ul><h3>Langkah Belajar</h3><ol><li>Buka editor kode.</li><li>Tulis HTML.</li><li>Buka di browser.</li></ol></div>
+        </div>
+        <div id="bab4-video" class="tab-content" hidden>
+          <h2>Video Bab 4: List HTML</h2>
+          <p>Mulai dari materi List HTML (1:26:48).</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/hMDJyb7VkYw?start=5208&rel=0&playsinline=1"
+              title="Video Bab 4: List HTML"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&t=5208s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+        </div>
+        <div id="bab4-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 4</h2>
+          <p>Tag yang digunakan untuk membuat daftar bernomor adalah …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q4" value="a"> <code>&lt;ul&gt;</code></label>
+            <label><input type="radio" name="q4" value="b"> <code>&lt;ol&gt;</code></label>
+            <label><input type="radio" name="q4" value="c"> <code>&lt;li&gt;</code></label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q4','b','hasil-q4')">Periksa Jawaban</button>
+          <p id="hasil-q4" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Buat daftar lima mata pelajaran menggunakan <code>&lt;ul&gt;</code> dan tiga langkah mengirim tugas menggunakan <code>&lt;ol&gt;</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAB 5 -->
+    <section id="bab5" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab5-uraian','bab5')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab5-video','bab5')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab5-latihan','bab5')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab5-uraian" class="tab-content">
+          <h2>Bab 5: Link &amp; Gambar</h2>
+          <h3>Menghubungkan halaman dan menampilkan gambar</h3>
+          <p>Tag <code>&lt;a&gt;</code> membuat tautan. Atribut <code>href</code> berisi alamat tujuan. Tag <code>&lt;img&gt;</code> menampilkan gambar; atribut <code>src</code> menunjukkan lokasi file dan <code>alt</code> memberi deskripsi alternatif.</p>
+          <pre class="kode-box"><code>&lt;a href="https://www.google.com"&gt;Buka Google&lt;/a&gt;
+
+&lt;img src="foto.jpg"
+     alt="Foto profil siswa"
+     width="200"&gt;</code></pre>
+          <div class="info-box"><strong>Tips:</strong> simpan file <code>foto.jpg</code> pada folder yang sesuai dengan lokasi file HTML, atau sesuaikan nilai <code>src</code>. Gunakan teks <code>alt</code> yang menjelaskan isi gambar.</div>
+        </div>
+        <div id="bab5-video" class="tab-content" hidden>
+          <h2>Video Bab 5: Link dan Gambar</h2>
+          <p>Video dimulai dari materi Link (1:33:18). Untuk menuju materi Gambar, gunakan tautan waktu di bawah.</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/hMDJyb7VkYw?start=5598&rel=0&playsinline=1"
+              title="Video Bab 5: Link dan Gambar"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&t=5598s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+          <p class="video-fallback">Langsung ke materi Gambar: <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&amp;t=6957s" target="_blank" rel="noopener noreferrer">buka mulai 1:55:57</a>.</p>
+        </div>
+        <div id="bab5-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 5</h2>
+          <p>Atribut pada tag <code>&lt;a&gt;</code> untuk menentukan alamat tujuan adalah …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q5" value="a"> <code>src</code></label>
+            <label><input type="radio" name="q5" value="b"> <code>href</code></label>
+            <label><input type="radio" name="q5" value="c"> <code>alt</code></label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q5','b','hasil-q5')">Periksa Jawaban</button>
+          <p id="hasil-q5" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Tambahkan satu tautan ke situs sekolah dan satu gambar lokal dengan atribut <code>alt</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAB 6 -->
+    <section id="bab6" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab6-uraian','bab6')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab6-video','bab6')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab6-latihan','bab6')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab6-uraian" class="tab-content">
+          <h2>Bab 6: Tabel</h2>
+          <h3>Menyajikan data dalam baris dan kolom</h3>
+          <p>Tag <code>&lt;table&gt;</code> membentuk tabel, <code>&lt;tr&gt;</code> membuat baris, <code>&lt;th&gt;</code> membuat sel judul, dan <code>&lt;td&gt;</code> membuat sel data. Tabel cocok untuk data yang memiliki hubungan baris dan kolom.</p>
+          <pre class="kode-box"><code>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Nama&lt;/th&gt;
+    &lt;th&gt;Kelas&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Andi&lt;/td&gt;
+    &lt;td&gt;X PPLG 1&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+          <h4>Hasil yang diharapkan</h4>
+          <div class="hasil-contoh table-scroll"><table class="contoh-tabel"><thead><tr><th>Nama</th><th>Kelas</th></tr></thead><tbody><tr><td>Andi</td><td>X PPLG 1</td></tr></tbody></table></div>
+          <div class="info-box">Tampilan tabel dapat dipercantik dengan CSS. Pisahkan pengaturan desain dari struktur HTML.</div>
+        </div>
+        <div id="bab6-video" class="tab-content" hidden>
+          <h2>Video Bab 6: Tabel HTML</h2>
+          <p>Mulai dari materi Table HTML (2:51:31).</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/hMDJyb7VkYw?start=10291&rel=0&playsinline=1"
+              title="Video Bab 6: Tabel HTML"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=hMDJyb7VkYw&t=10291s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+        </div>
+        <div id="bab6-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 6</h2>
+          <p>Tag yang digunakan untuk membuat sel judul kolom pada tabel adalah …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q6" value="a"> <code>&lt;td&gt;</code></label>
+            <label><input type="radio" name="q6" value="b"> <code>&lt;tr&gt;</code></label>
+            <label><input type="radio" name="q6" value="c"> <code>&lt;th&gt;</code></label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q6','c','hasil-q6')">Periksa Jawaban</button>
+          <p id="hasil-q6" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Buat tabel berisi tiga siswa dengan kolom nomor, nama, dan kelas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BAB 7 -->
+    <section id="bab7" class="page bab-layout">
+      <aside class="sidebar-tab">
+        <button class="tab-btn active-tab" onclick="bukaTab(event,'bab7-uraian','bab7')">Uraian</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab7-video','bab7')">Video</button>
+        <button class="tab-btn" onclick="bukaTab(event,'bab7-latihan','bab7')">Latihan</button>
+        <button class="nav-back sidebar-back" onclick="goTo('materi')">⬅ Kembali</button>
+      </aside>
+      <div class="konten-tab-area">
+        <div id="bab7-uraian" class="tab-content">
+          <h2>Bab 7: Form</h2>
+          <h3>Mengumpulkan input pengguna</h3>
+          <p>Formulir digunakan untuk menerima data dari pengguna. <code>&lt;form&gt;</code> menjadi wadah, <code>&lt;label&gt;</code> memberi keterangan, <code>&lt;input&gt;</code> menerima masukan, dan <code>&lt;button&gt;</code> menyediakan tombol aksi. Tipe input antara lain <code>text</code>, <code>email</code>, <code>password</code>, dan <code>date</code>.</p>
+          <pre class="kode-box"><code>&lt;form action="#" method="post"&gt;
+  &lt;label for="nama"&gt;Nama:&lt;/label&gt;
+  &lt;input type="text" id="nama" name="nama" required&gt;
+
+  &lt;label for="email"&gt;Email:&lt;/label&gt;
+  &lt;input type="email" id="email" name="email" required&gt;
+
+  &lt;button type="submit"&gt;Kirim&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          <div class="info-box"><strong>Perlu diingat:</strong> HTML membangun formulir, tetapi penyimpanan dan pemrosesan data membutuhkan backend atau layanan yang sesuai. Contoh <code>action="#"</code> ini belum menyimpan data.</div>
+        </div>
+        <div id="bab7-video" class="tab-content" hidden>
+          <h2>Video Bab 7: Form HTML</h2>
+          <p>Video khusus tentang formulir HTML, elemen input, label, dan tombol.</p>
+          <div class="video-container">
+            <iframe
+              loading="lazy"
+              src="https://www.youtube-nocookie.com/embed/mELDK1yS8iU?start=76&rel=0&playsinline=1"
+              title="Video Bab 7: Form HTML"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <p class="video-fallback">Tidak bisa diputar? <a href="https://www.youtube.com/watch?v=mELDK1yS8iU&amp;t=76s" target="_blank" rel="noopener noreferrer">Buka video di YouTube</a>.</p>
+        </div>
+        <div id="bab7-latihan" class="tab-content" hidden>
+          <h2>Latihan Bab 7</h2>
+          <p>Nilai atribut <code>type</code> agar input digunakan untuk alamat email adalah …</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="q7" value="a"> <code>text</code></label>
+            <label><input type="radio" name="q7" value="b"> <code>email</code></label>
+            <label><input type="radio" name="q7" value="c"> <code>password</code></label>
+          </div>
+          <button class="nav-back" onclick="cekJawaban('q7','b','hasil-q7')">Periksa Jawaban</button>
+          <p id="hasil-q7" class="feedback" aria-live="polite"></p>
+          <p class="tugas-praktik"><strong>Praktik:</strong> Buat formulir pendaftaran berisi nama, email, jenis kelamin, dan tombol Kirim.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIMULATOR -->
+    <section id="simulator" class="page">
+      <div class="content-box content-wide">
+        <h2>🧪 Simulator HTML Sederhana</h2>
+        <p>Ketik kode HTML pada kolom kiri, lalu tekan <strong>Tampilkan Hasil</strong> untuk melihat hasilnya. Hindari memasukkan kode yang tidak dikenal.</p>
+        <div class="simulator-grid">
+          <div>
+            <label for="kode-editor">Kode HTML</label>
+            <textarea id="kode-editor" spellcheck="false"><h1>Halo, Dunia!</h1>
+<p>Saya sedang belajar HTML.</p>
+<ul><li>Tag</li><li>Elemen</li></ul></textarea>
+            <button class="nav-back" onclick="jalankanSimulator()">Tampilkan Hasil ▶</button>
+            <button class="nav-back" onclick="resetSimulator()">Reset</button>
+          </div>
+          <div>
+            <span class="preview-label">Pratinjau</span>
+            <iframe id="hasil-editor" title="Pratinjau hasil HTML" sandbox=""></iframe>
+          </div>
+        </div>
+        <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+      </div>
+    </section>
+
+    <!-- KUIS AKHIR -->
+    <section id="kuis" class="page">
+      <div class="content-box">
+        <h2>📋 Kuis Akhir</h2>
+        <p>Jawab tujuh soal berikut untuk mengukur pemahaman dari Bab 1 sampai Bab 7.</p>
+        <form id="kuis-akhir">
+          <fieldset><legend>1. HTML digunakan untuk …</legend>
+            <label><input type="radio" name="k1" value="a"> Mengatur struktur konten halaman web</label>
+            <label><input type="radio" name="k1" value="b"> Mengelola sistem operasi</label>
+            <label><input type="radio" name="k1" value="c"> Mengedit video saja</label>
+          </fieldset>
+          <fieldset><legend>2. Tag untuk konten utama halaman adalah …</legend>
+            <label><input type="radio" name="k2" value="a"> <code>&lt;head&gt;</code></label>
+            <label><input type="radio" name="k2" value="b"> <code>&lt;body&gt;</code></label>
+            <label><input type="radio" name="k2" value="c"> <code>&lt;title&gt;</code></label>
+          </fieldset>
+          <fieldset><legend>3. Tag untuk paragraf adalah …</legend>
+            <label><input type="radio" name="k3" value="a"> <code>&lt;p&gt;</code></label>
+            <label><input type="radio" name="k3" value="b"> <code>&lt;img&gt;</code></label>
+            <label><input type="radio" name="k3" value="c"> <code>&lt;table&gt;</code></label>
+          </fieldset>
+          <fieldset><legend>4. Tag untuk daftar bernomor adalah …</legend>
+            <label><input type="radio" name="k4" value="a"> <code>&lt;ul&gt;</code></label>
+            <label><input type="radio" name="k4" value="b"> <code>&lt;li&gt;</code></label>
+            <label><input type="radio" name="k4" value="c"> <code>&lt;ol&gt;</code></label>
+          </fieldset>
+          <fieldset><legend>5. Atribut sumber gambar adalah …</legend>
+            <label><input type="radio" name="k5" value="a"> <code>href</code></label>
+            <label><input type="radio" name="k5" value="b"> <code>src</code></label>
+            <label><input type="radio" name="k5" value="c"> <code>alt</code></label>
+          </fieldset>
+          <fieldset><legend>6. Tag untuk baris tabel adalah …</legend>
+            <label><input type="radio" name="k6" value="a"> <code>&lt;tr&gt;</code></label>
+            <label><input type="radio" name="k6" value="b"> <code>&lt;td&gt;</code></label>
+            <label><input type="radio" name="k6" value="c"> <code>&lt;th&gt;</code></label>
+          </fieldset>
+          <fieldset><legend>7. Atribut required pada input berguna untuk …</legend>
+            <label><input type="radio" name="k7" value="a"> Mengubah warna teks</label>
+            <label><input type="radio" name="k7" value="b"> Menambahkan gambar</label>
+            <label><input type="radio" name="k7" value="c"> Mewajibkan kolom diisi sebelum form dikirim</label>
+          </fieldset>
+          <button class="nav-back" type="button" onclick="nilaiKuis()">Periksa Nilai</button>
+          <button class="nav-back" type="reset" onclick="resetNilaiKuis()">Ulangi Kuis</button>
+        </form>
+        <div id="hasil-kuis" class="info-box" aria-live="polite"></div>
+        <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+      </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section id="feedback" class="page">
+      <div class="content-box">
+        <h2>💬 Feedback Pembelajaran</h2>
+        <p>Sampaikan pendapatmu tentang media pembelajaran ini. Feedback hanya ditampilkan pada halaman ini dan belum dikirim ke server.</p>
+        <form id="form-feedback">
+          <label for="nama-feedback">Nama (opsional)</label>
+          <input id="nama-feedback" type="text" placeholder="Nama siswa">
+          <label for="rating-feedback">Bagaimana materi ini?</label>
+          <select id="rating-feedback" required>
+            <option value="">Pilih penilaian</option>
+            <option>Sangat mudah dipahami</option>
+            <option>Mudah dipahami</option>
+            <option>Cukup dipahami</option>
+            <option>Masih membingungkan</option>
+          </select>
+          <label for="pesan-feedback">Saran atau komentar</label>
+          <textarea id="pesan-feedback" rows="4" placeholder="Tuliskan saranmu..."></textarea>
+          <button class="nav-back" type="submit">Tampilkan Feedback</button>
+        </form>
+        <p id="hasil-feedback" class="feedback" aria-live="polite"></p>
+        <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+      </div>
+    </section>
+  </main>
+
+  <footer><p>Media Pembelajaran Interaktif · Mari Membuat Web dengan HTML</p></footer>
+  <script src="script.js"></script>
 </body>
 </html>

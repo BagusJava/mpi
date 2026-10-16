@@ -1,0 +1,18 @@
+PETUNJUK VIDEO UNTUK DEPLOY GITHUB PAGES / VERCEL
+=================================================
+
+Website ini dirancang untuk hosting statis (HTML, CSS, JavaScript). Untuk versi online,
+TIDAK perlu menjalankan Python, jalankan.py, localhost, atau backend.
+
+1. Unggah index.html, style.css, script.js, README.md, dan .nojekyll ke root repository GitHub.
+2. GitHub Pages: Settings > Pages > Deploy from a branch > main > /(root).
+3. Vercel: impor repository > Framework Preset Other > kosongkan Build Command > Output Directory root (.) > Deploy.
+4. Buka situs melalui alamat HTTPS hasil deployment.
+5. Pilih Materi > pilih bab > tab Video > tekan Play pada pemutar.
+
+Jika embed tidak bisa diputar, klik tautan Buka video di YouTube. Kegagalan embed dapat
+terjadi bila video dibatasi pemiliknya, jaringan sekolah memblokir YouTube, ekstensi browser
+memblokir pemutar, atau browser tidak mengirimkan konteks referer yang diperlukan.
+
+VIDEO BAB 1-6: Tutorial HTML Dasar, Programmer Zaman Now (penanda waktu disesuaikan dengan daftar topik video).
+VIDEO BAB 7: Tutorial HTML Form, Programmer Zaman Now (mulai 1:16).
