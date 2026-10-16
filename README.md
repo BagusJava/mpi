@@ -1,44 +1,22 @@
-# Media Pembelajaran Interaktif: Mari Membuat Web dengan HTML
+# MPI: Mari Membuat Web dengan HTML
 
-Website ini menggunakan HTML, CSS, dan JavaScript murni. Tidak membutuhkan Node.js, framework, database, backend, atau build command untuk dipublikasikan sebagai situs statis.
+Media pembelajaran HTML untuk siswa SMK, menggunakan HTML, CSS, dan JavaScript murni.
 
-## Isi folder
+## Fitur
+- Beranda bertema gelap dan cyan neon dengan tujuh menu lingkaran serta logo HTML lebih besar.
+- Animasi cahaya cyan lembut pada logo (mengikuti preferensi reduced-motion sistem).
+- Materi Bab 1–7: uraian, video YouTube, dan latihan.
+- HTML Interactive Lab dengan tiga level: Pemula, Menengah, dan Expert.
+- Pratinjau kode langsung pada iframe terisolasi, pemeriksaan misi, petunjuk, XP, dan progres yang disimpan di browser.
 
-- `index.html` — halaman website dan video Bab 1–7
-- `style.css` — tema gelap dengan aksen cyan neon dan tata letak responsif
-- `script.js` — navigasi, tab materi, latihan, kuis, dan simulator HTML
-- `.nojekyll` — membantu GitHub Pages menyajikan file statis tanpa pemrosesan Jekyll
+## Jalankan lokal
+Buka `index.html` langsung, atau jalankan server statis sederhana jika browser membatasi media tertentu. Situs ini tidak membutuhkan build step.
 
-## Deploy ke GitHub Pages
+## Deploy GitHub Pages
+Unggah semua berkas statis ke root repository. Pada Settings → Pages, pilih branch `main` dan folder `/(root)`.
 
-1. Buat repository baru di GitHub.
-2. Unggah `index.html`, `style.css`, `script.js`, dan `.nojekyll` ke folder utama (root) repository.
-3. Buka **Settings → Pages**.
-4. Pada **Build and deployment**, pilih **Deploy from a branch**, pilih branch `main` dan folder `/(root)`, lalu simpan.
-5. Tunggu proses publikasi, lalu buka alamat GitHub Pages yang diberikan.
+## Deploy Vercel
+Impor repository. Pilih preset `Other`, kosongkan Build Command, dan gunakan root repository sebagai Output Directory. Klik Deploy.
 
-## Deploy ke Vercel
-
-1. Buat repository GitHub berisi file-file website ini.
-2. Di Vercel, pilih **Add New → Project**, lalu impor repository tersebut.
-3. Gunakan **Framework Preset: Other**.
-4. Untuk website HTML/CSS/JS statis, kosongkan **Build Command** dan gunakan root repository sebagai **Output Directory** (`.` jika Vercel meminta nilai eksplisit).
-5. Klik **Deploy**.
-
-Setiap push baru ke branch yang terhubung dapat memicu deployment baru.
-
-## Video YouTube
-
-- Bab 1: Pengenalan HTML — mulai 11:39
-- Bab 2: Kerangka HTML — mulai 26:33
-- Bab 3: Teks dan Heading — mulai 51:39
-- Bab 4: List HTML — mulai 1:26:48
-- Bab 5: Link dan Gambar — mulai 1:33:18; materi gambar tersedia lewat tautan langsung mulai 1:55:57
-- Bab 6: Tabel HTML — mulai 2:51:31
-- Bab 7: Form HTML — mulai dari pengenalan form (1:16) pada video khusus formulir
-
-Pemutar menyediakan tombol Play yang ditekan oleh pengguna. Autoplay dengan suara tidak dipaksakan karena umumnya dibatasi browser. Video memerlukan internet dan tetap bergantung pada izin embed YouTube serta kebijakan jaringan/browser. Bila tidak dapat diputar dalam halaman, gunakan tautan **Buka video di YouTube** di bawah pemutar.
-
-## Catatan
-
-Form Feedback saat ini hanya menampilkan tanggapan secara lokal dan belum mengirim/menyimpan data ke server. Nilai kuis dan simulator bekerja di browser.
+## Catatan simulator
+Kode latihan ditampilkan melalui iframe dengan atribut `sandbox` kosong. Script pada kode siswa tidak dieksekusi dan form di area pratinjau tidak diizinkan mengirim data. XP dan progres disimpan hanya di browser/perangkat siswa melalui `localStorage`, bukan ke server.

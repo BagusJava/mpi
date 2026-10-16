@@ -14,29 +14,32 @@
       <div class="beranda-container">
         <h1 class="sapaan">Halo, ayo belajar HTML!</h1>
 
-        <button class="menu-btn btn-sasaran" onclick="goTo('sasaran')">
-          <span aria-hidden="true">🎯</span><span>Sasaran</span>
+        <button class="menu-btn btn-sasaran" onclick="goTo('sasaran')" aria-label="Buka Sasaran">
+          <span class="menu-icon" aria-hidden="true">🎯</span><span class="menu-label">Sasaran</span>
         </button>
-        <button class="menu-btn btn-materi" onclick="goTo('materi')">
-          <span aria-hidden="true">📖</span><span>Materi</span>
+        <button class="menu-btn btn-materi" onclick="goTo('materi')" aria-label="Buka Materi">
+          <span class="menu-icon" aria-hidden="true">📖</span><span class="menu-label">Materi</span>
         </button>
-        <button class="menu-btn btn-tujuan" onclick="goTo('tujuan')">
-          <span aria-hidden="true">🏅</span><span>Tujuan</span>
+        <button class="menu-btn btn-tujuan" onclick="goTo('tujuan')" aria-label="Buka Tujuan">
+          <span class="menu-icon" aria-hidden="true">🏅</span><span class="menu-label">Tujuan</span>
         </button>
-        <button class="menu-btn btn-simulator" onclick="goTo('simulator')">
-          <span aria-hidden="true">🧪</span><span>Simulator</span>
+        <button class="menu-btn btn-simulator" onclick="goTo('simulator')" aria-label="Buka Simulator">
+          <span class="menu-icon" aria-hidden="true">🧪</span><span class="menu-label">Simulator</span>
         </button>
-        <button class="menu-btn btn-pemantik" onclick="goTo('pemantik')">
-          <span aria-hidden="true">💡</span><span>Pemantik</span>
+        <button class="menu-btn btn-pemantik" onclick="goTo('pemantik')" aria-label="Buka Pemantik">
+          <span class="menu-icon" aria-hidden="true">💡</span><span class="menu-label">Pemantik</span>
         </button>
-        <button class="menu-btn btn-kuis" onclick="goTo('kuis')">
-          <span aria-hidden="true">📋</span><span>Kuis</span>
+        <button class="menu-btn btn-kuis" onclick="goTo('kuis')" aria-label="Buka Kuis">
+          <span class="menu-icon" aria-hidden="true">📋</span><span class="menu-label">Kuis</span>
         </button>
 
-        <div class="center-circle" role="img" aria-label="Ikon web HTML">&lt;/&gt;</div>
+        <div class="center-circle" role="img" aria-label="Logo HTML" title="HTML Interactive Learning">
+          <span class="logo-code">&lt;/&gt;</span>
+          <span class="logo-caption">HTML LAB</span>
+        </div>
 
-        <button class="menu-btn btn-feedback" onclick="goTo('feedback')">
-          <span aria-hidden="true">💬</span><span>Feedback</span>
+        <button class="menu-btn btn-feedback" onclick="goTo('feedback')" aria-label="Buka Feedback">
+          <span class="menu-icon" aria-hidden="true">💬</span><span class="menu-label">Feedback</span>
         </button>
       </div>
     </section>
@@ -497,25 +500,75 @@
       </div>
     </section>
 
-    <!-- SIMULATOR -->
+    <!-- SIMULATOR: HTML INTERACTIVE LAB -->
     <section id="simulator" class="page">
-      <div class="content-box content-wide">
-        <h2>🧪 Simulator HTML Sederhana</h2>
-        <p>Ketik kode HTML pada kolom kiri, lalu tekan <strong>Tampilkan Hasil</strong> untuk melihat hasilnya. Hindari memasukkan kode yang tidak dikenal.</p>
-        <div class="simulator-grid">
+      <div class="content-box content-wide simulator-lab">
+        <div class="lab-heading">
           <div>
-            <label for="kode-editor">Kode HTML</label>
-            <textarea id="kode-editor" spellcheck="false"><h1>Halo, Dunia!</h1>
-<p>Saya sedang belajar HTML.</p>
-<ul><li>Tag</li><li>Elemen</li></ul></textarea>
-            <button class="nav-back" onclick="jalankanSimulator()">Tampilkan Hasil ▶</button>
-            <button class="nav-back" onclick="resetSimulator()">Reset</button>
+            <p class="lab-kicker">PRAKTIK • COBA • PERBAIKI</p>
+            <h2>🧪 HTML Interactive Lab</h2>
+            <p>Pilih level, selesaikan misi, jalankan kode, dan lihat hasilnya langsung. Setiap misi yang berhasil memberikan 100 XP.</p>
           </div>
-          <div>
-            <span class="preview-label">Pratinjau</span>
-            <iframe id="hasil-editor" title="Pratinjau hasil HTML" sandbox=""></iframe>
+          <div class="score-panel" aria-live="polite">
+            <span class="score-caption">TOTAL XP</span>
+            <strong id="simulator-xp">0</strong><span>/ 300 XP</span>
+            <div class="xp-track"><span id="simulator-xp-bar"></span></div>
+            <small id="simulator-progress-text">0 dari 3 misi selesai</small>
           </div>
         </div>
+
+        <div class="level-grid" role="group" aria-label="Pilih tingkat simulasi">
+          <button type="button" class="level-card active-level" data-level="pemula" onclick="pilihLevelSimulator('pemula')">
+            <span class="level-number">LEVEL 01</span><span class="level-emoji">🌱</span><strong>Pemula</strong>
+            <small>Tag dan struktur dasar</small><span class="level-status" id="status-pemula">TERBUKA</span>
+          </button>
+          <button type="button" class="level-card is-locked" data-level="menengah" onclick="pilihLevelSimulator('menengah')" aria-label="Level Menengah, terbuka setelah level Pemula selesai">
+            <span class="level-number">LEVEL 02</span><span class="level-emoji">⚡</span><strong>Menengah</strong>
+            <small>Gambar, tautan, dan tabel</small><span class="level-status" id="status-menengah">🔒 TERKUNCI</span>
+          </button>
+          <button type="button" class="level-card is-locked" data-level="expert" onclick="pilihLevelSimulator('expert')" aria-label="Level Expert, terbuka setelah level Menengah selesai">
+            <span class="level-number">LEVEL 03</span><span class="level-emoji">🚀</span><strong>Expert</strong>
+            <small>Formulir dan validasi</small><span class="level-status" id="status-expert">🔒 TERKUNCI</span>
+          </button>
+        </div>
+
+        <div class="mission-panel">
+          <div class="mission-header">
+            <div>
+              <span class="mission-label">MISI AKTIF</span>
+              <h3 id="simulator-mission-title">Misi 1 — Bangun halaman pertama</h3>
+            </div>
+            <span class="mission-reward">🏆 +100 XP</span>
+          </div>
+          <p id="simulator-mission-desc">Buat sebuah heading, paragraf, dan daftar berisi minimal dua item.</p>
+          <div class="mission-actions">
+            <button type="button" class="nav-back" onclick="togglePetunjukSimulator()">💡 Lihat Petunjuk</button>
+            <button type="button" class="nav-back" onclick="periksaMisiSimulator()">✅ Periksa Misi</button>
+          </div>
+          <p id="simulator-hint" class="simulator-hint" hidden aria-live="polite"></p>
+          <p id="simulator-mission-result" class="mission-result" aria-live="polite">Selesaikan kriteria misi untuk membuka level berikutnya.</p>
+        </div>
+
+        <div class="simulator-grid lab-workspace">
+          <div class="editor-panel">
+            <div class="panel-title"><label for="kode-editor">💻 Editor HTML</label><span>EDIT KODE</span></div>
+            <textarea id="kode-editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="editor-note"><h1>Halo, Dunia!</h1>
+<p>Saya sedang belajar HTML.</p>
+<!-- TODO: tambahkan daftar ul dengan minimal 2 item --></textarea>
+            <p id="editor-note" class="editor-note">Tulis HTML di sini. Pratinjau di kanan akan diperbarui otomatis.</p>
+            <div class="editor-actions">
+              <button type="button" class="nav-back primary-action" onclick="jalankanSimulator()">▶ Tampilkan Hasil</button>
+              <button type="button" class="nav-back" onclick="resetSimulator()">↺ Reset Kode</button>
+              <button type="button" class="nav-back reset-progress" onclick="resetProgresSimulator()">Reset Progres</button>
+            </div>
+          </div>
+          <div class="preview-panel">
+            <div class="panel-title"><span class="preview-label">🖥️ Pratinjau Langsung</span><span>HASIL HTML</span></div>
+            <iframe id="hasil-editor" title="Pratinjau hasil kode HTML" sandbox="" loading="eager"></iframe>
+            <p class="editor-note">Area pratinjau terisolasi. JavaScript dan pengiriman formulir dari kode latihan tidak diaktifkan.</p>
+          </div>
+        </div>
+        <div class="lab-footer-note"><span aria-hidden="true">✨</span> Tips: ubah kode sedikit demi sedikit, amati hasilnya, lalu periksa apakah semua kriteria misi sudah terpenuhi.</div>
         <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
       </div>
     </section>

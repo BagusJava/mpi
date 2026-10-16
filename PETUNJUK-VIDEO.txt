@@ -1,30 +1,15 @@
-PETUNJUK MEMUTAR VIDEO BAB 1-7
-==============================
+PETUNJUK MEDIA PEMBELAJARAN HTML
 
-1. Ekstrak seluruh isi ZIP ke satu folder.
-2. Pastikan komputer terhubung ke internet.
-3. Jangan membuka index.html dengan klik dua kali jika video YouTube tidak mau diputar.
-   YouTube dapat menolak embed tanpa konteks HTTP/Referer.
-4. Jalankan melalui server lokal:
+Deployment untuk GitHub Pages dan Vercel:
+- Pastikan index.html, style.css, script.js, README.md, dan .nojekyll berada di root repository.
+- GitHub Pages: Settings > Pages > Deploy from a branch > main > /(root).
+- Vercel: impor repository, preset Other, Build Command kosong, Output Directory root repository.
 
-   Windows:
-     - Pastikan Python 3 sudah terpasang.
-     - Buka folder website.
-     - Klik address bar File Explorer, ketik cmd, lalu Enter.
-     - Jalankan: py jalankan.py
-     - Jika perintah py tidak tersedia, coba: python jalankan.py
+Simulator interaktif:
+- Level Pemula: heading, paragraf, dan list.
+- Level Menengah terbuka setelah Pemula berhasil: gambar, tautan, dan tabel.
+- Level Expert terbuka setelah Menengah berhasil: form, label terhubung, email wajib, select, tombol submit.
+- Setiap level memberi 100 XP; progres tersimpan lokal di browser siswa.
+- Efek cahaya logo sengaja dibuat lembut, bukan kilatan cepat, dan dinonaktifkan/diringankan oleh preferensi reduced motion.
 
-   Fedora/Linux:
-     - Buka Terminal di folder website.
-     - Jalankan: python3 jalankan.py
-
-5. Browser akan dibuka ke http://127.0.0.1:8000/index.html.
-6. Klik Materi > pilih bab > tab Video, lalu klik tombol Play di pemutar.
-7. Jika video tetap diblokir, gunakan tautan "Buka video ini di YouTube" di bawah pemutar.
-   Pemutaran langsung dapat dipengaruhi oleh izin embed pemilik video, jaringan sekolah,
-   ekstensi pemblokir konten, dan pengaturan browser.
-
-VIDEO YANG DIPAKAI
-------------------
-Bab 1-6: Belajar HTML dasar - full lengkap (Belajar Coding), dengan titik mulai sesuai topik.
-Bab 7: Tutorial HTML Form (Bahasa Indonesia) - Programmer Zaman Now.
+Catatan video: pemutaran embed memerlukan internet dan izin penyematan dari pemilik video.
