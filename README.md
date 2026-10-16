@@ -8,12 +8,12 @@ Media pembelajaran HTML dasar untuk siswa SMK, dibuat dengan HTML, CSS, dan Java
 - Materi Bab 1–7, video pembelajaran, latihan, serta kuis akhir 25 soal pilihan ganda (masing-masing lima opsi) dengan form nama dan kelas.
 - Simulator dengan level Pemula, Menengah, dan Expert.
 - Level Pemula memiliki puzzle tempel tiga keping (Judul → Paragraf → Daftar), mendukung drag-and-drop dan interaksi ketuk di layar sentuh.
-- Editor HTML dengan pratinjau langsung dalam iframe terisolasi. JavaScript dan pengiriman formulir dari kode latihan tetap dinonaktifkan.
+- Editor HTML dengan pratinjau langsung pada kanvas Shadow DOM yang terisolasi dari CSS website. Tag script, atribut event (misalnya onclick), iframe, dan pengiriman formulir dari kode latihan tidak dijalankan.
 - XP dan progres simulator disimpan di `localStorage` browser. Data ini lokal pada perangkat/browser siswa dan tidak masuk ke database guru.
 - Kuis menampilkan hasil nilai dan tab Dashboard Hasil dengan statistik dan ranking Top 5, tersimpan lokal di browser yang digunakan. Ranking belum digabung lintas perangkat/siswa karena versi statis belum memakai backend/database.
 
 ## Menjalankan secara lokal
-Buka `index.html` di browser. Untuk pengujian iframe yang lebih konsisten, jalankan server statis sederhana dari folder ini, misalnya `python3 -m http.server 8000`, lalu buka `http://127.0.0.1:8000`.
+Buka `index.html` di browser atau jalankan server statis sederhana dari folder ini (`python3 -m http.server 8000`) lalu buka `http://127.0.0.1:8000`. Server lokal disarankan untuk menguji `localStorage` karena pembatasan browser dapat berbeda saat halaman dibuka lewat `file://`.
 
 ## Deploy ke GitHub Pages atau Vercel
 1. Unggah `index.html`, `style.css`, `script.js`, `.nojekyll`, dan README ke root repository GitHub.

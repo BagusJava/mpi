@@ -629,47 +629,147 @@ function periksaMisiSimulator() {
   jalankanSimulator();
 }
 
+// Sanitizer untuk pratinjau HTML. Render di Shadow DOM agar stylesheet website
+// tidak merusak hasil siswa; script, event handler, iframe, dan form submission dinonaktifkan.
+const previewAllowedTags = new Set([
+  "a", "abbr", "article", "aside", "b", "blockquote", "br", "button", "caption", "code", "dd", "del", "details", "dfn", "div", "dl", "dt", "em", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hr", "i", "img", "input", "ins", "kbd", "label", "legend", "li", "main", "mark", "ol", "optgroup", "option", "output", "p", "pre", "q", "s", "samp", "section", "select", "small", "span", "strong", "sub", "summary", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "time", "tr", "u", "ul", "var"
+]);
+const previewBlockedTags = new Set(["script", "iframe", "object", "embed", "applet", "base", "meta", "link", "style", "template", "noscript"]);
+const previewAllowedAttrs = new Set([
+  "id", "class", "title", "alt", "src", "href", "width", "height", "colspan", "rowspan", "scope", "type", "name", "value", "placeholder", "required", "checked", "selected", "for", "maxlength", "minlength", "min", "max", "step", "multiple", "disabled", "readonly", "autocomplete", "pattern", "rows", "cols", "size", "start", "reversed", "open", "datetime", "cite", "lang", "dir", "role"
+]);
+
+function urlPreviewAman(value) {
+  const trimmed = String(value || "").trim();
+  if (!trimmed || /^(javascript|vbscript|data|file):/i.test(trimmed)) return "";
+  return trimmed;
+}
+
+function nodePreviewAman(node) {
+  if (node.nodeType === Node.TEXT_NODE) return document.createTextNode(node.nodeValue || "");
+  if (node.nodeType !== Node.ELEMENT_NODE) return null;
+
+  const tag = node.tagName.toLowerCase();
+  if (previewBlockedTags.has(tag)) return null;
+
+  // Dokumen HTML penuh boleh ditempel; pembungkus html/head/body tidak diperlukan di kanvas.
+  if (["html", "head", "body", "title"].includes(tag)) {
+    const fragment = document.createDocumentFragment();
+    node.childNodes.forEach((child) => {
+      const safeChild = nodePreviewAman(child);
+      if (safeChild) fragment.appendChild(safeChild);
+    });
+    return fragment;
+  }
+
+  // Tag yang tidak dikenal diurai menjadi anak teks/elemen aman, bukan dieksekusi.
+  if (!previewAllowedTags.has(tag)) {
+    const fragment = document.createDocumentFragment();
+    node.childNodes.forEach((child) => {
+      const safeChild = nodePreviewAman(child);
+      if (safeChild) fragment.appendChild(safeChild);
+    });
+    return fragment;
+  }
+
+  const clean = document.createElement(tag);
+  Array.from(node.attributes).forEach((attribute) => {
+    const name = attribute.name.toLowerCase();
+    let value = attribute.value;
+    if (name.startsWith("on") || name === "style" || name === "srcdoc" || name === "action" || name === "formaction" || name === "formtarget" || name === "target" || name === "srcset") return;
+    if (!previewAllowedAttrs.has(name) && !name.startsWith("aria-") && !name.startsWith("data-")) return;
+    if (name === "href" || name === "src" || name === "cite") {
+      value = urlPreviewAman(value);
+      if (!value) return;
+    }
+    if (name === "type" && tag === "input" && !["text", "email", "number", "date", "radio", "checkbox", "password", "submit", "button", "reset", "tel", "url"].includes(value.toLowerCase())) return;
+    clean.setAttribute(name, value);
+  });
+
+  if (tag === "a" && clean.hasAttribute("href")) {
+    clean.setAttribute("target", "_blank");
+    clean.setAttribute("rel", "noopener noreferrer");
+  }
+
+  node.childNodes.forEach((child) => {
+    const safeChild = nodePreviewAman(child);
+    if (safeChild) clean.appendChild(safeChild);
+  });
+  return clean;
+}
+
+function siapkanKanvasPreview(preview) {
+  if (preview.shadowRoot) return preview.shadowRoot;
+  const shadow = preview.attachShadow({ mode: "open" });
+  const style = document.createElement("style");
+  style.textContent = `
+    :host { display:block; width:100%; height:100%; overflow:auto; background:#fff; color:#20242b; border-radius:6px; }
+    .preview-root { box-sizing:border-box; min-height:100%; padding:16px; margin:0; background:#fff; color:#20242b; font:16px/1.55 Arial,sans-serif; overflow-wrap:anywhere; }
+    h1,h2,h3,h4,h5,h6 { color:#15202b; line-height:1.25; margin:0.55em 0; }
+    p { margin:0.7em 0; }
+    img { max-width:100%; height:auto; }
+    table { border-collapse:collapse; max-width:100%; }
+    th,td { border:1px solid #89939f; padding:7px 10px; text-align:left; }
+    input,select,button,textarea { box-sizing:border-box; margin:5px 0; padding:6px; max-width:100%; font:inherit; }
+    label { display:block; margin-top:8px; }
+    ul,ol { padding-left:24px; }
+    a { color:#086b9a; }
+    pre,code { white-space:pre-wrap; overflow-wrap:anywhere; }
+    form { border:1px solid #cbd5e1; border-radius:6px; padding:12px; }
+  `;
+  const root = document.createElement("div");
+  root.className = "preview-root";
+  shadow.append(style, root);
+  shadow.addEventListener("submit", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+  return shadow;
+}
+
 function jalankanSimulator() {
   const editor = document.getElementById("kode-editor");
   const preview = document.getElementById("hasil-editor");
   if (!editor || !preview) return;
+
+  const shadow = siapkanKanvasPreview(preview);
+  const root = shadow.querySelector(".preview-root");
   const kode = editor.value || "";
-  const safeStyle = `
-    html { background:#fff; min-height:100%; }
-    body { font-family:Arial,sans-serif; padding:16px; margin:0; color:#20242b; line-height:1.55; overflow-wrap:anywhere; }
-    h1,h2,h3,h4 { color:#15202b; }
-    img { max-width:100%; height:auto; }
-    table { border-collapse:collapse; max-width:100%; }
-    th,td { border:1px solid #89939f; padding:7px 10px; }
-    input,select,button,textarea { margin:5px 0; padding:6px; max-width:100%; }
-    label { display:block; margin-top:8px; }
-    ul,ol { padding-left:24px; }
-    a { color:#086b9a; }
-  `;
-  const placeholder = '<p style="color:#64748b">Mulai ketik HTML untuk melihat hasilnya.</p>';
-  let bodyContent = placeholder;
-  if (kode.trim()) {
+  root.replaceChildren();
+
+  if (!kode.trim()) {
+    const placeholder = document.createElement("p");
+    placeholder.textContent = "Mulai ketik HTML untuk melihat hasilnya.";
+    placeholder.style.color = "#64748b";
+    root.appendChild(placeholder);
+  } else {
     try {
-      // DOMParser menangani potongan HTML maupun dokumen lengkap secara konsisten.
       const parsed = new DOMParser().parseFromString(kode, "text/html");
-      bodyContent = parsed.body ? parsed.body.innerHTML : kode;
-      if (!bodyContent.trim()) bodyContent = placeholder;
+      parsed.body.childNodes.forEach((node) => {
+        const safeNode = nodePreviewAman(node);
+        if (safeNode) root.appendChild(safeNode);
+      });
+      if (!root.childNodes.length) {
+        const placeholder = document.createElement("p");
+        placeholder.textContent = "Kode berhasil dibaca, tetapi belum ada elemen yang dapat ditampilkan.";
+        placeholder.style.color = "#64748b";
+        root.appendChild(placeholder);
+      }
     } catch (error) {
-      bodyContent = kode;
+      const message = document.createElement("p");
+      message.textContent = "Pratinjau belum dapat dibuat. Periksa kembali susunan HTML.";
+      message.style.color = "#b91c1c";
+      root.appendChild(message);
+      console.error("Gagal merender pratinjau HTML:", error);
     }
   }
-  const documentHtml = `<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${safeStyle}</style></head><body>${bodyContent}</body></html>`;
-  // srcdoc renders reliably on static hosting (GitHub Pages/Vercel). Empty sandbox blocks script execution.
-  preview.setAttribute("sandbox", "");
-  preview.setAttribute("referrerpolicy", "no-referrer");
-  preview.removeAttribute("src");
-  preview.setAttribute("srcdoc", documentHtml);
-  preview.srcdoc = documentHtml;
+
   if (simActiveLevel) {
     simProgress.code[simActiveLevel] = kode;
     simpanProgresSimulator();
   }
 }
+
 function resetSimulator() {
   const editor = document.getElementById("kode-editor");
   if (!editor) return;
