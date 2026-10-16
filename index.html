@@ -33,9 +33,40 @@
           <span class="menu-icon" aria-hidden="true">📋</span><span class="menu-label">Kuis</span>
         </button>
 
-        <div class="center-circle" role="img" aria-label="Logo HTML" title="HTML Interactive Learning">
-          <span class="logo-code">&lt;/&gt;</span>
-          <span class="logo-caption">HTML LAB</span>
+        <svg class="lighting-network" viewBox="0 0 1120 820" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <filter id="cyan-light-glow" x="-60%" y="-60%" width="220%" height="220%">
+              <feGaussianBlur stdDeviation="4" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <linearGradient id="cyan-light-line" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity=".2" />
+              <stop offset="55%" stop-color="#a6fbff" stop-opacity="1" />
+              <stop offset="100%" stop-color="#00e5ff" stop-opacity=".25" />
+            </linearGradient>
+          </defs>
+          <g class="lightning-glow" filter="url(#cyan-light-glow)">
+            <path d="M483 332 L466 316 L447 305 L433 285 L414 273 L396 263" />
+            <path d="M637 332 L654 316 L673 305 L687 285 L706 273 L724 263" />
+            <path d="M451 410 L429 405 L407 413 L384 407 L360 411 L334 410" />
+            <path d="M669 410 L691 405 L713 413 L736 407 L760 411 L786 410" />
+            <path d="M483 488 L464 507 L448 518 L430 530 L413 537 L396 547" />
+            <path d="M637 488 L656 507 L672 518 L690 530 L707 537 L724 547" />
+            <path d="M560 519 L554 545 L566 568 L557 594 L565 623 L560 704" />
+          </g>
+          <g class="lightning-core">
+            <path d="M483 332 L466 316 L447 305 L433 285 L414 273 L396 263" />
+            <path d="M637 332 L654 316 L673 305 L687 285 L706 273 L724 263" />
+            <path d="M451 410 L429 405 L407 413 L384 407 L360 411 L334 410" />
+            <path d="M669 410 L691 405 L713 413 L736 407 L760 411 L786 410" />
+            <path d="M483 488 L464 507 L448 518 L430 530 L413 537 L396 547" />
+            <path d="M637 488 L656 507 L672 518 L690 530 L707 537 L724 547" />
+            <path d="M560 519 L554 545 L566 568 L557 594 L565 623 L560 704" />
+          </g>
+        </svg>
+
+        <div class="center-circle" role="img" aria-label="HTML" title="HTML Interactive Learning">
+          <span class="logo-code">HTML</span>
         </div>
 
         <button class="menu-btn btn-feedback" onclick="goTo('feedback')" aria-label="Buka Feedback">
@@ -549,13 +580,46 @@
           <p id="simulator-mission-result" class="mission-result" aria-live="polite">Selesaikan kriteria misi untuk membuka level berikutnya.</p>
         </div>
 
+        <section id="puzzle-panel" class="puzzle-panel" aria-labelledby="puzzle-title">
+          <div class="puzzle-heading">
+            <div>
+              <span class="mission-label">MODE PEMULA</span>
+              <h3 id="puzzle-title">🧩 Puzzle Tempel HTML</h3>
+              <p>Seret potongan kode ke kotak urutan yang benar. Di ponsel, sentuh potongan lalu sentuh kotak tujuan.</p>
+            </div>
+            <span class="puzzle-mini-badge">3 keping</span>
+          </div>
+          <div class="puzzle-board">
+            <div class="puzzle-slots" id="puzzle-slots" aria-label="Kotak susunan kode">
+              <button type="button" class="puzzle-slot" data-slot="0" aria-label="Kotak urutan 1">
+                <span class="slot-number">01</span><span class="slot-message">Tempel bagian judul di sini</span>
+              </button>
+              <button type="button" class="puzzle-slot" data-slot="1" aria-label="Kotak urutan 2">
+                <span class="slot-number">02</span><span class="slot-message">Tempel bagian paragraf di sini</span>
+              </button>
+              <button type="button" class="puzzle-slot" data-slot="2" aria-label="Kotak urutan 3">
+                <span class="slot-number">03</span><span class="slot-message">Tempel bagian daftar di sini</span>
+              </button>
+            </div>
+            <div class="puzzle-bank-wrap">
+              <span class="puzzle-bank-label">POTONGAN KODE</span>
+              <div class="puzzle-bank" id="puzzle-bank" aria-label="Potongan kode yang bisa dipilih"></div>
+            </div>
+          </div>
+          <div class="puzzle-actions">
+            <button type="button" class="nav-back primary-action" onclick="cekPuzzlePemula()">✅ Periksa Susunan</button>
+            <button type="button" class="nav-back" onclick="resetPuzzlePemula()">↺ Ulangi Puzzle</button>
+          </div>
+          <p id="puzzle-feedback" class="puzzle-feedback" aria-live="polite">Mulai dengan menempelkan judul, lalu paragraf, lalu daftar.</p>
+        </section>
+
         <div class="simulator-grid lab-workspace">
           <div class="editor-panel">
             <div class="panel-title"><label for="kode-editor">💻 Editor HTML</label><span>EDIT KODE</span></div>
             <textarea id="kode-editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-describedby="editor-note"><h1>Halo, Dunia!</h1>
 <p>Saya sedang belajar HTML.</p>
 <!-- TODO: tambahkan daftar ul dengan minimal 2 item --></textarea>
-            <p id="editor-note" class="editor-note">Tulis HTML di sini. Pratinjau di kanan akan diperbarui otomatis.</p>
+            <p id="editor-note" class="editor-note">Susun puzzle di atas atau edit HTML di sini. Hasil akan tampil otomatis di kanan.</p>
             <div class="editor-actions">
               <button type="button" class="nav-back primary-action" onclick="jalankanSimulator()">▶ Tampilkan Hasil</button>
               <button type="button" class="nav-back" onclick="resetSimulator()">↺ Reset Kode</button>
@@ -564,8 +628,8 @@
           </div>
           <div class="preview-panel">
             <div class="panel-title"><span class="preview-label">🖥️ Pratinjau Langsung</span><span>HASIL HTML</span></div>
-            <iframe id="hasil-editor" title="Pratinjau hasil kode HTML" sandbox="" loading="eager"></iframe>
-            <p class="editor-note">Area pratinjau terisolasi. JavaScript dan pengiriman formulir dari kode latihan tidak diaktifkan.</p>
+            <iframe id="hasil-editor" title="Pratinjau hasil kode HTML" sandbox="allow-same-origin" loading="eager" referrerpolicy="no-referrer" srcdoc="&lt;!doctype html&gt;&lt;html lang='id'&gt;&lt;head&gt;&lt;meta charset='UTF-8'&gt;&lt;/head&gt;&lt;body style='font-family:Arial,sans-serif;padding:16px;color:#20242b;line-height:1.55'&gt;&lt;h1&gt;Halo, Dunia!&lt;/h1&gt;&lt;p&gt;Hasil HTML akan tampil di sini.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+            <p class="editor-note">Pratinjau aman: HTML tampil langsung, sementara JavaScript dan pengiriman formulir dinonaktifkan.</p>
           </div>
         </div>
         <div class="lab-footer-note"><span aria-hidden="true">✨</span> Tips: ubah kode sedikit demi sedikit, amati hasilnya, lalu periksa apakah semua kriteria misi sudah terpenuhi.</div>

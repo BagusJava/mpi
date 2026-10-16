@@ -1,22 +1,26 @@
-# MPI: Mari Membuat Web dengan HTML
+# MPI — HTML Interactive Lab
 
-Media pembelajaran HTML untuk siswa SMK, menggunakan HTML, CSS, dan JavaScript murni.
+Media pembelajaran HTML dasar untuk siswa SMK, dibuat dengan HTML, CSS, dan JavaScript murni.
 
 ## Fitur
-- Beranda bertema gelap dan cyan neon dengan tujuh menu lingkaran serta logo HTML lebih besar.
-- Animasi cahaya cyan lembut pada logo (mengikuti preferensi reduced-motion sistem).
-- Materi Bab 1–7: uraian, video YouTube, dan latihan.
-- HTML Interactive Lab dengan tiga level: Pemula, Menengah, dan Expert.
-- Pratinjau kode langsung pada iframe terisolasi, pemeriksaan misi, petunjuk, XP, dan progres yang disimpan di browser.
+- Beranda tema gelap dan cyan neon dengan logo HTML besar, efek kedip lembut, dan tujuh menu lingkaran.
+- Kilatan cahaya animatif dari logo ke menu untuk tampilan desktop; animasi dinonaktifkan jika perangkat memilih `prefers-reduced-motion`.
+- Materi Bab 1–7, video pembelajaran, latihan, dan kuis.
+- Simulator dengan level Pemula, Menengah, dan Expert.
+- Level Pemula memiliki puzzle tempel tiga keping (Judul → Paragraf → Daftar), mendukung drag-and-drop dan interaksi ketuk di layar sentuh.
+- Editor HTML dengan pratinjau langsung dalam iframe terisolasi. JavaScript dan pengiriman formulir dari kode latihan tetap dinonaktifkan.
+- XP dan progres simulator disimpan di `localStorage` browser. Data ini lokal pada perangkat/browser siswa dan tidak masuk ke database guru.
 
-## Jalankan lokal
-Buka `index.html` langsung, atau jalankan server statis sederhana jika browser membatasi media tertentu. Situs ini tidak membutuhkan build step.
+## Menjalankan secara lokal
+Buka `index.html` di browser. Untuk pengujian iframe yang lebih konsisten, jalankan server statis sederhana dari folder ini, misalnya `python3 -m http.server 8000`, lalu buka `http://127.0.0.1:8000`.
 
-## Deploy GitHub Pages
-Unggah semua berkas statis ke root repository. Pada Settings → Pages, pilih branch `main` dan folder `/(root)`.
+## Deploy ke GitHub Pages atau Vercel
+1. Unggah `index.html`, `style.css`, `script.js`, `.nojekyll`, dan README ke root repository GitHub.
+2. GitHub Pages: buka **Settings → Pages**, pilih branch `main` dan folder root.
+3. Vercel: impor repository, pilih preset **Other**, tanpa build command; root repository menjadi output directory.
+4. Setelah deploy, tes menu Simulator, susun puzzle Pemula, tekan **Periksa Susunan**, dan pastikan judul/paragraf/daftar muncul di panel Pratinjau.
 
-## Deploy Vercel
-Impor repository. Pilih preset `Other`, kosongkan Build Command, dan gunakan root repository sebagai Output Directory. Klik Deploy.
-
-## Catatan simulator
-Kode latihan ditampilkan melalui iframe dengan atribut `sandbox` kosong. Script pada kode siswa tidak dieksekusi dan form di area pratinjau tidak diizinkan mengirim data. XP dan progres disimpan hanya di browser/perangkat siswa melalui `localStorage`, bukan ke server.
+## Catatan
+- Video YouTube memerlukan internet dan izin embed dari pemilik video.
+- Feedback belum dikirim ke server.
+- Untuk merekap XP/nilai seluruh siswa dari sisi guru, tambahkan backend atau layanan database.

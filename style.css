@@ -255,3 +255,160 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Energi neon dari logo pusat menuju tujuh menu */
+.lighting-network {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.lighting-network path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.lightning-glow path {
+  stroke: var(--neon-tosca);
+  stroke-width: 5.5;
+  opacity: .38;
+  stroke-dasharray: 7 13;
+  animation: lightning-flow 1.6s linear infinite, lightning-flicker 2.4s steps(1, end) infinite;
+}
+.lightning-core path {
+  stroke: url(#cyan-light-line);
+  stroke-width: 1.8;
+  opacity: .78;
+  stroke-dasharray: 10 15;
+  animation: lightning-flow 1.8s linear infinite reverse, lightning-flicker 2.9s steps(1, end) infinite;
+}
+.lightning-core path:nth-child(2n), .lightning-glow path:nth-child(2n) { animation-delay: -.6s, -.4s; }
+.lightning-core path:nth-child(3n), .lightning-glow path:nth-child(3n) { animation-delay: -1.1s, -1s; }
+@keyframes lightning-flow { to { stroke-dashoffset: -100; } }
+@keyframes lightning-flicker {
+  0%, 13%, 17%, 48%, 52%, 100% { opacity: .65; }
+  14%, 16%, 50% { opacity: 1; }
+  15%, 49% { opacity: .22; }
+}
+.center-circle {
+  z-index: 1;
+  width: clamp(218px, 21vw, 242px);
+  height: clamp(218px, 21vw, 242px);
+  border-width: 5px;
+  animation: html-core-strobe 1.75s steps(1, end) infinite;
+}
+.logo-code {
+  font-size: clamp(66px, 7vw, 88px);
+  letter-spacing: 1px;
+  font-weight: 900;
+  line-height: 1;
+  transform: scaleX(1.02);
+  text-shadow: 0 0 7px rgba(0,229,255,.8), 0 0 19px rgba(0,229,255,.55), 0 0 36px rgba(0,229,255,.3);
+  animation: html-text-flicker 1.2s steps(1, end) infinite;
+}
+.logo-caption { display: none !important; }
+@keyframes html-core-strobe {
+  0%, 100% { filter: brightness(.95); box-shadow: 0 0 18px rgba(0,229,255,.3), inset 0 0 22px rgba(0,229,255,.1); }
+  17% { filter: brightness(1.16); box-shadow: 0 0 32px rgba(0,229,255,.62), inset 0 0 25px rgba(0,229,255,.18); }
+  20% { filter: brightness(.9); box-shadow: 0 0 12px rgba(0,229,255,.2), inset 0 0 18px rgba(0,229,255,.08); }
+  23% { filter: brightness(1.3); box-shadow: 0 0 42px rgba(0,229,255,.75), inset 0 0 28px rgba(0,229,255,.2); }
+  26% { filter: brightness(1); }
+  57% { filter: brightness(1.2); box-shadow: 0 0 33px rgba(0,229,255,.58), inset 0 0 24px rgba(0,229,255,.16); }
+  61% { filter: brightness(.96); }
+}
+@keyframes html-text-flicker {
+  0%, 100% { opacity: 1; filter: brightness(1.08); }
+  13% { opacity: .88; filter: brightness(.9); }
+  14% { opacity: 1; filter: brightness(1.5); }
+  15% { opacity: .9; }
+  17% { opacity: 1; filter: brightness(1.25); }
+  44% { opacity: 1; }
+  45% { opacity: .75; }
+  46% { opacity: 1; filter: brightness(1.55); }
+  47% { opacity: 1; }
+}
+.menu-btn { overflow: visible; }
+.menu-btn:hover, .menu-btn:focus-visible {
+  animation: menu-ring-strobe .72s steps(1, end) infinite;
+  background: rgba(0,229,255,.17);
+  color: #fff;
+  border-color: #b7faff;
+}
+.menu-btn:hover .menu-icon, .menu-btn:focus-visible .menu-icon {
+  filter: drop-shadow(0 0 6px rgba(0,229,255,.95));
+  animation: menu-icon-flicker .45s steps(1, end) infinite;
+}
+@keyframes menu-ring-strobe {
+  0%, 100% { box-shadow: 0 0 12px rgba(0,229,255,.28), inset 0 0 12px rgba(0,229,255,.06); }
+  35% { box-shadow: 0 0 28px rgba(0,229,255,.85), inset 0 0 20px rgba(0,229,255,.24); }
+  39% { box-shadow: 0 0 9px rgba(0,229,255,.18), inset 0 0 5px rgba(0,229,255,.03); }
+  43% { box-shadow: 0 0 30px rgba(0,229,255,.9), inset 0 0 22px rgba(0,229,255,.2); }
+  48% { box-shadow: 0 0 15px rgba(0,229,255,.32), inset 0 0 8px rgba(0,229,255,.06); }
+}
+@keyframes menu-icon-flicker { 0%,100% { opacity: 1; } 48% { opacity: .65; } 52% { opacity: 1; } }
+
+/* Puzzle tempel potongan HTML */
+.puzzle-panel {
+  padding: 19px;
+  border: 1px solid rgba(0,229,255,.35);
+  border-radius: 12px;
+  margin: 0 0 18px;
+  background: linear-gradient(145deg, rgba(0,229,255,.055), rgba(0,0,0,.13));
+  box-shadow: inset 0 0 18px rgba(0,229,255,.025);
+}
+.puzzle-panel[hidden] { display: none !important; }
+.puzzle-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.puzzle-heading h3 { margin: 4px 0; }
+.puzzle-heading p { color: var(--muted); margin: 8px 0 14px; }
+.puzzle-mini-badge { color: var(--neon-tosca); border: 1px solid rgba(0,229,255,.3); padding: 5px 10px; border-radius: 999px; font-size: .77rem; white-space: nowrap; }
+.puzzle-board { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 14px; }
+.puzzle-slots { display: grid; gap: 8px; align-content: start; }
+.puzzle-slot {
+  display: flex; align-items: center; gap: 10px; min-height: 66px; width: 100%; padding: 9px 11px;
+  border: 1px dashed rgba(0,229,255,.5); border-radius: 9px; text-align: left;
+  color: var(--text-color); background: rgba(0,0,0,.17); transition: border-color .18s, background .18s, box-shadow .18s;
+}
+.puzzle-slot.drag-over, .puzzle-slot:hover { border-color: var(--neon-tosca); background: rgba(0,229,255,.08); box-shadow: 0 0 12px rgba(0,229,255,.09); }
+.puzzle-slot.is-filled { border-style: solid; border-color: rgba(0,229,255,.58); background: rgba(0,229,255,.07); }
+.slot-number { display: grid; place-items: center; flex: 0 0 30px; height: 30px; border: 1px solid rgba(0,229,255,.4); border-radius: 50%; color: var(--neon-tosca); font-size: .68rem; font-weight: 800; }
+.slot-message { color: var(--muted); font-size: .84rem; }
+.puzzle-slot code { color: #a9ffb5; white-space: pre-wrap; overflow-wrap: anywhere; font: 12px/1.5 Consolas, monospace; }
+.puzzle-bank-wrap { padding: 12px; border-radius: 9px; border: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.12); }
+.puzzle-bank-label { display: block; color: var(--muted); font-size: .68rem; font-weight: 800; letter-spacing: 1.3px; margin-bottom: 10px; }
+.puzzle-bank { display: flex; flex-wrap: wrap; gap: 9px; align-content: start; }
+.puzzle-piece {
+  cursor: grab; user-select: none; touch-action: manipulation; padding: 11px 12px; border-radius: 9px;
+  border: 1px solid rgba(0,229,255,.44); background: #10252b; color: #d8fbff;
+  text-align: left; transition: transform .18s, box-shadow .18s, border-color .18s; max-width: 100%;
+}
+.puzzle-piece:active { cursor: grabbing; }
+.puzzle-piece:hover, .puzzle-piece.is-selected { border-color: #a6fbff; box-shadow: 0 0 16px rgba(0,229,255,.25); transform: translateY(-1px); }
+.puzzle-piece code { display: block; color: #a9ffb5; font: 12px/1.5 Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.puzzle-piece small { display: block; margin-top: 5px; color: var(--muted); font-size: .72rem; }
+.puzzle-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
+.puzzle-actions .nav-back { margin: 0; }
+.puzzle-actions .primary-action { background: var(--neon-tosca); color: #071018; font-weight: 800; }
+.puzzle-feedback { margin: 10px 0 0; min-height: 1.5em; font-size: .9rem; color: var(--muted); }
+.puzzle-feedback.success { color: var(--success); }
+.puzzle-feedback.error { color: #ffaaaa; }
+@media (max-width: 760px) {
+  /* Jalur kilat desktop disembunyikan agar tidak meleset dari posisi menu di layar sempit. */
+  .lighting-network { display: none; }
+  .center-circle { width: 158px; height: 158px; }
+  .logo-code { font-size: 57px; }
+  .puzzle-board { grid-template-columns: 1fr; }
+  .puzzle-bank { display: grid; grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .center-circle { width: 132px; height: 132px; }
+  .logo-code { font-size: 44px; letter-spacing: 0; }
+  .puzzle-panel { padding: 13px; }
+  .puzzle-slot { min-height: 60px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightning-glow path, .lightning-core path, .center-circle, .logo-code, .menu-btn:hover, .menu-btn:focus-visible, .menu-btn:hover .menu-icon { animation: none !important; }
+}

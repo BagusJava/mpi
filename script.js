@@ -139,6 +139,158 @@ const simMissions = {
   }
 };
 
+
+// Puzzle tempel untuk level Pemula; mendukung drag-drop desktop dan tap di layar sentuh.
+const puzzlePieces = {
+  heading: { label: "Judul", code: "<h1>Halo, Dunia!</h1>" },
+  paragraph: { label: "Paragraf", code: "<p>Saya sedang belajar HTML.</p>" },
+  list: { label: "Daftar", code: "<ul>\\n  <li>Belajar tag</li>\\n  <li>Berlatih HTML</li>\\n</ul>".replaceAll("\\n", "\n") }
+};
+const puzzleDisplayOrder = ["list", "paragraph", "heading"];
+const puzzleCorrectOrder = ["heading", "paragraph", "list"];
+let puzzleSlots = [null, null, null];
+let puzzleSelectedPiece = null;
+
+function renderPuzzle() {
+  const bank = document.getElementById("puzzle-bank");
+  const slots = document.querySelectorAll(".puzzle-slot");
+  if (!bank || slots.length !== 3) return;
+
+  bank.replaceChildren();
+  puzzleDisplayOrder.forEach((id) => {
+    if (puzzleSlots.includes(id)) return;
+    const piece = puzzlePieces[id];
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `puzzle-piece${puzzleSelectedPiece === id ? " is-selected" : ""}`;
+    button.draggable = true;
+    button.dataset.piece = id;
+    button.setAttribute("aria-pressed", String(puzzleSelectedPiece === id));
+    const label = document.createElement("strong");
+    label.textContent = piece.label;
+    const code = document.createElement("code");
+    code.textContent = piece.code;
+    const action = document.createElement("small");
+    action.textContent = "Seret atau ketuk";
+    button.append(label, code, action);
+    button.addEventListener("click", () => {
+      puzzleSelectedPiece = puzzleSelectedPiece === id ? null : id;
+      renderPuzzle();
+      const feedback = document.getElementById("puzzle-feedback");
+      if (feedback) {
+        feedback.className = "puzzle-feedback";
+        feedback.textContent = puzzleSelectedPiece ? `Potongan “${puzzlePieces[id].label}” dipilih. Sekarang ketuk kotak urutannya.` : "Pilihan dibatalkan.";
+      }
+    });
+    button.addEventListener("dragstart", (event) => {
+      puzzleSelectedPiece = id;
+      event.dataTransfer.setData("text/plain", id);
+      event.dataTransfer.effectAllowed = "move";
+    });
+    bank.appendChild(button);
+  });
+
+  slots.forEach((slot, index) => {
+    slot.replaceChildren();
+    const number = document.createElement("span");
+    number.className = "slot-number";
+    number.textContent = String(index + 1).padStart(2, "0");
+    slot.appendChild(number);
+    slot.classList.toggle("is-filled", Boolean(puzzleSlots[index]));
+    slot.classList.remove("drag-over");
+    if (puzzleSlots[index]) {
+      const code = document.createElement("code");
+      code.textContent = puzzlePieces[puzzleSlots[index]].code;
+      slot.appendChild(code);
+      slot.setAttribute("aria-label", `Kotak urutan ${index + 1}: ${puzzlePieces[puzzleSlots[index]].label}. Ketuk untuk mengosongkan.`);
+    } else {
+      const message = document.createElement("span");
+      message.className = "slot-message";
+      message.textContent = ["Tempel bagian judul di sini", "Tempel bagian paragraf di sini", "Tempel bagian daftar di sini"][index];
+      slot.appendChild(message);
+      slot.setAttribute("aria-label", `Kotak urutan ${index + 1}, masih kosong`);
+    }
+  });
+}
+
+function tempatkanPuzzle(index, pieceId = puzzleSelectedPiece) {
+  const feedback = document.getElementById("puzzle-feedback");
+  if (!pieceId) {
+    if (puzzleSlots[index]) {
+      puzzleSlots[index] = null;
+      puzzleSelectedPiece = null;
+      renderPuzzle();
+      if (feedback) {
+        feedback.className = "puzzle-feedback";
+        feedback.textContent = "Potongan dikembalikan ke tempat potongan kode.";
+      }
+    } else if (feedback) {
+      feedback.className = "puzzle-feedback";
+      feedback.textContent = "Pilih satu potongan kode dahulu, lalu pilih kotak tujuan.";
+    }
+    return;
+  }
+  const oldIndex = puzzleSlots.indexOf(pieceId);
+  if (oldIndex >= 0) puzzleSlots[oldIndex] = null;
+  // Jika kotak tujuan sudah berisi, potongan lamanya dikembalikan otomatis ke bank.
+  puzzleSlots[index] = pieceId;
+  puzzleSelectedPiece = null;
+  renderPuzzle();
+  if (feedback) {
+    feedback.className = "puzzle-feedback";
+    feedback.textContent = `Potongan “${puzzlePieces[pieceId].label}” ditempel pada urutan ${index + 1}.`;
+  }
+}
+
+function bindPuzzleEvents() {
+  document.querySelectorAll(".puzzle-slot").forEach((slot) => {
+    slot.addEventListener("click", () => tempatkanPuzzle(Number(slot.dataset.slot)));
+    slot.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      slot.classList.add("drag-over");
+      event.dataTransfer.dropEffect = "move";
+    });
+    slot.addEventListener("dragleave", () => slot.classList.remove("drag-over"));
+    slot.addEventListener("drop", (event) => {
+      event.preventDefault();
+      slot.classList.remove("drag-over");
+      const id = event.dataTransfer.getData("text/plain") || puzzleSelectedPiece;
+      if (puzzlePieces[id]) tempatkanPuzzle(Number(slot.dataset.slot), id);
+    });
+  });
+}
+
+function cekPuzzlePemula() {
+  const feedback = document.getElementById("puzzle-feedback");
+  if (puzzleSlots.some((id) => !id)) {
+    feedback.className = "puzzle-feedback error";
+    feedback.textContent = "Belum lengkap. Tempelkan ketiga potongan ke kotak yang tersedia.";
+    return;
+  }
+  if (!puzzleSlots.every((id, index) => id === puzzleCorrectOrder[index])) {
+    feedback.className = "puzzle-feedback error";
+    feedback.textContent = "Belum tepat. Urutkan: Judul → Paragraf → Daftar. Ketuk kotak yang keliru untuk memindahkan potongan.";
+    return;
+  }
+  const editor = document.getElementById("kode-editor");
+  editor.value = puzzleCorrectOrder.map((id) => puzzlePieces[id].code).join("\n");
+  jalankanSimulator();
+  feedback.className = "puzzle-feedback success";
+  feedback.textContent = "Hebat! Puzzle benar. Kode sudah ditempel ke editor dan hasilnya tampil di pratinjau. Kamu juga bisa memperoleh XP dari misi Pemula.";
+  periksaMisiSimulator();
+}
+
+function resetPuzzlePemula() {
+  puzzleSlots = [null, null, null];
+  puzzleSelectedPiece = null;
+  renderPuzzle();
+  const feedback = document.getElementById("puzzle-feedback");
+  if (feedback) {
+    feedback.className = "puzzle-feedback";
+    feedback.textContent = "Puzzle diulang. Tempelkan judul, paragraf, lalu daftar.";
+  }
+}
+
 const simStorageKey = "mpiHtmlInteractiveLab_v1";
 let simActiveLevel = "pemula";
 let simProgress = { completed: { pemula: false, menengah: false, expert: false }, code: {} };
@@ -210,6 +362,8 @@ function pilihLevelSimulator(level) {
   const editor = document.getElementById("kode-editor");
   if (editor && simActiveLevel) simProgress.code[simActiveLevel] = editor.value;
   simActiveLevel = level;
+  const puzzlePanel = document.getElementById("puzzle-panel");
+  if (puzzlePanel) puzzlePanel.hidden = level !== "pemula";
   const mission = simMissions[level];
   document.getElementById("simulator-mission-title").textContent = mission.title;
   document.getElementById("simulator-mission-desc").textContent = mission.description;
@@ -222,6 +376,7 @@ function pilihLevelSimulator(level) {
     result.textContent = "Selesaikan kriteria misi untuk mendapatkan 100 XP.";
   }
   editor.value = typeof simProgress.code[level] === "string" ? simProgress.code[level] : mission.starter;
+  if (level === "pemula") renderPuzzle();
   renderProgresSimulator();
   jalankanSimulator();
 }
@@ -270,11 +425,30 @@ function jalankanSimulator() {
   const preview = document.getElementById("hasil-editor");
   if (!editor || !preview) return;
   const kode = editor.value;
-  const safeStyle = "body{font-family:Arial,sans-serif;padding:16px;color:#20242b;line-height:1.55}img{max-width:100%;height:auto}table{border-collapse:collapse}th,td{border:1px solid #89939f;padding:7px 10px}input,select,button{margin:5px 0;padding:6px}label{display:block;margin-top:8px}";
-  // Sandbox kosong: JavaScript, form submission dan akses ke halaman induk tetap dibatasi.
-  preview.srcdoc = `<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${safeStyle}</style></head><body>${kode}</body></html>`;
-  if (simActiveLevel) simProgress.code[simActiveLevel] = kode;
-  simpanProgresSimulator();
+  const safeStyle = "html{background:#fff}body{font-family:Arial,sans-serif;padding:16px;margin:0;color:#20242b;line-height:1.55;overflow-wrap:anywhere}h1,h2,h3{color:#15202b}img{max-width:100%;height:auto}table{border-collapse:collapse;max-width:100%}th,td{border:1px solid #89939f;padding:7px 10px}input,select,button,textarea{margin:5px 0;padding:6px;max-width:100%}label{display:block;margin-top:8px}ul,ol{padding-left:24px}";
+  // srcdoc menampilkan HTML secara terisolasi. Tidak ada allow-scripts atau allow-forms.
+  const documentHtml = `<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${safeStyle}</style></head><body>${kode || '<p style="color:#64748b">Mulai ketik HTML untuk melihat hasilnya.</p>'}</body></html>`;
+  try {
+    // Script dan form tetap dilarang. allow-same-origin hanya memungkinkan halaman induk
+    // menulis dokumen ke iframe pratinjau, sehingga rendering tidak bergantung pada srcdoc saja.
+    if (preview.getAttribute("sandbox") !== "allow-same-origin") preview.setAttribute("sandbox", "allow-same-origin");
+    const frameDocument = preview.contentDocument;
+    if (frameDocument) {
+      frameDocument.open();
+      frameDocument.write(documentHtml);
+      frameDocument.close();
+    } else {
+      preview.srcdoc = documentHtml;
+    }
+  } catch (error) {
+    // Jalur cadangan untuk browser yang membatasi akses dokumen iframe.
+    try { preview.srcdoc = documentHtml; }
+    catch (fallbackError) { console.error("Pratinjau HTML tidak dapat diperbarui.", fallbackError); }
+  }
+  if (simActiveLevel) {
+    simProgress.code[simActiveLevel] = kode;
+    simpanProgresSimulator();
+  }
 }
 
 function resetSimulator() {
@@ -303,6 +477,10 @@ function resetProgresSimulator() {
 
 document.addEventListener("DOMContentLoaded", () => {
   muatProgresSimulator();
+  bindPuzzleEvents();
+  renderPuzzle();
+  const puzzlePanel = document.getElementById("puzzle-panel");
+  if (puzzlePanel) puzzlePanel.hidden = simActiveLevel !== "pemula";
   const editor = document.getElementById("kode-editor");
   if (editor) {
     const savedBeginnerCode = simProgress.code.pemula;
