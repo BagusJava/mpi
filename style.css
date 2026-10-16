@@ -257,7 +257,7 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
 }
 
 
-/* Energi neon dari logo pusat menuju tujuh menu */
+/* Energi bercahaya dari logo pusat menuju tujuh menu (garis lurus solid) */
 .lighting-network {
   position: absolute;
   z-index: 0;
@@ -413,15 +413,15 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
   .lightning-glow path, .lightning-core path, .center-circle, .logo-code, .menu-btn:hover, .menu-btn:focus-visible, .menu-btn:hover .menu-icon { animation: none !important; }
 }
 
-/* BERANDA: menu ikon saja, label tetap tersedia melalui aria-label/title */
-.beranda-container .menu-label { display: none !important; }
-.beranda-container .menu-btn { width: 116px; height: 116px; padding: 10px; gap: 0; }
-.beranda-container .menu-icon { font-size: 36px; line-height: 1; filter: drop-shadow(0 0 4px rgba(0,229,255,.16)); }
+/* BERANDA: lingkaran menu menampilkan ikon dan label */
+.beranda-container .menu-label { display: block !important; max-width: 100%; font-size: 12px; line-height: 1.1; text-align: center; white-space: normal; }
+.beranda-container .menu-btn { width: 116px; height: 116px; padding: 9px; gap: 5px; border-radius: 50%; flex-direction: column; }
+.beranda-container .menu-icon { display: block; font-size: 31px; line-height: 1; filter: drop-shadow(0 0 4px rgba(245,254,255,.28)); }
 .beranda-container .menu-btn:hover .menu-icon,
-.beranda-container .menu-btn:focus-visible .menu-icon { font-size: 39px; }
+.beranda-container .menu-btn:focus-visible .menu-icon { transform: scale(1.08); }
 .btn-feedback { width: 116px; height: 116px; border-radius: 50%; }
 
-/* KUIS: formulir peserta, 19 pertanyaan, dan leaderboard bernuansa sirkuit neon */
+/* KUIS: formulir peserta, 25 pertanyaan, dan dashboard bernuansa sirkuit neon */
 #kuis.page { align-items: flex-start; padding-top: 24px; padding-bottom: 34px; }
 .quiz-shell {
   position: relative; isolation: isolate; overflow: hidden;
@@ -515,4 +515,55 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
   .quiz-start-panel { margin-bottom: 28px; }
   .leaderboard-panel { padding: 13px; }
   .leaderboard-table th, .leaderboard-table td { padding: 9px 7px; font-size: .83rem; }
+}
+
+
+/* Tab Kuis dan Dashboard Hasil */
+.quiz-tabs { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 24px; position: relative; z-index: 1; }
+.quiz-tab-button { border: 1px solid rgba(255,255,255,.7); color: #fff; background: rgba(255,255,255,.035); border-radius: 8px; padding: 12px 20px; font-weight: 800; cursor: pointer; transition: .2s; }
+.quiz-tab-button:hover, .quiz-tab-button.active { color: #091218; background: #f7ffff; border-color: #fff; box-shadow: 0 0 16px rgba(245,254,255,.28); }
+.quiz-tab-pane[hidden] { display: none !important; }
+.dashboard-stats { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin: 8px 0 20px; }
+.dashboard-stat { padding: 16px; border: 1px solid rgba(245,254,255,.46); border-radius: 10px; background: rgba(255,255,255,.045); box-shadow: 0 0 13px rgba(245,254,255,.035); }
+.dashboard-stat span { display: block; color: #d4e5ec; font-size: .78rem; margin-bottom: 7px; }
+.dashboard-stat strong { display: block; color: #fff; font-size: 1.8rem; text-shadow: 0 0 12px rgba(245,254,255,.22); }
+.simulator-solution-panel { border: 1px solid rgba(245,254,255,.26); border-radius: 10px; padding: 13px 16px; margin: 0 0 18px; background: rgba(255,255,255,.025); }
+.simulator-solution-panel summary { color: #f7ffff; font-weight: 800; cursor: pointer; }
+.simulator-solution-panel summary:hover { text-shadow: 0 0 10px rgba(245,254,255,.6); }
+@media (max-width: 560px) {
+  .beranda-container .menu-btn { width: 90px; height: 90px; padding: 5px; gap: 4px; }
+  .beranda-container .menu-icon { font-size: 25px; }
+  .beranda-container .menu-label { font-size: 10px; }
+  .dashboard-stats { grid-template-columns: 1fr; }
+}
+
+/* Jalur energi solid: garis lurus putih terang dengan halo lembut */
+.lighting-network path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: none !important;
+  stroke-dashoffset: 0 !important;
+}
+.lighting-network .lightning-glow path {
+  stroke: #ffffff;
+  stroke-width: 5;
+  opacity: .26;
+  filter: drop-shadow(0 0 7px rgba(255,255,255,.85));
+  animation: straight-wire-glow 2.2s ease-in-out infinite alternate;
+}
+.lighting-network .lightning-core path {
+  stroke: #f8ffff;
+  stroke-width: 1.7;
+  opacity: .92;
+  filter: drop-shadow(0 0 3px rgba(255,255,255,.95));
+  animation: straight-wire-glow 2.2s ease-in-out infinite alternate;
+}
+.lighting-network .lightning-core path:nth-child(2n),
+.lighting-network .lightning-glow path:nth-child(2n) { animation-delay: -.65s; }
+.lighting-network .lightning-core path:nth-child(3n),
+.lighting-network .lightning-glow path:nth-child(3n) { animation-delay: -1.1s; }
+@keyframes straight-wire-glow {
+  from { opacity: .68; }
+  to { opacity: 1; }
 }

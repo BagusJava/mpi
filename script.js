@@ -21,6 +21,9 @@ function goTo(pageId) {
   if (pageId === "simulator") {
     jalankanSimulator();
   }
+  if (pageId === "kuis") {
+    bukaTabKuis("kuis");
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -69,30 +72,50 @@ function cekJawaban(namaSoal, jawabanBenar, hasilId) {
   }
 }
 
-// Kuis akhir: 19 soal Bab 1–7, identitas peserta, skor, dan Top 5 lokal.
-const quizQuestions = [
-  { q: 'Apa kepanjangan HTML?', options: ['Hyper Trainer Marking Language', 'HyperText Markup Language', 'HighText Machine Language', 'Hyperlink Text Management Language'], answer: 1 },
-  { q: 'Apa peran utama HTML dalam website?', options: ['Mengatur struktur konten halaman', 'Mengelola sistem operasi', 'Menyimpan data ke database secara otomatis', 'Menggantikan semua fungsi CSS'], answer: 0 },
-  { q: 'Tag untuk heading tingkat paling tinggi adalah …', options: ['<h6>', '<head>', '<h1>', '<header-text>'], answer: 2 },
-  { q: 'Tag yang tepat untuk membuat paragraf adalah …', options: ['<paragraph>', '<p>', '<text>', '<pg>'], answer: 1 },
-  { q: 'Tag penutup yang sesuai untuk heading <h2> adalah …', options: ['<h2>', '</h2>', '</heading>', '<h2/>'], answer: 1 },
-  { q: 'Apa fungsi deklarasi <!DOCTYPE html>?', options: ['Menampilkan judul halaman', 'Membuat paragraf pertama', 'Memberi tahu browser bahwa dokumen menggunakan HTML modern', 'Menghubungkan file CSS'], answer: 2 },
-  { q: 'Teks di dalam tag <title> biasanya ditampilkan di …', options: ['Bagian isi sebagai paragraf', 'Tab atau judul jendela browser', 'Kaki halaman', 'Tombol formulir'], answer: 1 },
-  { q: 'Tag untuk membuat daftar tidak berurutan dengan bullet adalah …', options: ['<ol>', '<li>', '<ul>', '<dl-row>'], answer: 2 },
-  { q: 'Tag untuk membuat daftar bernomor adalah …', options: ['<ul>', '<ol>', '<list>', '<li>'], answer: 1 },
-  { q: 'Elemen yang digunakan untuk setiap item dalam daftar adalah …', options: ['<item>', '<dt>', '<ul>', '<li>'], answer: 3 },
-  { q: 'Atribut pada <a> yang menentukan alamat tujuan tautan adalah …', options: ['src', 'href', 'alt', 'target-text'], answer: 1 },
-  { q: 'Atribut yang berisi lokasi sumber berkas gambar pada <img> adalah …', options: ['href', 'link', 'src', 'path-text'], answer: 2 },
-  { q: 'Apa manfaat atribut alt pada gambar?', options: ['Menentukan ukuran file', 'Memberi teks alternatif untuk aksesibilitas atau saat gambar gagal tampil', 'Membuat gambar menjadi tautan otomatis', 'Mengatur posisi tabel'], answer: 1 },
-  { q: 'Tag untuk membuat satu baris dalam tabel adalah …', options: ['<td>', '<th>', '<tr>', '<table-row>'], answer: 2 },
-  { q: 'Tag yang umumnya digunakan untuk sel judul/header tabel adalah …', options: ['<td>', '<th>', '<tr>', '<thead-cell>'], answer: 1 },
-  { q: 'Tag yang digunakan untuk sel data biasa dalam tabel adalah …', options: ['<td>', '<th>', '<tr>', '<data>'], answer: 0 },
-  { q: 'Elemen HTML yang membungkus kontrol untuk mengirim data pengguna adalah …', options: ['<fieldset-only>', '<form>', '<input-group>', '<submit>'], answer: 1 },
-  { q: 'Atribut type yang sesuai agar kolom diperlakukan sebagai input email adalah …', options: ['text', 'email', 'password', 'url'], answer: 1 },
-  { q: 'Apa fungsi atribut required pada input form?', options: ['Mengubah teks menjadi tebal', 'Membuat input tersembunyi', 'Mewajibkan kolom terisi sebelum form dapat dikirim', 'Menghubungkan input ke gambar'], answer: 2 }
-];
+function bukaTabKuis(tab) {
+  const showDashboard = tab === "dashboard";
+  const quizPane = document.getElementById("quiz-pane-kuis");
+  const dashboardPane = document.getElementById("quiz-pane-dashboard");
+  if (quizPane) quizPane.hidden = showDashboard;
+  if (dashboardPane) dashboardPane.hidden = !showDashboard;
+  document.querySelectorAll(".quiz-tab-button").forEach((button) => {
+    const active = button.dataset.quizTab === tab;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  if (showDashboard) renderLeaderboard();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-const leaderboardStorageKey = 'mpiHtmlQuizLeaderboard_v1';
+// Kuis akhir: 25 soal pilihan ganda Bab 1–7; tiap soal mempunyai lima opsi.
+const quizQuestions = [
+  { q: 'Apa kepanjangan HTML?', options: ['Hyper Trainer Marking Language', 'HyperText Markup Language', 'HighText Machine Language', 'Hyperlink Text Management Language', 'Hyper Tool Multi Language'], answer: 1 },
+  { q: 'Apa peran utama HTML dalam website?', options: ['Mengatur struktur konten halaman', 'Mengelola sistem operasi', 'Menyimpan data ke database secara otomatis', 'Menggantikan semua fungsi CSS', 'Menjalankan server web tanpa perangkat lunak lain'], answer: 0 },
+  { q: 'Tag untuk heading tingkat paling tinggi adalah …', options: ['<h6>', '<head>', '<h1>', '<header-text>', '<heading>'], answer: 2 },
+  { q: 'Tag yang tepat untuk membuat paragraf adalah …', options: ['<paragraph>', '<p>', '<text>', '<pg>', '<para>'], answer: 1 },
+  { q: 'Tag penutup yang sesuai untuk heading <h2> adalah …', options: ['<h2>', '</h2>', '</heading>', '<h2/>', '<close h2>'], answer: 1 },
+  { q: 'Apa fungsi deklarasi <!DOCTYPE html>?', options: ['Menampilkan judul halaman', 'Membuat paragraf pertama', 'Memberi tahu browser bahwa dokumen menggunakan HTML modern', 'Menghubungkan file CSS', 'Membuat tabel otomatis'], answer: 2 },
+  { q: 'Teks di dalam tag <title> biasanya ditampilkan di …', options: ['Bagian isi sebagai paragraf', 'Tab atau judul jendela browser', 'Kaki halaman', 'Tombol formulir', 'Di sebelah setiap gambar'], answer: 1 },
+  { q: 'Tag untuk membuat daftar tidak berurutan dengan bullet adalah …', options: ['<ol>', '<li>', '<ul>', '<dl-row>', '<list>'], answer: 2 },
+  { q: 'Tag untuk membuat daftar bernomor adalah …', options: ['<ul>', '<ol>', '<list>', '<li>', '<number>'], answer: 1 },
+  { q: 'Elemen yang digunakan untuk setiap item dalam daftar adalah …', options: ['<item>', '<dt>', '<ul>', '<li>', '<option-list>'], answer: 3 },
+  { q: 'Atribut pada <a> yang menentukan alamat tujuan tautan adalah …', options: ['src', 'href', 'alt', 'target-text', 'action'], answer: 1 },
+  { q: 'Atribut yang berisi lokasi sumber berkas gambar pada <img> adalah …', options: ['href', 'link', 'src', 'path-text', 'source'], answer: 2 },
+  { q: 'Apa manfaat atribut alt pada gambar?', options: ['Menentukan ukuran file', 'Memberi teks alternatif untuk aksesibilitas atau saat gambar gagal tampil', 'Membuat gambar menjadi tautan otomatis', 'Mengatur posisi tabel', 'Menyimpan gambar ke database'], answer: 1 },
+  { q: 'Tag untuk membuat satu baris dalam tabel adalah …', options: ['<td>', '<th>', '<tr>', '<table-row>', '<row>'], answer: 2 },
+  { q: 'Tag yang umumnya digunakan untuk sel judul/header tabel adalah …', options: ['<td>', '<th>', '<tr>', '<thead-cell>', '<caption>'], answer: 1 },
+  { q: 'Tag yang digunakan untuk sel data biasa dalam tabel adalah …', options: ['<td>', '<th>', '<tr>', '<data>', '<cell>'], answer: 0 },
+  { q: 'Elemen HTML yang membungkus kontrol untuk mengirim data pengguna adalah …', options: ['<fieldset-only>', '<form>', '<input-group>', '<submit>', '<data>'], answer: 1 },
+  { q: 'Atribut type yang sesuai agar kolom diperlakukan sebagai input email adalah …', options: ['text', 'email', 'password', 'url', 'number'], answer: 1 },
+  { q: 'Apa fungsi atribut required pada input form?', options: ['Mengubah teks menjadi tebal', 'Membuat input tersembunyi', 'Mewajibkan kolom terisi sebelum form dapat dikirim', 'Menghubungkan input ke gambar', 'Menentukan warna latar input'], answer: 2 },
+  { q: 'Manakah elemen HTML yang termasuk elemen kosong (void) dan tidak memerlukan tag penutup?', options: ['<div>', '<p>', '<img>', '<section>', '<strong>'], answer: 2 },
+  { q: 'Agar label terhubung dengan input, nilai atribut for pada label harus sama dengan nilai atribut … milik input.', options: ['name', 'class', 'id', 'type', 'value'], answer: 2 },
+  { q: 'Atribut apa pada tautan <a> yang umum digunakan untuk membuka halaman tujuan di tab baru?', options: ['rel="new-tab"', 'target="_blank"', 'href="_tab"', 'open="tab"', 'tab="new"'], answer: 1 },
+  { q: 'Elemen utama yang membungkus baris dan sel untuk membuat tabel HTML adalah …', options: ['<grid>', '<table>', '<tabular>', '<tbody-only>', '<data-table>'], answer: 1 },
+  { q: 'Tag HTML yang digunakan untuk menghubungkan file CSS eksternal melalui atribut rel="stylesheet" adalah …', options: ['<style src="style.css">', '<css href="style.css">', '<link rel="stylesheet" href="style.css">', '<script src="style.css">', '<a rel="stylesheet" href="style.css">'], answer: 2 },
+  { q: 'Apa fungsi <input type="password"> pada formulir?', options: ['Menampilkan pilihan tanggal', 'Menyamarkan karakter yang diketik', 'Memastikan input berisi angka saja', 'Mengunggah berkas otomatis', 'Membuat tombol kirim'], answer: 1 }
+];
+const leaderboardStorageKey = 'mpiHtmlQuizLeaderboard_v2';
 let identitasPesertaKuis = null;
 let quizMulaiPada = null;
 
@@ -178,13 +201,14 @@ function urutkanLeaderboard(entries) {
 function renderLeaderboard() {
   const tbody = document.getElementById('leaderboard-top5-body');
   const empty = document.getElementById('leaderboard-empty');
+  const allEntries = urutkanLeaderboard(ambilLeaderboard());
+  const entries = allEntries.slice(0, 5);
   if (!tbody) return;
   tbody.replaceChildren();
-  const entries = urutkanLeaderboard(ambilLeaderboard()).slice(0, 5);
   if (empty) empty.hidden = entries.length > 0;
   entries.forEach((entry, index) => {
     const tr = document.createElement('tr');
-    const values = [String(index + 1), entry.nama, entry.kelas, `${entry.nilai}/100`, `${entry.benar}/19`];
+    const values = [String(index + 1), entry.nama, entry.kelas, `${entry.nilai}/100`, `${entry.benar}/25`];
     values.forEach((value, cellIndex) => {
       const td = document.createElement('td');
       td.textContent = value;
@@ -193,6 +217,12 @@ function renderLeaderboard() {
     });
     tbody.appendChild(tr);
   });
+  const statParticipants = document.getElementById('stat-peserta');
+  const statBest = document.getElementById('stat-tertinggi');
+  const statAverage = document.getElementById('stat-rata-rata');
+  if (statParticipants) statParticipants.textContent = String(allEntries.length);
+  if (statBest) statBest.textContent = allEntries.length ? `${Math.max(...allEntries.map((e) => Number(e.nilai) || 0))}/100` : '—';
+  if (statAverage) statAverage.textContent = allEntries.length ? `${Math.round(allEntries.reduce((sum, e) => sum + (Number(e.nilai) || 0), 0) / allEntries.length)}/100` : '—';
 }
 
 function nilaiKuis() {
@@ -247,7 +277,7 @@ function nilaiKuis() {
   const title = document.createElement('h3');
   title.textContent = `Nilai ${nilai}/100`;
   const detail = document.createElement('p');
-  detail.textContent = `${record.nama} (${record.kelas}), jawaban benar ${benar} dari 19 soal. Waktu pengerjaan ${Math.floor(durasi / 60)} menit ${durasi % 60} detik.`;
+  detail.textContent = `${record.nama} (${record.kelas}), jawaban benar ${benar} dari 25 soal. Waktu pengerjaan ${Math.floor(durasi / 60)} menit ${durasi % 60} detik.`;
   const message = document.createElement('p');
   message.textContent = nilai >= 85 ? 'Hebat! Pemahaman HTML kamu sangat baik.' : nilai >= 70 ? 'Bagus! Pelajari kembali beberapa materi untuk meningkatkan nilai.' : 'Terus berlatih. Baca kembali Bab 1–7 dan coba lagi.';
   hasil.append(title, detail, message);
@@ -276,6 +306,7 @@ const simMissions = {
     description: "Buat sebuah heading, paragraf, dan daftar tidak berurutan (ul) yang berisi minimal dua item (li).",
     hint: "Petunjuk: gunakan <h1> untuk judul, <p> untuk paragraf, lalu <ul><li>Item 1</li><li>Item 2</li></ul> untuk daftar.",
     starter: '<h1>Halo, Dunia!</h1>\n<p>Saya sedang belajar HTML.</p>\n<!-- TODO: tambahkan daftar ul dengan minimal 2 item -->',
+    solution: '<h1>Halo, Dunia!</h1>\n<p>Saya sedang belajar HTML.</p>\n<ul>\n  <li>Belajar tag</li>\n  <li>Berlatih HTML</li>\n</ul>',
     check(doc) {
       const checks = [doc.querySelector("h1"), doc.querySelector("p"), doc.querySelectorAll("ul li").length >= 2];
       return { ok: checks.every(Boolean), message: checks.every(Boolean) ? "Keren! Heading, paragraf, dan daftar sudah ditemukan." : "Masih ada yang kurang: pastikan ada <h1>, <p>, serta <ul> berisi sedikitnya dua <li>." };
@@ -286,6 +317,7 @@ const simMissions = {
     description: "Lengkapi profil dengan heading, gambar berisi atribut src dan alt, tautan yang memiliki href, serta tabel berisi heading dan data.",
     hint: 'Petunjuk: gambar perlu src dan alt, tautan perlu href, sedangkan tabel bisa memakai <table>, <tr>, <th>, dan <td>. Contoh: <a href="https://example.com">Kunjungi</a>.',
     starter: '<h1>Profil Siswa</h1>\n<p>Nama: Rani</p>\n<img alt="Foto siswa">\n<p><a>Portal Belajar</a></p>\n<table>\n  <tr><th>Mata Pelajaran</th><th>Nilai</th></tr>\n  <tr><td>HTML</td><td>90</td></tr>\n</table>',
+    solution: '<h1>Profil Siswa</h1>\n<p>Nama: Rani</p>\n<img src="https://placehold.co/240x140" alt="Ilustrasi profil siswa">\n<p><a href="https://example.com" target="_blank" rel="noopener">Portal Belajar</a></p>\n<table>\n  <tr><th>Mata Pelajaran</th><th>Nilai</th></tr>\n  <tr><td>HTML</td><td>90</td></tr>\n</table>',
     check(doc) {
       const img = doc.querySelector("img");
       const link = doc.querySelector("a");
@@ -300,6 +332,7 @@ const simMissions = {
     description: "Buat form pendaftaran dengan label yang terhubung ke input, input email wajib diisi, pilihan kelas, dan tombol Daftar.",
     hint: 'Petunjuk: gunakan <input id="email" type="email" required>, <label for="email">Email</label>, elemen <select>, dan <button type="submit">Daftar</button>.',
     starter: '<h1>Form Pendaftaran</h1>\n<form>\n  <label for="nama">Nama lengkap</label>\n  <input id="nama" type="text" required>\n  <!-- TODO: tambahkan label dan input email type=email required -->\n  <!-- TODO: tambahkan label serta select untuk kelas -->\n  <button type="submit">Daftar</button>\n</form>',
+    solution: '<h1>Form Pendaftaran</h1>\n<form>\n  <label for="nama">Nama lengkap</label>\n  <input id="nama" name="nama" type="text" required>\n  <label for="email">Email</label>\n  <input id="email" name="email" type="email" required>\n  <label for="kelas">Kelas</label>\n  <select id="kelas" name="kelas" required>\n    <option value="">Pilih kelas</option>\n    <option value="X PPLG 1">X PPLG 1</option>\n    <option value="X PPLG 2">X PPLG 2</option>\n  </select>\n  <button type="submit">Daftar</button>\n</form>',
     check(doc) {
       const email = doc.querySelector('input[type="email"][required]');
       const labelConnected = email && email.id && doc.querySelector(`label[for="${CSS.escape(email.id)}"]`);
@@ -465,7 +498,7 @@ function resetPuzzlePemula() {
   }
 }
 
-const simStorageKey = "mpiHtmlInteractiveLab_v2";
+const simStorageKey = "mpiHtmlInteractiveLab_v3";
 let simActiveLevel = "pemula";
 let simProgress = { completed: { pemula: false, menengah: false, expert: false }, code: {} };
 
@@ -539,6 +572,8 @@ function pilihLevelSimulator(level) {
   const puzzlePanel = document.getElementById("puzzle-panel");
   if (puzzlePanel) puzzlePanel.hidden = level !== "pemula";
   const mission = simMissions[level];
+  const solutionCode = document.getElementById("simulator-solution-code");
+  if (solutionCode) solutionCode.textContent = mission.solution || mission.starter;
   document.getElementById("simulator-mission-title").textContent = mission.title;
   document.getElementById("simulator-mission-desc").textContent = mission.description;
   document.getElementById("simulator-hint").hidden = true;
@@ -598,20 +633,43 @@ function jalankanSimulator() {
   const editor = document.getElementById("kode-editor");
   const preview = document.getElementById("hasil-editor");
   if (!editor || !preview) return;
-  const kode = editor.value;
-  const safeStyle = "html{background:#fff;min-height:100%}body{font-family:Arial,sans-serif;padding:16px;margin:0;color:#20242b;line-height:1.55;overflow-wrap:anywhere}h1,h2,h3,h4{color:#15202b}img{max-width:100%;height:auto}table{border-collapse:collapse;max-width:100%}th,td{border:1px solid #89939f;padding:7px 10px}input,select,button,textarea{margin:5px 0;padding:6px;max-width:100%}label{display:block;margin-top:8px}ul,ol{padding-left:24px}a{color:#086b9a}";
-  const bodyContent = kode.trim() || '<p style="color:#64748b">Mulai ketik HTML untuk melihat hasilnya.</p>';
-  // srcdoc works with static hosting on GitHub Pages/Vercel. Scripts and forms remain sandboxed.
+  const kode = editor.value || "";
+  const safeStyle = `
+    html { background:#fff; min-height:100%; }
+    body { font-family:Arial,sans-serif; padding:16px; margin:0; color:#20242b; line-height:1.55; overflow-wrap:anywhere; }
+    h1,h2,h3,h4 { color:#15202b; }
+    img { max-width:100%; height:auto; }
+    table { border-collapse:collapse; max-width:100%; }
+    th,td { border:1px solid #89939f; padding:7px 10px; }
+    input,select,button,textarea { margin:5px 0; padding:6px; max-width:100%; }
+    label { display:block; margin-top:8px; }
+    ul,ol { padding-left:24px; }
+    a { color:#086b9a; }
+  `;
+  const placeholder = '<p style="color:#64748b">Mulai ketik HTML untuk melihat hasilnya.</p>';
+  let bodyContent = placeholder;
+  if (kode.trim()) {
+    try {
+      // DOMParser menangani potongan HTML maupun dokumen lengkap secara konsisten.
+      const parsed = new DOMParser().parseFromString(kode, "text/html");
+      bodyContent = parsed.body ? parsed.body.innerHTML : kode;
+      if (!bodyContent.trim()) bodyContent = placeholder;
+    } catch (error) {
+      bodyContent = kode;
+    }
+  }
+  const documentHtml = `<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${safeStyle}</style></head><body>${bodyContent}</body></html>`;
+  // srcdoc renders reliably on static hosting (GitHub Pages/Vercel). Empty sandbox blocks script execution.
   preview.setAttribute("sandbox", "");
   preview.setAttribute("referrerpolicy", "no-referrer");
-  const documentHtml = `<!doctype html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${safeStyle}</style></head><body>${bodyContent}</body></html>`;
+  preview.removeAttribute("src");
+  preview.setAttribute("srcdoc", documentHtml);
   preview.srcdoc = documentHtml;
   if (simActiveLevel) {
     simProgress.code[simActiveLevel] = kode;
     simpanProgresSimulator();
   }
 }
-
 function resetSimulator() {
   const editor = document.getElementById("kode-editor");
   if (!editor) return;
@@ -663,6 +721,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   renderProgresSimulator();
+  const activeSolution = document.getElementById("simulator-solution-code");
+  if (activeSolution && simMissions[simActiveLevel]) activeSolution.textContent = simMissions[simActiveLevel].solution || simMissions[simActiveLevel].starter;
   jalankanSimulator();
 
   const formFeedback = document.getElementById("form-feedback");

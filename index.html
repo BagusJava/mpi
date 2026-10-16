@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Media pembelajaran interaktif dasar HTML untuk siswa SMK PPLG.">
   <title>MPI: Mari Membuat Web dengan HTML</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261017c">
 </head>
 <body>
   <main>
@@ -46,27 +46,27 @@
             </linearGradient>
           </defs>
           <g class="lightning-glow" filter="url(#cyan-light-glow)">
-            <path d="M483 332 L466 316 L447 305 L433 285 L414 273 L396 263" />
-            <path d="M637 332 L654 316 L673 305 L687 285 L706 273 L724 263" />
-            <path d="M451 410 L429 405 L407 413 L384 407 L360 411 L334 410" />
-            <path d="M669 410 L691 405 L713 413 L736 407 L760 411 L786 410" />
-            <path d="M483 488 L464 507 L448 518 L430 530 L413 537 L396 547" />
-            <path d="M637 488 L656 507 L672 518 L690 530 L707 537 L724 547" />
-            <path d="M560 519 L554 545 L566 568 L557 594 L565 623 L560 704" />
+            <path d="M 480 334 L 396 263" />
+            <path d="M 640 334 L 724 263" />
+            <path d="M 445 410 L 334 410" />
+            <path d="M 675 410 L 786 410" />
+            <path d="M 480 486 L 396 547" />
+            <path d="M 640 486 L 724 547" />
+            <path d="M 560 528 L 560 704" />
           </g>
           <g class="lightning-core">
-            <path d="M483 332 L466 316 L447 305 L433 285 L414 273 L396 263" />
-            <path d="M637 332 L654 316 L673 305 L687 285 L706 273 L724 263" />
-            <path d="M451 410 L429 405 L407 413 L384 407 L360 411 L334 410" />
-            <path d="M669 410 L691 405 L713 413 L736 407 L760 411 L786 410" />
-            <path d="M483 488 L464 507 L448 518 L430 530 L413 537 L396 547" />
-            <path d="M637 488 L656 507 L672 518 L690 530 L707 537 L724 547" />
-            <path d="M560 519 L554 545 L566 568 L557 594 L565 623 L560 704" />
+            <path d="M 480 334 L 396 263" />
+            <path d="M 640 334 L 724 263" />
+            <path d="M 445 410 L 334 410" />
+            <path d="M 675 410 L 786 410" />
+            <path d="M 480 486 L 396 547" />
+            <path d="M 640 486 L 724 547" />
+            <path d="M 560 528 L 560 704" />
           </g>
         </svg>
 
         <div class="center-circle" role="img" aria-label="HTML" title="HTML Interactive Learning">
-          <span class="logo-code">HTML</span>
+          <span class="logo-code">&lt;/&gt;</span>
         </div>
 
         <button class="menu-btn btn-feedback" onclick="goTo('feedback')" aria-label="Buka Feedback" title="Feedback">
@@ -613,6 +613,12 @@
           <p id="puzzle-feedback" class="puzzle-feedback" aria-live="polite">Mulai dengan menempelkan judul, lalu paragraf, lalu daftar.</p>
         </section>
 
+        <details class="simulator-solution-panel" id="simulator-solution-panel">
+          <summary>🔎 Contoh jawaban level aktif (buka setelah mencoba)</summary>
+          <p class="editor-note">Gunakan contoh ini untuk belajar dari solusi, bukan langsung menyalin sebelum mencoba.</p>
+          <pre class="kode-box"><code id="simulator-solution-code"></code></pre>
+        </details>
+
         <div class="simulator-grid lab-workspace">
           <div class="editor-panel">
             <div class="panel-title"><label for="kode-editor">💻 Editor HTML</label><span>EDIT KODE</span></div>
@@ -637,7 +643,7 @@
       </div>
     </section>
 
-    <!-- KUIS AKHIR: identitas, 19 soal, dan papan peringkat Top 5 -->
+    <!-- KUIS AKHIR: identitas, 25 soal lima opsi, dan dashboard ranking Top 5 -->
     <section id="kuis" class="page quiz-page">
       <div class="quiz-shell">
         <div class="quiz-circuit-top" aria-hidden="true"><span></span><i></i><i></i><i></i><b></b></div>
@@ -648,12 +654,18 @@
             <p class="quiz-kicker">HTML INTERACTIVE LAB · KNOWLEDGE CHECK</p>
             <h2 class="quiz-big-title">KUIS</h2>
           </div>
-          <div class="quiz-count-badge"><strong>19</strong><span>SOAL PILIHAN GANDA</span></div>
+          <div class="quiz-count-badge"><strong>25</strong><span>SOAL PILIHAN GANDA</span></div>
         </header>
 
+        <nav class="quiz-tabs" aria-label="Navigasi kuis">
+          <button type="button" class="quiz-tab-button active" data-quiz-tab="kuis" onclick="bukaTabKuis('kuis')">📝 Kuis</button>
+          <button type="button" class="quiz-tab-button" data-quiz-tab="dashboard" onclick="bukaTabKuis('dashboard')">🏆 Dashboard Hasil</button>
+        </nav>
+
+        <section id="quiz-pane-kuis" class="quiz-tab-pane">
         <section id="kuis-pengantar" class="quiz-start-panel">
           <h3>Isi data dirimu sebelum memulai kuis</h3>
-          <p>Kerjakan 19 soal dari Bab 1 sampai Bab 7. Pastikan nama dan kelas sudah benar.</p>
+          <p>Kerjakan 25 soal dari Bab 1 sampai Bab 7. Pastikan nama dan kelas sudah benar.</p>
           <form id="kuis-identitas-form" class="quiz-identity-form">
             <label for="kuis-nama">Nama</label>
             <input id="kuis-nama" name="nama" type="text" autocomplete="name" maxlength="80" placeholder="Masukkan nama lengkap" required>
@@ -667,7 +679,7 @@
         <section id="kuis-area-aktif" class="quiz-active-panel" hidden>
           <div class="quiz-active-header">
             <div><span class="quiz-section-kicker">PESERTA</span><strong id="kuis-identitas-aktif"></strong></div>
-            <span class="quiz-section-kicker">19 PERTANYAAN</span>
+            <span class="quiz-section-kicker">25 PERTANYAAN</span>
           </div>
           <form id="kuis-akhir">
             <div id="kuis-pertanyaan" class="quiz-questions"></div>
@@ -679,6 +691,14 @@
           <div id="hasil-kuis" class="info-box quiz-result-box" aria-live="polite" hidden></div>
         </section>
 
+        </section><!-- /quiz-pane-kuis -->
+
+        <section id="quiz-pane-dashboard" class="quiz-tab-pane" hidden>
+          <div class="dashboard-stats" aria-live="polite">
+            <div class="dashboard-stat"><span>Total Peserta</span><strong id="stat-peserta">0</strong></div>
+            <div class="dashboard-stat"><span>Nilai Tertinggi</span><strong id="stat-tertinggi">—</strong></div>
+            <div class="dashboard-stat"><span>Rata-rata Nilai</span><strong id="stat-rata-rata">—</strong></div>
+          </div>
         <section class="leaderboard-panel" aria-labelledby="leaderboard-title">
           <div class="leaderboard-heading">
             <div><p class="quiz-section-kicker">HALL OF FAME</p><h3 id="leaderboard-title">🏆 Dashboard Ranking · Top 5</h3></div>
@@ -693,6 +713,7 @@
           </div>
           <p class="leaderboard-note">Catatan: ranking pada versi ini tersimpan di browser/perangkat yang digunakan. Untuk ranking gabungan seluruh siswa dari perangkat berbeda, diperlukan database online.</p>
         </section>
+        </section><!-- /quiz-pane-dashboard -->
 
         <button class="nav-back quiz-home-button" type="button" onclick="goTo('beranda')">← Kembali ke Beranda</button>
       </div>
@@ -725,6 +746,6 @@
   </main>
 
   <footer><p>Media Pembelajaran Interaktif · Mari Membuat Web dengan HTML</p></footer>
-  <script src="script.js"></script>
+  <script src="script.js?v=20261017c" defer></script>
 </body>
 </html>
