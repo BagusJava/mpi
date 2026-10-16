@@ -100,12 +100,12 @@ code { color: #a9ffb5; font-family: Consolas, "Courier New", monospace; }
   box-shadow: 0 0 20px rgba(0,229,255,.5);
   transform: translateY(-2px);
 }
-.btn-sasaran { top: 22%; left: 6%; }
-.btn-materi { top: 22%; right: 6%; }
-.btn-tujuan { top: 46%; left: 0; }
-.btn-simulator { top: 46%; right: 0; }
-.btn-pemantik { top: 70%; left: 6%; }
-.btn-kuis { top: 70%; right: 6%; }
+.btn-sasaran { top: 22%; left: 24%; }
+.btn-materi { top: 22%; right: 24%; }
+.btn-tujuan { top: 46%; left: 21%; }
+.btn-simulator { top: 46%; right: 21%; }
+.btn-pemantik { top: 70%; left: 24%; }
+.btn-kuis { top: 70%; right: 24%; }
 .btn-feedback {
   bottom: 2%;
   left: 50%;
@@ -206,12 +206,12 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
   .sapaan { top: 3%; }
   .center-circle { width: 120px; height: 120px; font-size: 40px; }
   .menu-btn { min-width: 112px; min-height: 52px; font-size: 14px; padding: 9px 13px; }
-  .btn-sasaran { top: 20%; left: 1%; }
-  .btn-materi { top: 20%; right: 1%; }
-  .btn-tujuan { top: 43%; left: 0; }
-  .btn-simulator { top: 43%; right: 0; }
-  .btn-pemantik { top: 66%; left: 1%; }
-  .btn-kuis { top: 66%; right: 1%; }
+  .btn-sasaran { top: 20%; left: 18%; }
+  .btn-materi { top: 20%; right: 18%; }
+  .btn-tujuan { top: 43%; left: 15%; }
+  .btn-simulator { top: 43%; right: 15%; }
+  .btn-pemantik { top: 66%; left: 18%; }
+  .btn-kuis { top: 66%; right: 18%; }
   .btn-feedback { bottom: 2%; min-width: 150px; }
   .bab-layout { flex-direction: column; }
   .sidebar-tab { width: 100%; flex: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -224,8 +224,12 @@ footer { color: var(--muted); text-align: center; padding: 12px 20px; font-size:
   .beranda-container { min-height: 610px; }
   .sapaan { top: 2%; font-size: 21px; padding: 0 10px; }
   .menu-btn { min-width: 104px; font-size: 13px; gap: 5px; }
+  .btn-sasaran { left: 1%; }
+  .btn-materi { right: 1%; }
   .btn-tujuan { left: -5px; }
   .btn-simulator { right: -5px; }
+  .btn-pemantik { left: 1%; }
+  .btn-kuis { right: 1%; }
   .btn-feedback { bottom: 2%; }
   .content-box { padding: 18px; }
 }

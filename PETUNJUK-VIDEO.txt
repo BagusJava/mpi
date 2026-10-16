@@ -1,18 +1,30 @@
-PETUNJUK VIDEO UNTUK DEPLOY GITHUB PAGES / VERCEL
-=================================================
+PETUNJUK MEMUTAR VIDEO BAB 1-7
+==============================
 
-Website ini dirancang untuk hosting statis (HTML, CSS, JavaScript). Untuk versi online,
-TIDAK perlu menjalankan Python, jalankan.py, localhost, atau backend.
+1. Ekstrak seluruh isi ZIP ke satu folder.
+2. Pastikan komputer terhubung ke internet.
+3. Jangan membuka index.html dengan klik dua kali jika video YouTube tidak mau diputar.
+   YouTube dapat menolak embed tanpa konteks HTTP/Referer.
+4. Jalankan melalui server lokal:
 
-1. Unggah index.html, style.css, script.js, README.md, dan .nojekyll ke root repository GitHub.
-2. GitHub Pages: Settings > Pages > Deploy from a branch > main > /(root).
-3. Vercel: impor repository > Framework Preset Other > kosongkan Build Command > Output Directory root (.) > Deploy.
-4. Buka situs melalui alamat HTTPS hasil deployment.
-5. Pilih Materi > pilih bab > tab Video > tekan Play pada pemutar.
+   Windows:
+     - Pastikan Python 3 sudah terpasang.
+     - Buka folder website.
+     - Klik address bar File Explorer, ketik cmd, lalu Enter.
+     - Jalankan: py jalankan.py
+     - Jika perintah py tidak tersedia, coba: python jalankan.py
 
-Jika embed tidak bisa diputar, klik tautan Buka video di YouTube. Kegagalan embed dapat
-terjadi bila video dibatasi pemiliknya, jaringan sekolah memblokir YouTube, ekstensi browser
-memblokir pemutar, atau browser tidak mengirimkan konteks referer yang diperlukan.
+   Fedora/Linux:
+     - Buka Terminal di folder website.
+     - Jalankan: python3 jalankan.py
 
-VIDEO BAB 1-6: Tutorial HTML Dasar, Programmer Zaman Now (penanda waktu disesuaikan dengan daftar topik video).
-VIDEO BAB 7: Tutorial HTML Form, Programmer Zaman Now (mulai 1:16).
+5. Browser akan dibuka ke http://127.0.0.1:8000/index.html.
+6. Klik Materi > pilih bab > tab Video, lalu klik tombol Play di pemutar.
+7. Jika video tetap diblokir, gunakan tautan "Buka video ini di YouTube" di bawah pemutar.
+   Pemutaran langsung dapat dipengaruhi oleh izin embed pemilik video, jaringan sekolah,
+   ekstensi pemblokir konten, dan pengaturan browser.
+
+VIDEO YANG DIPAKAI
+------------------
+Bab 1-6: Belajar HTML dasar - full lengkap (Belajar Coding), dengan titik mulai sesuai topik.
+Bab 7: Tutorial HTML Form (Bahasa Indonesia) - Programmer Zaman Now.
