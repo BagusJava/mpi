@@ -3,86 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Interaktif - MPI</title>
+    <title>Kuis Web Dasar - MPI</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .quiz-container { max-width: 800px; margin: 40px auto; background-color: rgba(12, 227, 227, 0.05); border: 2px solid var(--neon-cyan); padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(12, 227, 227, 0.2); overflow-y: auto; height: 75vh; }
-        .question { font-size: 1.3rem; margin-bottom: 15px; }
-        .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
-        .option-label { background-color: #1a2533; padding: 12px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 1px solid #2a3b4c; display: block; }
-        .option-label:hover { background-color: var(--neon-cyan); color: black; }
-        input[type="radio"] { display: none; }
-        input[type="radio"]:checked + .option-label { background-color: var(--neon-cyan); color: var(--bg-color); font-weight: bold; }
-        .btn-submit { background-color: var(--neon-cyan); color: var(--bg-color); padding: 15px 30px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .quiz-container { max-width: 800px; margin: 40px auto; background-color: rgba(12, 227, 227, 0.05); border: 2px solid var(--neon-cyan); padding: 30px; border-radius: 15px; position: relative; min-height: 60vh; }
+        
+        /* Layar Login */
+        #login-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; }
+        .input-group { width: 100%; max-width: 400px; margin-bottom: 15px; text-align: left; }
+        .input-group input { width: 100%; padding: 12px; background: transparent; border: 2px solid var(--neon-cyan); color: white; border-radius: 5px; margin-top: 5px; outline: none; }
+        
+        /* Layar Soal */
+        .question-screen { display: none; }
+        .question-text { font-size: 1.4rem; margin-bottom: 20px; color: white; }
+        .option-btn { display: block; width: 100%; background-color: #1a2533; padding: 15px; border: 1px solid #2a3b4c; color: white; text-align: left; border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-size: 1.1rem; transition: 0.3s; }
+        .option-btn:hover { background-color: var(--neon-cyan); color: black; }
+        
+        .btn-submit { background-color: var(--neon-cyan); color: var(--bg-color); padding: 15px 30px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; margin-top: 20px; width: 100%; max-width: 400px; }
+        
+        /* Pop-up Hasil */
         .result-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #0d131a; border: 4px solid var(--neon-cyan); padding: 40px; text-align: center; border-radius: 20px; z-index: 100; box-shadow: 0 0 50px var(--neon-cyan); }
-        .result-popup h2 { font-size: 3rem; margin: 0; color: var(--neon-cyan); }
     </style>
 </head>
 <body>
 
     <div class="header">
         <a href="index.html" style="color: var(--neon-cyan); text-decoration: none; position: absolute; left: 30px; top: 30px; font-size: 1.2rem;"><i class="fa-solid fa-arrow-left"></i> KEMBALI</a>
-        <h1 class="title-glow">EVALUASI BAB 1</h1>
+        <h1 class="title-glow">KUIS WEB & TABEL</h1>
     </div>
 
     <div class="quiz-container">
-        <form id="quiz-form">
-            <div class="question">1. Tag HTML apa yang digunakan untuk menggabungkan 2 kolom menjadi 1?</div>
-            <div class="options">
-                <label><input type="radio" name="q1" value="salah"><span class="option-label">A. rowspan="2"</span></label>
-                <label><input type="radio" name="q1" value="benar"><span class="option-label">B. colspan="2"</span></label>
-                <label><input type="radio" name="q1" value="salah"><span class="option-label">C. merge="2"</span></label>
+        <!-- Layar Login (Adaptasi Video) -->
+        <div id="login-screen">
+            <p>Isi data dirimu sebelum memulai kuis.</p>
+            <div class="input-group">
+                <label>Nama Lengkap</label>
+                <input type="text" id="inputNama" autocomplete="off">
             </div>
-
-            <div class="question">2. Bagian dari URL pada www.smkn1kepanjen.sch.id yang menunjukkan identitas sekolah disebut...</div>
-            <div class="options">
-                <label><input type="radio" name="q2" value="salah"><span class="option-label">A. Top Level Domain (TLD)</span></label>
-                <label><input type="radio" name="q2" value="benar"><span class="option-label">B. Second Level Domain (SLD)</span></label>
-                <label><input type="radio" name="q2" value="salah"><span class="option-label">C. Subdomain</span></label>
+            <div class="input-group">
+                <label>Kelas</label>
+                <input type="text" id="inputKelas" autocomplete="off">
             </div>
+            <button class="btn-submit" onclick="mulaiKuis()">Mulai Kuis</button>
+        </div>
 
-            <div class="question">3. Tag utama untuk membungkus elemen inputan (teks, kata sandi, tombol) adalah...</div>
-            <div class="options">
-                <label><input type="radio" name="q3" value="benar"><span class="option-label">A. &lt;form&gt;</span></label>
-                <label><input type="radio" name="q3" value="salah"><span class="option-label">B. &lt;table&gt;</span></label>
-                <label><input type="radio" name="q3" value="salah"><span class="option-label">C. &lt;input&gt;</span></label>
+        <!-- Area Soal yang berubah dinamis -->
+        <div id="quiz-area" class="question-screen">
+            <h3 style="color: var(--neon-cyan);" id="q-number">Soal 1 dari 3</h3>
+            <div class="question-text" id="q-text">Pertanyaan akan muncul di sini</div>
+            <div id="options-area">
+                <!-- Tombol pilihan ganda di-generate JS -->
             </div>
-
-            <div class="question">4. Pada Vercel, file utama website harus diberi nama apa agar otomatis terbuka?</div>
-            <div class="options">
-                <label><input type="radio" name="q4" value="salah"><span class="option-label">A. main.html</span></label>
-                <label><input type="radio" name="q4" value="salah"><span class="option-label">B. home.html</span></label>
-                <label><input type="radio" name="q4" value="benar"><span class="option-label">C. index.html</span></label>
-            </div>
-
-            <div class="question">5. Perintah terminal untuk mengirim kode terbaru ke GitHub adalah...</div>
-            <div class="options">
-                <label><input type="radio" name="q5" value="salah"><span class="option-label">A. git pull origin main</span></label>
-                <label><input type="radio" name="q5" value="benar"><span class="option-label">B. git push origin main</span></label>
-                <label><input type="radio" name="q5" value="salah"><span class="option-label">C. git commit -m "update"</span></label>
-            </div>
-
-            <button type="button" class="btn-submit" onclick="cekJawaban()">Kirim Jawaban <i class="fa-solid fa-rocket"></i></button>
-        </form>
+        </div>
     </div>
 
+    <!-- Pop-up Hasil (Adaptasi Video) -->
     <div id="popup" class="result-popup">
-        <h3 style="margin: 0; color: white; letter-spacing: 2px;">SKOR ANDA:</h3>
-        <h2 id="skor-akhir">0</h2><br>
-        <a href="index.html" class="btn-submit" style="text-decoration: none; display: inline-block;">SELESAI</a>
+        <h3 id="hasil-identitas" style="margin: 0; color: white;">Nama - Kelas</h3>
+        <div style="border-top: 1px solid var(--neon-cyan); margin: 15px 0;"></div>
+        <h2 id="pesan-kelulusan" style="margin: 0;"></h2>
+        <p>Nilai kamu:</p>
+        <h1 id="skor-akhir" style="color: var(--neon-cyan); font-size: 4rem; margin: 0;">0</h1><br>
+        <a href="index.html" class="btn-submit" style="text-decoration: none; display: inline-block;">TUTUP KUIS</a>
     </div>
 
     <script>
-        function cekJawaban() {
-            let skor = 0;
-            if(document.querySelector('input[name="q1"]:checked')?.value === "benar") skor += 20;
-            if(document.querySelector('input[name="q2"]:checked')?.value === "benar") skor += 20;
-            if(document.querySelector('input[name="q3"]:checked')?.value === "benar") skor += 20;
-            if(document.querySelector('input[name="q4"]:checked')?.value === "benar") skor += 20;
-            if(document.querySelector('input[name="q5"]:checked')?.value === "benar") skor += 20;
+        // Data Soal
+        const bankSoal = [
+            { soal: "Tag HTML apa yang digunakan untuk membuat baris baru dalam sebuah tabel?", opsi: ["A. <td>", "B. <tr>", "C. <table>", "D. <th>"], jawaban: 1 },
+            { soal: "Apa fungsi dari tag <th> pada pembuatan tabel?", opsi: ["A. Membuat kolom biasa", "B. Menyatukan sel", "C. Membuat judul kolom (Header)", "D. Memberi warna tabel"], jawaban: 2 },
+            { soal: "Atribut apa yang ditambahkan pada tag table agar garis tabel terlihat?", opsi: ["A. border", "B. src", "C. href", "D. style"], jawaban: 0 }
+        ];
 
-            document.getElementById("skor-akhir").innerText = skor;
+        let indexSoalSaatIni = 0;
+        let skor = 0;
+
+        function mulaiKuis() {
+            let nama = document.getElementById("inputNama").value;
+            let kelas = document.getElementById("inputKelas").value;
+            if(nama === "" || kelas === "") { alert("Isi Nama dan Kelas!"); return; }
+            
+            document.getElementById("hasil-identitas").innerText = nama.toUpperCase() + " | " + kelas;
+            document.getElementById("login-screen").style.display = "none";
+            document.getElementById("quiz-area").style.display = "block";
+            tampilkanSoal();
+        }
+
+        function tampilkanSoal() {
+            let soalSkrg = bankSoal[indexSoalSaatIni];
+            document.getElementById("q-number").innerText = "Soal " + (indexSoalSaatIni + 1) + " dari " + bankSoal.length;
+            document.getElementById("q-text").innerText = soalSkrg.soal;
+            
+            let htmlOpsi = "";
+            for(let i=0; i<soalSkrg.opsi.length; i++) {
+                htmlOpsi += `<button class="option-btn" onclick="cekJawaban(${i})">${soalSkrg.opsi[i]}</button>`;
+            }
+            document.getElementById("options-area").innerHTML = htmlOpsi;
+        }
+
+        function cekJawaban(indeksPilihan) {
+            let jawabanBenar = bankSoal[indexSoalSaatIni].jawaban;
+            
+            // Logika umpan balik seperti di video
+            if(indeksPilihan === jawabanBenar) {
+                skor += (100 / bankSoal.length);
+                alert("Jawabanmu Tepat! Lanjut ke soal berikutnya.");
+            } else {
+                alert("Jawabanmu Kurang Tepat. Mari lanjut ke soal berikutnya.");
+            }
+
+            indexSoalSaatIni++;
+            if(indexSoalSaatIni < bankSoal.length) {
+                tampilkanSoal();
+            } else {
+                selesaiKuis();
+            }
+        }
+
+        function selesaiKuis() {
+            document.getElementById("quiz-area").style.display = "none";
+            document.getElementById("skor-akhir").innerText = Math.round(skor);
+            
+            let pesan = document.getElementById("pesan-kelulusan");
+            if(skor >= 75) {
+                pesan.innerText = "LULUS!";
+                pesan.style.color = "#0ce3e3";
+            } else {
+                pesan.innerText = "PERLU BELAJAR LAGI";
+                pesan.style.color = "#ff3b30";
+            }
             document.getElementById("popup").style.display = "block";
         }
     </script>

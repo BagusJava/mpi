@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulator Web - MPI</title>
+    <title>Simulator Web Dasar - MPI</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,12 +11,19 @@
         .sim-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background-color: #161e29; border-bottom: 2px solid var(--neon-cyan); }
         .btn-back { color: var(--neon-cyan); text-decoration: none; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
         .editor-container { display: flex; flex-grow: 1; height: calc(100vh - 70px); }
-        .panel-code { width: 50%; display: flex; flex-direction: column; border-right: 2px solid var(--neon-cyan); }
-        .code-box { flex-grow: 1; display: flex; flex-direction: column; border-bottom: 2px solid #2a3b4c; }
+        
+        /* Panel Kiri: Studi Kasus (Adaptasi dari video) */
+        .panel-kasus { width: 30%; background-color: #0d131a; padding: 20px; border-right: 2px solid var(--neon-cyan); overflow-y: auto; color: white; }
+        .kasus-box { background-color: rgba(12, 227, 227, 0.1); border: 1px solid var(--neon-cyan); padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .kasus-box h3 { color: var(--neon-cyan); margin-top: 0; }
+        
+        /* Panel Kanan: Workspace & Preview */
+        .panel-workspace { width: 70%; display: flex; flex-direction: column; }
+        .code-area { height: 50%; display: flex; flex-direction: column; border-bottom: 2px solid #2a3b4c; }
+        .preview-area { height: 50%; display: flex; flex-direction: column; background-color: white; }
+        
         .box-title { background-color: #1a2533; color: white; padding: 8px 15px; font-weight: bold; display: flex; justify-content: space-between; }
-        .box-title i { color: var(--neon-cyan); }
         textarea { flex-grow: 1; background-color: #0d131a; color: #0ce3e3; font-family: 'Courier New', Courier, monospace; font-size: 16px; padding: 15px; border: none; resize: none; outline: none; }
-        .panel-preview { width: 50%; background-color: white; display: flex; flex-direction: column; }
         iframe { flex-grow: 1; border: none; width: 100%; height: 100%; }
     </style>
 </head>
@@ -24,59 +31,61 @@
 
     <div class="sim-header">
         <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> KEMBALI</a>
-        <h2 style="margin: 0; color: white; font-family: 'Orbitron', sans-serif;">LIVE <span style="color: var(--neon-cyan);">SIMULATOR</span></h2>
+        <h2 style="margin: 0; color: white; font-family: 'Orbitron', sans-serif;">SIMULATOR <span style="color: var(--neon-cyan);">TABEL HTML</span></h2>
     </div>
 
     <div class="editor-container">
-        <div class="panel-code">
-            <div class="code-box">
-                <div class="box-title"><span><i class="fa-brands fa-html5"></i> HTML</span></div>
-                <textarea id="html-code" spellcheck="false">&lt;h2&gt;Biodata Siswa PPLG&lt;/h2&gt;
-&lt;form&gt;
-  &lt;label&gt;Nama Lengkap:&lt;/label&gt;&lt;br&gt;
-  &lt;input type="text" placeholder="Masukkan nama..."&gt;&lt;br&gt;&lt;br&gt;
-&lt;/form&gt;
-
-&lt;table border="1" style="border-collapse: collapse; width: 100%;"&gt;
-  &lt;tr style="background-color: #0ce3e3; color: black;"&gt;
-    &lt;th&gt;No&lt;/th&gt;
-    &lt;th&gt;Materi&lt;/th&gt;
-    &lt;th&gt;Status&lt;/th&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-    &lt;td&gt;1&lt;/td&gt;
-    &lt;td&gt;HTML Dasar&lt;/td&gt;
-    &lt;td&gt;Selesai&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;</textarea>
-            </div>
-            <div class="code-box">
-                <div class="box-title"><span><i class="fa-brands fa-css3-alt"></i> CSS</span></div>
-                <textarea id="css-code" spellcheck="false">h2 { color: blue; }
-p { font-family: Arial; }</textarea>
+        <!-- Panel Kasus -->
+        <div class="panel-kasus">
+            <div class="kasus-box">
+                <h3><i class="fa-solid fa-clipboard-list"></i> Kasus: Jadwal Piket</h3>
+                <p>Sebuah kelas membutuhkan tabel jadwal piket sederhana. Tabel tersebut harus memiliki:</p>
+                <ul>
+                    <li>Garis tepi (border)</li>
+                    <li>Baris pertama sebagai Judul Kolom (Hari, Nama Siswa)</li>
+                    <li>Dua baris data siswa di bawahnya.</li>
+                </ul>
+                <p style="color: yellow; font-size: 0.9em;">Instruksi: Lengkapi tag &lt;table&gt; di panel kode samping agar sesuai dengan kasus di atas!</p>
             </div>
         </div>
 
-        <div class="panel-preview">
-            <div class="box-title" style="background-color: #e0e0e0; color: #333;">
-                <span><i class="fa-solid fa-play" style="color: green;"></i> Hasil Preview</span>
+        <!-- Panel Workspace -->
+        <div class="panel-workspace">
+            <div class="code-area">
+                <div class="box-title"><span><i class="fa-solid fa-code"></i> Live Code HTML</span></div>
+                <textarea id="html-code" spellcheck="false"><h2>Jadwal Piket Kelas</h2>
+
+<!-- Ketik kode tabelmu di bawah ini -->
+<table border="1">
+    <tr>
+        <th>Hari</th>
+        <th>Nama Siswa</th>
+    </tr>
+    <tr>
+        <td>Senin</td>
+        <td><!-- Isi nama di sini --></td>
+    </tr>
+    
+</table></textarea>
             </div>
-            <iframe id="preview-frame"></iframe>
+            <div class="preview-area">
+                <div class="box-title" style="background-color: #e0e0e0; color: #333;">
+                    <span><i class="fa-solid fa-play" style="color: green;"></i> Hasil Visualisasi</span>
+                </div>
+                <iframe id="preview-frame"></iframe>
+            </div>
         </div>
     </div>
 
     <script>
         function runCode() {
             let htmlCode = document.getElementById("html-code").value;
-            let cssCode = "<style>" + document.getElementById("css-code").value + "</style>";
             let frame = document.getElementById("preview-frame").contentWindow.document;
-            
             frame.open();
-            frame.write(htmlCode + cssCode);
+            frame.write("<style>body{font-family: Arial, sans-serif;} table{width:100%; border-collapse: collapse;} th, td{padding: 8px; text-align: left;}</style>" + htmlCode);
             frame.close();
         }
         document.getElementById("html-code").addEventListener("input", runCode);
-        document.getElementById("css-code").addEventListener("input", runCode);
         runCode();
     </script>
 </body>
