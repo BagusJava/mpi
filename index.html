@@ -14,22 +14,22 @@
       <div class="beranda-container">
         <h1 class="sapaan">Halo, ayo belajar HTML!</h1>
 
-        <button class="menu-btn btn-sasaran" onclick="goTo('sasaran')" aria-label="Buka Sasaran">
+        <button class="menu-btn btn-sasaran" onclick="goTo('sasaran')" aria-label="Buka Sasaran" title="Sasaran">
           <span class="menu-icon" aria-hidden="true">🎯</span><span class="menu-label">Sasaran</span>
         </button>
-        <button class="menu-btn btn-materi" onclick="goTo('materi')" aria-label="Buka Materi">
+        <button class="menu-btn btn-materi" onclick="goTo('materi')" aria-label="Buka Materi" title="Materi">
           <span class="menu-icon" aria-hidden="true">📖</span><span class="menu-label">Materi</span>
         </button>
-        <button class="menu-btn btn-tujuan" onclick="goTo('tujuan')" aria-label="Buka Tujuan">
+        <button class="menu-btn btn-tujuan" onclick="goTo('tujuan')" aria-label="Buka Tujuan" title="Tujuan">
           <span class="menu-icon" aria-hidden="true">🏅</span><span class="menu-label">Tujuan</span>
         </button>
-        <button class="menu-btn btn-simulator" onclick="goTo('simulator')" aria-label="Buka Simulator">
+        <button class="menu-btn btn-simulator" onclick="goTo('simulator')" aria-label="Buka Simulator" title="Simulator">
           <span class="menu-icon" aria-hidden="true">🧪</span><span class="menu-label">Simulator</span>
         </button>
-        <button class="menu-btn btn-pemantik" onclick="goTo('pemantik')" aria-label="Buka Pemantik">
+        <button class="menu-btn btn-pemantik" onclick="goTo('pemantik')" aria-label="Buka Pemantik" title="Pemantik">
           <span class="menu-icon" aria-hidden="true">💡</span><span class="menu-label">Pemantik</span>
         </button>
-        <button class="menu-btn btn-kuis" onclick="goTo('kuis')" aria-label="Buka Kuis">
+        <button class="menu-btn btn-kuis" onclick="goTo('kuis')" aria-label="Buka Kuis" title="Kuis">
           <span class="menu-icon" aria-hidden="true">📋</span><span class="menu-label">Kuis</span>
         </button>
 
@@ -69,7 +69,7 @@
           <span class="logo-code">HTML</span>
         </div>
 
-        <button class="menu-btn btn-feedback" onclick="goTo('feedback')" aria-label="Buka Feedback">
+        <button class="menu-btn btn-feedback" onclick="goTo('feedback')" aria-label="Buka Feedback" title="Feedback">
           <span class="menu-icon" aria-hidden="true">💬</span><span class="menu-label">Feedback</span>
         </button>
       </div>
@@ -628,7 +628,7 @@
           </div>
           <div class="preview-panel">
             <div class="panel-title"><span class="preview-label">🖥️ Pratinjau Langsung</span><span>HASIL HTML</span></div>
-            <iframe id="hasil-editor" title="Pratinjau hasil kode HTML" sandbox="allow-same-origin" loading="eager" referrerpolicy="no-referrer" srcdoc="&lt;!doctype html&gt;&lt;html lang='id'&gt;&lt;head&gt;&lt;meta charset='UTF-8'&gt;&lt;/head&gt;&lt;body style='font-family:Arial,sans-serif;padding:16px;color:#20242b;line-height:1.55'&gt;&lt;h1&gt;Halo, Dunia!&lt;/h1&gt;&lt;p&gt;Hasil HTML akan tampil di sini.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
+            <iframe id="hasil-editor" title="Pratinjau hasil kode HTML" sandbox="" loading="eager" referrerpolicy="no-referrer" srcdoc="&lt;!doctype html&gt;&lt;html lang='id'&gt;&lt;head&gt;&lt;meta charset='UTF-8'&gt;&lt;/head&gt;&lt;body style='font-family:Arial,sans-serif;padding:16px;color:#20242b;line-height:1.55'&gt;&lt;h1&gt;Halo, Dunia!&lt;/h1&gt;&lt;p&gt;Hasil HTML akan tampil di sini.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;"></iframe>
             <p class="editor-note">Pratinjau aman: HTML tampil langsung, sementara JavaScript dan pengiriman formulir dinonaktifkan.</p>
           </div>
         </div>
@@ -637,52 +637,64 @@
       </div>
     </section>
 
-    <!-- KUIS AKHIR -->
-    <section id="kuis" class="page">
-      <div class="content-box">
-        <h2>📋 Kuis Akhir</h2>
-        <p>Jawab tujuh soal berikut untuk mengukur pemahaman dari Bab 1 sampai Bab 7.</p>
-        <form id="kuis-akhir">
-          <fieldset><legend>1. HTML digunakan untuk …</legend>
-            <label><input type="radio" name="k1" value="a"> Mengatur struktur konten halaman web</label>
-            <label><input type="radio" name="k1" value="b"> Mengelola sistem operasi</label>
-            <label><input type="radio" name="k1" value="c"> Mengedit video saja</label>
-          </fieldset>
-          <fieldset><legend>2. Tag untuk konten utama halaman adalah …</legend>
-            <label><input type="radio" name="k2" value="a"> <code>&lt;head&gt;</code></label>
-            <label><input type="radio" name="k2" value="b"> <code>&lt;body&gt;</code></label>
-            <label><input type="radio" name="k2" value="c"> <code>&lt;title&gt;</code></label>
-          </fieldset>
-          <fieldset><legend>3. Tag untuk paragraf adalah …</legend>
-            <label><input type="radio" name="k3" value="a"> <code>&lt;p&gt;</code></label>
-            <label><input type="radio" name="k3" value="b"> <code>&lt;img&gt;</code></label>
-            <label><input type="radio" name="k3" value="c"> <code>&lt;table&gt;</code></label>
-          </fieldset>
-          <fieldset><legend>4. Tag untuk daftar bernomor adalah …</legend>
-            <label><input type="radio" name="k4" value="a"> <code>&lt;ul&gt;</code></label>
-            <label><input type="radio" name="k4" value="b"> <code>&lt;li&gt;</code></label>
-            <label><input type="radio" name="k4" value="c"> <code>&lt;ol&gt;</code></label>
-          </fieldset>
-          <fieldset><legend>5. Atribut sumber gambar adalah …</legend>
-            <label><input type="radio" name="k5" value="a"> <code>href</code></label>
-            <label><input type="radio" name="k5" value="b"> <code>src</code></label>
-            <label><input type="radio" name="k5" value="c"> <code>alt</code></label>
-          </fieldset>
-          <fieldset><legend>6. Tag untuk baris tabel adalah …</legend>
-            <label><input type="radio" name="k6" value="a"> <code>&lt;tr&gt;</code></label>
-            <label><input type="radio" name="k6" value="b"> <code>&lt;td&gt;</code></label>
-            <label><input type="radio" name="k6" value="c"> <code>&lt;th&gt;</code></label>
-          </fieldset>
-          <fieldset><legend>7. Atribut required pada input berguna untuk …</legend>
-            <label><input type="radio" name="k7" value="a"> Mengubah warna teks</label>
-            <label><input type="radio" name="k7" value="b"> Menambahkan gambar</label>
-            <label><input type="radio" name="k7" value="c"> Mewajibkan kolom diisi sebelum form dikirim</label>
-          </fieldset>
-          <button class="nav-back" type="button" onclick="nilaiKuis()">Periksa Nilai</button>
-          <button class="nav-back" type="reset" onclick="resetNilaiKuis()">Ulangi Kuis</button>
-        </form>
-        <div id="hasil-kuis" class="info-box" aria-live="polite"></div>
-        <button class="nav-back" onclick="goTo('beranda')">⬅ Beranda</button>
+    <!-- KUIS AKHIR: identitas, 19 soal, dan papan peringkat Top 5 -->
+    <section id="kuis" class="page quiz-page">
+      <div class="quiz-shell">
+        <div class="quiz-circuit-top" aria-hidden="true"><span></span><i></i><i></i><i></i><b></b></div>
+        <div class="quiz-circuit-bottom" aria-hidden="true"><span></span><i></i><b></b></div>
+
+        <header class="quiz-title-row">
+          <div>
+            <p class="quiz-kicker">HTML INTERACTIVE LAB · KNOWLEDGE CHECK</p>
+            <h2 class="quiz-big-title">KUIS</h2>
+          </div>
+          <div class="quiz-count-badge"><strong>19</strong><span>SOAL PILIHAN GANDA</span></div>
+        </header>
+
+        <section id="kuis-pengantar" class="quiz-start-panel">
+          <h3>Isi data dirimu sebelum memulai kuis</h3>
+          <p>Kerjakan 19 soal dari Bab 1 sampai Bab 7. Pastikan nama dan kelas sudah benar.</p>
+          <form id="kuis-identitas-form" class="quiz-identity-form">
+            <label for="kuis-nama">Nama</label>
+            <input id="kuis-nama" name="nama" type="text" autocomplete="name" maxlength="80" placeholder="Masukkan nama lengkap" required>
+            <label for="kuis-kelas">Kelas</label>
+            <input id="kuis-kelas" name="kelas" type="text" maxlength="40" placeholder="Contoh: X PPLG 1" required>
+            <button class="quiz-start-button" type="submit">Mulai Kuis</button>
+            <p id="status-mulai-kuis" class="quiz-status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section id="kuis-area-aktif" class="quiz-active-panel" hidden>
+          <div class="quiz-active-header">
+            <div><span class="quiz-section-kicker">PESERTA</span><strong id="kuis-identitas-aktif"></strong></div>
+            <span class="quiz-section-kicker">19 PERTANYAAN</span>
+          </div>
+          <form id="kuis-akhir">
+            <div id="kuis-pertanyaan" class="quiz-questions"></div>
+            <div class="quiz-submit-row">
+              <button class="quiz-start-button" type="submit">Periksa Nilai</button>
+              <button class="nav-back" id="ulang-kuis-button" type="button">Kembali ke Awal</button>
+            </div>
+          </form>
+          <div id="hasil-kuis" class="info-box quiz-result-box" aria-live="polite" hidden></div>
+        </section>
+
+        <section class="leaderboard-panel" aria-labelledby="leaderboard-title">
+          <div class="leaderboard-heading">
+            <div><p class="quiz-section-kicker">HALL OF FAME</p><h3 id="leaderboard-title">🏆 Dashboard Ranking · Top 5</h3></div>
+            <span class="leaderboard-chip">NILAI TERTINGGI</span>
+          </div>
+          <p id="leaderboard-empty" class="leaderboard-empty">Belum ada nilai tersimpan. Selesaikan kuis untuk masuk ke papan peringkat.</p>
+          <div class="leaderboard-table-wrap">
+            <table class="leaderboard-table">
+              <thead><tr><th>Rank</th><th>Nama</th><th>Kelas</th><th>Nilai</th><th>Benar</th></tr></thead>
+              <tbody id="leaderboard-top5-body"></tbody>
+            </table>
+          </div>
+          <p class="leaderboard-note">Catatan: ranking pada versi ini tersimpan di browser/perangkat yang digunakan. Untuk ranking gabungan seluruh siswa dari perangkat berbeda, diperlukan database online.</p>
+        </section>
+
+        <button class="nav-back quiz-home-button" type="button" onclick="goTo('beranda')">← Kembali ke Beranda</button>
       </div>
     </section>
 
