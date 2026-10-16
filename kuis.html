@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis Interaktif - MPI</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .quiz-container { max-width: 800px; margin: 40px auto; background-color: rgba(12, 227, 227, 0.05); border: 2px solid var(--neon-cyan); padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(12, 227, 227, 0.2); overflow-y: auto; height: 75vh; }
+        .question { font-size: 1.3rem; margin-bottom: 15px; }
+        .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+        .option-label { background-color: #1a2533; padding: 12px 20px; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 1px solid #2a3b4c; display: block; }
+        .option-label:hover { background-color: var(--neon-cyan); color: black; }
+        input[type="radio"] { display: none; }
+        input[type="radio"]:checked + .option-label { background-color: var(--neon-cyan); color: var(--bg-color); font-weight: bold; }
+        .btn-submit { background-color: var(--neon-cyan); color: var(--bg-color); padding: 15px 30px; font-size: 1.2rem; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .result-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #0d131a; border: 4px solid var(--neon-cyan); padding: 40px; text-align: center; border-radius: 20px; z-index: 100; box-shadow: 0 0 50px var(--neon-cyan); }
+        .result-popup h2 { font-size: 3rem; margin: 0; color: var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="index.html" style="color: var(--neon-cyan); text-decoration: none; position: absolute; left: 30px; top: 30px; font-size: 1.2rem;"><i class="fa-solid fa-arrow-left"></i> KEMBALI</a>
+        <h1 class="title-glow">EVALUASI BAB 1</h1>
+    </div>
+
+    <div class="quiz-container">
+        <form id="quiz-form">
+            <div class="question">1. Tag HTML apa yang digunakan untuk menggabungkan 2 kolom menjadi 1?</div>
+            <div class="options">
+                <label><input type="radio" name="q1" value="salah"><span class="option-label">A. rowspan="2"</span></label>
+                <label><input type="radio" name="q1" value="benar"><span class="option-label">B. colspan="2"</span></label>
+                <label><input type="radio" name="q1" value="salah"><span class="option-label">C. merge="2"</span></label>
+            </div>
+
+            <div class="question">2. Bagian dari URL pada www.smkn1kepanjen.sch.id yang menunjukkan identitas sekolah disebut...</div>
+            <div class="options">
+                <label><input type="radio" name="q2" value="salah"><span class="option-label">A. Top Level Domain (TLD)</span></label>
+                <label><input type="radio" name="q2" value="benar"><span class="option-label">B. Second Level Domain (SLD)</span></label>
+                <label><input type="radio" name="q2" value="salah"><span class="option-label">C. Subdomain</span></label>
+            </div>
+
+            <div class="question">3. Tag utama untuk membungkus elemen inputan (teks, kata sandi, tombol) adalah...</div>
+            <div class="options">
+                <label><input type="radio" name="q3" value="benar"><span class="option-label">A. &lt;form&gt;</span></label>
+                <label><input type="radio" name="q3" value="salah"><span class="option-label">B. &lt;table&gt;</span></label>
+                <label><input type="radio" name="q3" value="salah"><span class="option-label">C. &lt;input&gt;</span></label>
+            </div>
+
+            <div class="question">4. Pada Vercel, file utama website harus diberi nama apa agar otomatis terbuka?</div>
+            <div class="options">
+                <label><input type="radio" name="q4" value="salah"><span class="option-label">A. main.html</span></label>
+                <label><input type="radio" name="q4" value="salah"><span class="option-label">B. home.html</span></label>
+                <label><input type="radio" name="q4" value="benar"><span class="option-label">C. index.html</span></label>
+            </div>
+
+            <div class="question">5. Perintah terminal untuk mengirim kode terbaru ke GitHub adalah...</div>
+            <div class="options">
+                <label><input type="radio" name="q5" value="salah"><span class="option-label">A. git pull origin main</span></label>
+                <label><input type="radio" name="q5" value="benar"><span class="option-label">B. git push origin main</span></label>
+                <label><input type="radio" name="q5" value="salah"><span class="option-label">C. git commit -m "update"</span></label>
+            </div>
+
+            <button type="button" class="btn-submit" onclick="cekJawaban()">Kirim Jawaban <i class="fa-solid fa-rocket"></i></button>
+        </form>
+    </div>
+
+    <div id="popup" class="result-popup">
+        <h3 style="margin: 0; color: white; letter-spacing: 2px;">SKOR ANDA:</h3>
+        <h2 id="skor-akhir">0</h2><br>
+        <a href="index.html" class="btn-submit" style="text-decoration: none; display: inline-block;">SELESAI</a>
+    </div>
+
+    <script>
+        function cekJawaban() {
+            let skor = 0;
+            if(document.querySelector('input[name="q1"]:checked')?.value === "benar") skor += 20;
+            if(document.querySelector('input[name="q2"]:checked')?.value === "benar") skor += 20;
+            if(document.querySelector('input[name="q3"]:checked')?.value === "benar") skor += 20;
+            if(document.querySelector('input[name="q4"]:checked')?.value === "benar") skor += 20;
+            if(document.querySelector('input[name="q5"]:checked')?.value === "benar") skor += 20;
+
+            document.getElementById("skor-akhir").innerText = skor;
+            document.getElementById("popup").style.display = "block";
+        }
+    </script>
+</body>
+</html>

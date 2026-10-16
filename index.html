@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPI - Fondasi Web</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <h1 class="title-glow">FONDASI WEB</h1>
+        <h2 class="subtitle">HTML DASAR DAN LANJUTAN (FORM & TABEL)</h2>
+        <div class="line-decor"></div>
+    </header>
+
+    <main class="dashboard-container">
+        
+        <div class="panel-left">
+            <a href="#" class="btn-sci-fi" onclick="showModal('sasaran')"><i class="fa-solid fa-bullseye"></i> Sasaran</a>
+            <a href="#" class="btn-sci-fi" onclick="showModal('tujuan')"><i class="fa-solid fa-award"></i> Tujuan</a>
+            <a href="#" class="btn-sci-fi" onclick="showModal('pemantik')"><i class="fa-solid fa-lightbulb"></i> Pemantik</a>
+        </div>
+
+        <div class="panel-center">
+            <div class="circle-outer">
+                <div class="circle-inner">
+                    <div class="code-icon">&lt; / &gt;</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-right">
+            <a href="#" class="btn-sci-fi" onclick="showModal('materi')"><i class="fa-solid fa-book-open"></i> Materi</a>
+            <a href="simulator.html" class="btn-sci-fi"><i class="fa-solid fa-laptop-code"></i> Simulator</a>
+            <a href="kuis.html" class="btn-sci-fi"><i class="fa-solid fa-clipboard-list"></i> Kuis</a>
+        </div>
+
+    </main>
+
+    <div class="panel-bottom">
+        <a href="#" class="btn-sci-fi btn-feedback" onclick="showModal('feedback')"><i class="fa-solid fa-comment-dots"></i> Feedback</a>
+    </div>
+
+    <!-- Tombol Navigasi Pojok Bawah -->
+    <div class="nav-corners">
+        <div class="corner-left">
+            <button class="btn-circle" onclick="showModal('info')" title="Informasi Aplikasi"><i class="fa-solid fa-info"></i></button>
+            <button class="btn-circle" onclick="showModal('referensi')" title="Referensi Buku"><i class="fa-solid fa-book"></i></button>
+            <button class="btn-circle" onclick="showModal('bantuan')" title="Bantuan"><i class="fa-solid fa-question"></i></button>
+        </div>
+        <div class="corner-right">
+            <button class="btn-circle btn-close" onclick="keluarAplikasi()" title="Keluar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <!-- Modal Pop-up -->
+    <div id="mpiModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="modalTitle" class="title-glow" style="font-size: 2rem; margin-bottom: 10px;">JUDUL</h2>
+            <div class="line-decor" style="width: 100%; margin-bottom: 20px;"></div>
+            <p id="modalText">Isi materi akan muncul di sini...</p>
+            <button class="btn-sci-fi" style="margin-top:20px; width:100%; justify-content:center;" onclick="closeModal()">TUTUP</button>
+        </div>
+    </div>
+
+    <script>
+        const dataKonten = {
+            sasaran: { judul: "SASARAN", isi: "Sasaran dari pembelajaran ini adalah seluruh siswa kelas XI PPLG SMKN 1 Kepanjen agar mampu memahami alur pembuatan struktur dasar website." },
+            tujuan: { judul: "TUJUAN", isi: "1. Siswa mampu merancang tabel HTML dinamis (Merge & Split).<br>2. Siswa mampu membuat formulir input data.<br>3. Siswa memahami cara publikasi ke hosting Vercel." },
+            pemantik: { judul: "PEMANTIK", isi: "Pernahkah kalian mendaftar akun sosial media? Formulir pendaftaran tersebut dibuat menggunakan elemen dasar HTML. Mari kita bedah bagaimana cara membuatnya!" },
+            materi: { judul: "MATERI BAB 1", isi: "Materi berfokus pada anatomi website statis. Kita akan menggunakan tag &lt;table&gt;, &lt;tr&gt;, &lt;td&gt; untuk tabel, serta tag &lt;form&gt; dan &lt;input&gt; untuk formulir biodata." },
+            feedback: { judul: "FEEDBACK", isi: "Silakan sampaikan pertanyaan, kritik, atau saran perbaikan terkait Media Pembelajaran ini langsung kepada Tuan Bagus di laboratorium." },
+            info: { judul: "TENTANG APLIKASI", isi: "Aplikasi MPI (Media Pembelajaran Interaktif) ini dikembangkan secara khusus untuk menunjang pembelajaran produktif jurusan Pengembangan Perangkat Lunak dan Gim (PPLG) di SMKN 1 Kepanjen." },
+            referensi: { judul: "REFERENSI", isi: "Sumber materi pada modul ini merujuk pada standar kurikulum W3Schools dan dokumentasi resmi Mozilla Developer Network (MDN)." },
+            bantuan: { judul: "BANTUAN", isi: "Gunakan tombol di tengah layar untuk membuka materi. Klik 'Simulator' untuk mencoba menulis kode secara langsung, dan klik 'Kuis' untuk menguji pemahaman Anda." }
+        };
+
+        function showModal(kunci) {
+            document.getElementById('modalTitle').innerHTML = dataKonten[kunci].judul;
+            document.getElementById('modalText').innerHTML = dataKonten[kunci].isi;
+            document.getElementById('mpiModal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('mpiModal').style.display = 'none'; }
+
+        function keluarAplikasi() {
+            if(confirm("Apakah Anda yakin ingin keluar dari Media Pembelajaran ini?")) {
+                window.location.href = "https://www.google.com";
+            }
+        }
+    </script>
+</body>
+</html>
